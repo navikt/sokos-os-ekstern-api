@@ -1,4 +1,4 @@
-package no.nav.sokos.prosjektnavn.security
+package no.nav.sokos.os.ekstern.api.security
 
 import kotlinx.serialization.json.Json
 
@@ -19,15 +19,15 @@ import io.mockk.mockk
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.mock.oauth2.withMockOAuth2Server
-import no.nav.sokos.prosjektnavn.API_BASE_PATH
-import no.nav.sokos.prosjektnavn.api.dummyApi
-import no.nav.sokos.prosjektnavn.config.AUTHENTICATION_NAME
-import no.nav.sokos.prosjektnavn.config.PropertiesConfig
-import no.nav.sokos.prosjektnavn.config.authenticate
-import no.nav.sokos.prosjektnavn.config.commonConfig
-import no.nav.sokos.prosjektnavn.config.securityConfig
-import no.nav.sokos.prosjektnavn.domain.DummyDomain
-import no.nav.sokos.prosjektnavn.service.DummyService
+import no.nav.sokos.os.ekstern.api.API_BASE_PATH
+import no.nav.sokos.os.ekstern.api.api.dummyApi
+import no.nav.sokos.os.ekstern.api.config.AUTHENTICATION_NAME
+import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+import no.nav.sokos.os.ekstern.api.config.authenticate
+import no.nav.sokos.os.ekstern.api.config.commonConfig
+import no.nav.sokos.os.ekstern.api.config.securityConfig
+import no.nav.sokos.os.ekstern.api.domain.DummyDomain
+import no.nav.sokos.os.ekstern.api.service.DummyService
 
 val dummyService: DummyService = mockk()
 

@@ -1,1 +1,1 @@
-rootProject.name = "sokos-ktor-template"
+rootProject.name = "sokos-os-ekstern-api"
