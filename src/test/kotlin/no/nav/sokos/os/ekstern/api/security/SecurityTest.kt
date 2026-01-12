@@ -5,30 +5,29 @@ import kotlinx.serialization.json.Json
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
-import io.mockk.every
 import io.mockk.mockk
 
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.mock.oauth2.withMockOAuth2Server
 import no.nav.sokos.os.ekstern.api.API_BASE_PATH
-import no.nav.sokos.os.ekstern.api.api.osEksternApi
+import no.nav.sokos.os.ekstern.api.api.tilbakekrevingApi
 import no.nav.sokos.os.ekstern.api.config.AUTHENTICATION_NAME
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
 import no.nav.sokos.os.ekstern.api.config.authenticate
 import no.nav.sokos.os.ekstern.api.config.commonConfig
 import no.nav.sokos.os.ekstern.api.config.securityConfig
-import no.nav.sokos.os.ekstern.api.service.DummyService
+import no.nav.sokos.os.ekstern.api.service.TilbakekrevingService
 
-val dummyService: DummyService = mockk()
+val tilbakekrevingService: TilbakekrevingService = mockk()
 
 class SecurityTest :
     FunSpec({
@@ -40,11 +39,11 @@ class SecurityTest :
                         securityConfig(true, authConfig())
                         routing {
                             authenticate(true, AUTHENTICATION_NAME) {
-                                osEksternApi(dummyService)
+                                tilbakekrevingApi(tilbakekrevingService)
                             }
                         }
                     }
-                    val response = client.get("$API_BASE_PATH/hello")
+                    val response = client.post("$API_BASE_PATH/tilbakekreving/kravgrunnlag/liste")
                     response.status shouldBe HttpStatusCode.Unauthorized
                 }
             }
@@ -72,20 +71,18 @@ class SecurityTest :
                         securityConfig(true, authConfig())
                         routing {
                             authenticate(true, AUTHENTICATION_NAME) {
-                                osEksternApi(dummyService)
+                                tilbakekrevingApi(tilbakekrevingService)
                             }
                         }
                     }
 
-                    every { dummyService.sayHello() } returns DummyDomain("Hello")
-
                     val response =
-                        client.get("$API_BASE_PATH/hello") {
+                        client.post("$API_BASE_PATH/tilbakekreving/kravgrunnlag/liste") {
                             header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
                             contentType(ContentType.Application.Json)
                         }
 
-                    response.status shouldBe HttpStatusCode.OK
+                    response.status shouldBe HttpStatusCode.InternalServerError
                 }
             }
         }
