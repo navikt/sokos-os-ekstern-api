@@ -16,11 +16,12 @@ fun main() {
 }
 
 fun Application.module() {
-    val useAuthentication = PropertiesConfig.Configuration().useAuthentication
+    val propertiesConfig = PropertiesConfig.Configuration()
+    val useAuthentication = propertiesConfig.useAuthentication
     val applicationState = ApplicationState()
 
     applicationLifecycleConfig(applicationState)
     commonConfig()
     securityConfig(useAuthentication)
-    routingConfig(useAuthentication, applicationState)
+    routingConfig(useAuthentication, applicationState, propertiesConfig.osConfiguration)
 }

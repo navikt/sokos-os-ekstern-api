@@ -46,7 +46,15 @@ spec:
       rules:
         - application: logging
           namespace: nais-system
+      external:
+        - ipv4: 155.55.1.82  # OS via zos-connect
+          ports:
+            - port: 9080
 
   env:
     - name: USE_AUTHENTICATION
       value: "true"
+
+    # ZOS-Connect
+    - name: OS_ENDPOINT_URL
+      value: "https://155.55.1.82:9080"

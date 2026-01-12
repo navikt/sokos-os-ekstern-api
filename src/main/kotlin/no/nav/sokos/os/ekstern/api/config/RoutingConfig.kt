@@ -5,16 +5,22 @@ import io.ktor.server.auth.authenticate
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
 
-import no.nav.sokos.os.ekstern.api.api.dummyApi
+import no.nav.sokos.os.ekstern.api.api.tilbakekrevingApi
+import no.nav.sokos.os.ekstern.api.service.TilbakekrevingService
+import no.nav.sokos.os.ekstern.api.zOs.OsHttpClient
 
 fun Application.routingConfig(
     useAuthentication: Boolean,
     applicationState: ApplicationState,
+    osConfiguration: PropertiesConfig.OsConfiguration,
 ) {
+    val osHttpClient = OsHttpClient(osConfiguration)
+    val tilbakekrevingService = TilbakekrevingService(osHttpClient)
+
     routing {
         internalNaisRoutes(applicationState)
         authenticate(useAuthentication, AUTHENTICATION_NAME) {
-            dummyApi()
+            tilbakekrevingApi(tilbakekrevingService)
         }
     }
 }

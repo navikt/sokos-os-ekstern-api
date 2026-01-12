@@ -20,13 +20,12 @@ import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.mock.oauth2.withMockOAuth2Server
 import no.nav.sokos.os.ekstern.api.API_BASE_PATH
-import no.nav.sokos.os.ekstern.api.api.dummyApi
+import no.nav.sokos.os.ekstern.api.api.osEksternApi
 import no.nav.sokos.os.ekstern.api.config.AUTHENTICATION_NAME
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
 import no.nav.sokos.os.ekstern.api.config.authenticate
 import no.nav.sokos.os.ekstern.api.config.commonConfig
 import no.nav.sokos.os.ekstern.api.config.securityConfig
-import no.nav.sokos.os.ekstern.api.domain.DummyDomain
 import no.nav.sokos.os.ekstern.api.service.DummyService
 
 val dummyService: DummyService = mockk()
@@ -41,7 +40,7 @@ class SecurityTest :
                         securityConfig(true, authConfig())
                         routing {
                             authenticate(true, AUTHENTICATION_NAME) {
-                                dummyApi(dummyService)
+                                osEksternApi(dummyService)
                             }
                         }
                     }
@@ -73,7 +72,7 @@ class SecurityTest :
                         securityConfig(true, authConfig())
                         routing {
                             authenticate(true, AUTHENTICATION_NAME) {
-                                dummyApi(dummyService)
+                                osEksternApi(dummyService)
                             }
                         }
                     }

@@ -1,0 +1,853 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API for tilbakekreving",
+    "version" : "1.0.0",
+    "title" : "ostilbakekrevingapi"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/ostilbakekrevingapi",
+  "schemes" : [ "https", "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/kravgrunnlagAnnuler" : {
+      "post" : {
+        "tags" : [ "ostilbakekrevingapi" ],
+        "operationId" : "postOsKravgrunnlagAnnuler",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "postOsKravgrunnlagAnnuler_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsKravgrunnlagAnnuler_request"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/postOsKravgrunnlagAnnuler_response_200"
+            }
+          }
+        }
+      }
+    },
+    "/kravgrunnlagHentDetalj" : {
+      "post" : {
+        "tags" : [ "ostilbakekrevingapi" ],
+        "operationId" : "postOsHentKravgrunnlagDetaljer",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "postOsTilbakekrevingsvedtak_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsTilbakekrevingsvedtak_request"
+          }
+        }, {
+          "in" : "body",
+          "name" : "postOsHentKravgrunnlag_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsHentKravgrunnlag_request"
+          }
+        }, {
+          "in" : "body",
+          "name" : "postOsHentKravgrunnlagDetaljer_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsHentKravgrunnlagDetaljer_request"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/postOsHentKravgrunnlagDetaljer_response_200"
+            }
+          }
+        }
+      }
+    },
+    "/kravgrunnlagHentListe" : {
+      "post" : {
+        "tags" : [ "ostilbakekrevingapi" ],
+        "operationId" : "postOsHentKravgrunnlag",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "postOsTilbakekrevingsvedtak_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsTilbakekrevingsvedtak_request"
+          }
+        }, {
+          "in" : "body",
+          "name" : "postOsHentKravgrunnlagDetaljer_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsHentKravgrunnlagDetaljer_request"
+          }
+        }, {
+          "in" : "body",
+          "name" : "postOsHentKravgrunnlag_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsHentKravgrunnlag_request"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/postOsHentKravgrunnlag_response_200"
+            }
+          }
+        }
+      }
+    },
+    "/tilbakekrevingsvedtak" : {
+      "post" : {
+        "tags" : [ "ostilbakekrevingapi" ],
+        "operationId" : "postOsTilbakekrevingsvedtak",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "postOsHentKravgrunnlag_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsHentKravgrunnlag_request"
+          }
+        }, {
+          "in" : "body",
+          "name" : "postOsHentKravgrunnlagDetaljer_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsHentKravgrunnlagDetaljer_request"
+          }
+        }, {
+          "in" : "body",
+          "name" : "postOsTilbakekrevingsvedtak_request",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postOsTilbakekrevingsvedtak_request"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/postOsTilbakekrevingsvedtak_response_200"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "postOsTilbakekrevingsvedtak_request" : {
+      "type" : "object",
+      "properties" : {
+        "OsTilbakekrevingsvedtakOperation" : {
+          "type" : "object",
+          "properties" : {
+            "ZT1ICont" : {
+              "type" : "object",
+              "properties" : {
+                "RequestTilbakekrevingsvedtak" : {
+                  "type" : "object",
+                  "properties" : {
+                    "KodeAksjon" : {
+                      "type" : "string",
+                      "maxLength" : 1
+                    },
+                    "VedtakId" : {
+                      "type" : "integer",
+                      "minimum" : 0,
+                      "maximum" : 999999999
+                    },
+                    "DatoVedtakFagsystem" : {
+                      "type" : "string",
+                      "maxLength" : 10
+                    },
+                    "KodeHjemmel" : {
+                      "type" : "string",
+                      "maxLength" : 20
+                    },
+                    "RenterBeregnes" : {
+                      "type" : "boolean"
+                    },
+                    "EnhetAnsvarlig" : {
+                      "type" : "string",
+                      "maxLength" : 13
+                    },
+                    "Kontrollfelt" : {
+                      "type" : "string",
+                      "maxLength" : 26
+                    },
+                    "SaksbehandlerId" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    },
+                    "DatoTilleggsfrist" : {
+                      "type" : "string",
+                      "maxLength" : 10
+                    },
+                    "Tilbakekrevingsperiode" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "DatoPeriodeFom" : {
+                            "type" : "string",
+                            "maxLength" : 10
+                          },
+                          "DatoPeriodeTom" : {
+                            "type" : "string",
+                            "maxLength" : 10
+                          },
+                          "RenterPeriodeBeregnes" : {
+                            "type" : "boolean"
+                          },
+                          "BelopRenter" : {
+                            "type" : "number",
+                            "format" : "decimal",
+                            "minimum" : -999999999.99,
+                            "maximum" : 999999999.99
+                          },
+                          "Tilbakerevingsbelop" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "KodeKlasse" : {
+                                  "type" : "string",
+                                  "maxLength" : 20
+                                },
+                                "BelopOpprinneligUtbetalt" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999999999.99,
+                                  "maximum" : 999999999.99
+                                },
+                                "BelopNy" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999999999.99,
+                                  "maximum" : 999999999.99
+                                },
+                                "BelopTilbakekreves" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999999999.99,
+                                  "maximum" : 999999999.99
+                                },
+                                "BelopUinnkrevd" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999999999.99,
+                                  "maximum" : 999999999.99
+                                },
+                                "BelopSkatt" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999999999.99,
+                                  "maximum" : 999999999.99
+                                },
+                                "KodeResultat" : {
+                                  "type" : "string",
+                                  "maxLength" : 20
+                                },
+                                "KodeAarsak" : {
+                                  "type" : "string",
+                                  "maxLength" : 20
+                                },
+                                "KodeSkyld" : {
+                                  "type" : "string",
+                                  "maxLength" : 20
+                                }
+                              }
+                            },
+                            "maxItems" : 20,
+                            "minItems" : 1
+                          }
+                        }
+                      },
+                      "maxItems" : 500,
+                      "minItems" : 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required" : [ "ZT1ICont" ]
+        }
+      }
+    },
+    "postOsTilbakekrevingsvedtak_response_200" : {
+      "type" : "object",
+      "properties" : {
+        "OsTilbakekrevingsvedtakOperationResponse" : {
+          "type" : "object",
+          "properties" : {
+            "ZT1OCont" : {
+              "type" : "object",
+              "properties" : {
+                "ResponsTilbakekrevingsvedtak" : {
+                  "type" : "object",
+                  "properties" : {
+                    "Status" : {
+                      "type" : "integer",
+                      "description" : "Status på resultat av forespørsel (Alvorlighetsgrad)\r\n0 = OK\r\n4 = Varselmelding\r\n8 = Alvorlig feil som skal logges og stoppe behehandling av aktuelt tilfelle\r\n12 = SQL-feil",
+                      "minimum" : 0,
+                      "maximum" : 99
+                    },
+                    "StatusMelding" : {
+                      "type" : "string",
+                      "description" : "Feiltekst/Meldingstekst",
+                      "maxLength" : 100
+                    },
+                    "KodeAksjon" : {
+                      "type" : "string",
+                      "maxLength" : 1
+                    },
+                    "VedtakId" : {
+                      "type" : "integer",
+                      "minimum" : 0,
+                      "maximum" : 999999999
+                    },
+                    "DatoVedtakFagsystem" : {
+                      "type" : "string",
+                      "maxLength" : 10
+                    },
+                    "KodeHjemmel" : {
+                      "type" : "string",
+                      "maxLength" : 20
+                    },
+                    "RenterBeregnes" : {
+                      "type" : "string",
+                      "maxLength" : 1
+                    },
+                    "EnhetAnsvarlig" : {
+                      "type" : "string",
+                      "maxLength" : 13
+                    },
+                    "KontrollFelt" : {
+                      "type" : "string",
+                      "maxLength" : 26
+                    },
+                    "SaksbehandlerId" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    },
+                    "DatoTilleggsfrist" : {
+                      "type" : "string",
+                      "maxLength" : 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required" : [ "ZT1OCont" ]
+        }
+      }
+    },
+    "postOsHentKravgrunnlag_request" : {
+      "type" : "object",
+      "properties" : {
+        "OsHentKravgrunnlagOperation" : {
+          "type" : "object",
+          "properties" : {
+            "Kravgrunnlag" : {
+              "type" : "object",
+              "properties" : {
+                "RequestTilbakekrevingsgrunnlag" : {
+                  "type" : "object",
+                  "properties" : {
+                    "KodeAksjon" : {
+                      "type" : "string",
+                      "maxLength" : 1
+                    },
+                    "GjelderId" : {
+                      "type" : "string",
+                      "maxLength" : 11
+                    },
+                    "TypeGjelder" : {
+                      "type" : "string",
+                      "maxLength" : 12
+                    },
+                    "UtbetalesTilId" : {
+                      "type" : "string",
+                      "maxLength" : 11
+                    },
+                    "TypeUtbetalesTil" : {
+                      "type" : "string",
+                      "maxLength" : 12
+                    },
+                    "EnhetAnsvarlig" : {
+                      "type" : "string",
+                      "maxLength" : 13
+                    },
+                    "KodeFaggruppe" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    },
+                    "KodeFagomraade" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    },
+                    "FagsystemId" : {
+                      "type" : "string",
+                      "maxLength" : 30
+                    },
+                    "KravgrunnlagId" : {
+                      "type" : "integer",
+                      "minimum" : 0,
+                      "maximum" : 999999999
+                    },
+                    "SaksbehandlerId" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required" : [ "Kravgrunnlag" ]
+        }
+      }
+    },
+    "postOsHentKravgrunnlag_response_200" : {
+      "type" : "object",
+      "properties" : {
+        "OsHentKravgrunnlagOperationResponse" : {
+          "type" : "object",
+          "properties" : {
+            "KravgrunnlagListe" : {
+              "type" : "object",
+              "properties" : {
+                "ResponsKravgrunnlagListe" : {
+                  "type" : "object",
+                  "properties" : {
+                    "Status" : {
+                      "type" : "integer",
+                      "description" : "Status på resultat av forespørsel (Alvorlighetsgrad)\r\n0 = OK\r\n4 = Varselmelding\r\n8 = Alvorlig feil som skal logges og stoppe behehandling av aktuelt tilfelle\r\n12 = SQL-feil",
+                      "minimum" : 0,
+                      "maximum" : 99
+                    },
+                    "StatusMelding" : {
+                      "type" : "string",
+                      "maxLength" : 100
+                    },
+                    "Kravgrunnlag" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "KravgrunnlagId" : {
+                            "type" : "integer",
+                            "minimum" : 0,
+                            "maximum" : 999999999
+                          },
+                          "KodeStatusKrav" : {
+                            "type" : "string",
+                            "maxLength" : 4
+                          },
+                          "GjelderId" : {
+                            "type" : "string",
+                            "maxLength" : 11
+                          },
+                          "TypeGjelder" : {
+                            "type" : "string",
+                            "maxLength" : 12
+                          },
+                          "UtbetalesTilId" : {
+                            "type" : "string",
+                            "maxLength" : 11
+                          },
+                          "TypeUtbetalesTil" : {
+                            "type" : "string",
+                            "maxLength" : 12
+                          },
+                          "KodeFagomraade" : {
+                            "type" : "string",
+                            "maxLength" : 8
+                          },
+                          "FagsystemId" : {
+                            "type" : "string",
+                            "maxLength" : 30
+                          },
+                          "DatoVedtakFagsystem" : {
+                            "type" : "string",
+                            "maxLength" : 10
+                          },
+                          "EnhetBosted" : {
+                            "type" : "string",
+                            "maxLength" : 13
+                          },
+                          "EnhetAnsvarlig" : {
+                            "type" : "string",
+                            "maxLength" : 13
+                          },
+                          "DatoKravDannet" : {
+                            "type" : "string",
+                            "maxLength" : 10
+                          },
+                          "DatoPeriodeFom" : {
+                            "type" : "string",
+                            "maxLength" : 10
+                          },
+                          "DatoPeriodeTom" : {
+                            "type" : "string",
+                            "maxLength" : 10
+                          },
+                          "BelopSumFeilutbetalt" : {
+                            "type" : "number",
+                            "format" : "decimal",
+                            "minimum" : -999999999.99,
+                            "maximum" : 999999999.99
+                          }
+                        }
+                      },
+                      "maxItems" : 1000,
+                      "minItems" : 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required" : [ "KravgrunnlagListe" ]
+        }
+      }
+    },
+    "postOsHentKravgrunnlagDetaljer_request" : {
+      "type" : "object",
+      "properties" : {
+        "OsHentKravgrunnlagDetaljerOperation" : {
+          "type" : "object",
+          "properties" : {
+            "Kravgrunnlagsdetaljer" : {
+              "type" : "object",
+              "properties" : {
+                "RequestDetaljer" : {
+                  "type" : "object",
+                  "properties" : {
+                    "KodeAksjon" : {
+                      "type" : "string",
+                      "maxLength" : 1
+                    },
+                    "KravgrunnlagId" : {
+                      "type" : "integer",
+                      "minimum" : 0,
+                      "maximum" : 999999999
+                    },
+                    "EnhetAnsvarlig" : {
+                      "type" : "string",
+                      "maxLength" : 13
+                    },
+                    "SaksbehandlerId" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required" : [ "Kravgrunnlagsdetaljer" ]
+        }
+      }
+    },
+    "postOsHentKravgrunnlagDetaljer_response_200" : {
+      "type" : "object",
+      "properties" : {
+        "OsHentKravgrunnlagDetaljerOperationResponse" : {
+          "type" : "object",
+          "properties" : {
+            "Kravgrunnlagsdetaljer" : {
+              "type" : "object",
+              "properties" : {
+                "ResponsDetaljer" : {
+                  "type" : "object",
+                  "properties" : {
+                    "Status" : {
+                      "type" : "integer",
+                      "description" : "Status på resultat av forespørsel (Alvorlighetsgrad)\r\n0 = OK\r\n4 = Varselmelding\r\n8 = Alvorlig feil som skal logges og stoppe behehandling av aktuelt tilfelle\r\n12 = SQL-feil",
+                      "minimum" : 0,
+                      "maximum" : 99
+                    },
+                    "StatusMelding" : {
+                      "type" : "string",
+                      "maxLength" : 100
+                    },
+                    "KravgrunnlagId" : {
+                      "type" : "integer",
+                      "minimum" : 0,
+                      "maximum" : 999999999
+                    },
+                    "VedtakId" : {
+                      "type" : "integer",
+                      "minimum" : 0,
+                      "maximum" : 999999999
+                    },
+                    "KodeStatusKrav" : {
+                      "type" : "string",
+                      "maxLength" : 4
+                    },
+                    "KodeFagomraade" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    },
+                    "FagsystemId" : {
+                      "type" : "string",
+                      "maxLength" : 30
+                    },
+                    "DatoVedtakFagsystem" : {
+                      "type" : "string",
+                      "maxLength" : 10
+                    },
+                    "VedtakIdImgjort" : {
+                      "type" : "integer",
+                      "minimum" : 0,
+                      "maximum" : 999999999
+                    },
+                    "GjelderId" : {
+                      "type" : "string",
+                      "maxLength" : 11
+                    },
+                    "TypeGjelder" : {
+                      "type" : "string",
+                      "maxLength" : 12
+                    },
+                    "UtbetalesTilId" : {
+                      "type" : "string",
+                      "maxLength" : 11
+                    },
+                    "TypeUtbetalesTilId" : {
+                      "type" : "string",
+                      "maxLength" : 12
+                    },
+                    "KodeHjemmel" : {
+                      "type" : "string",
+                      "maxLength" : 20
+                    },
+                    "RenterBeregnes" : {
+                      "type" : "boolean"
+                    },
+                    "EnhetAnsvarlig" : {
+                      "type" : "string",
+                      "maxLength" : 13
+                    },
+                    "EnhetBosted" : {
+                      "type" : "string",
+                      "maxLength" : 13
+                    },
+                    "EnhetBehandl" : {
+                      "type" : "string",
+                      "maxLength" : 13
+                    },
+                    "Kontrollfelt" : {
+                      "type" : "string",
+                      "maxLength" : 26
+                    },
+                    "SaksbehandlerId" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    },
+                    "Referanse" : {
+                      "type" : "string",
+                      "maxLength" : 30
+                    },
+                    "DatoTilleggsfrist" : {
+                      "type" : "string",
+                      "maxLength" : 10
+                    },
+                    "Tilbakekrevingsperiode" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "DatoPeriodeFom" : {
+                            "type" : "string",
+                            "maxLength" : 10
+                          },
+                          "DatoPeriodeTom" : {
+                            "type" : "string",
+                            "maxLength" : 10
+                          },
+                          "BelopSkattMnd" : {
+                            "type" : "number",
+                            "format" : "decimal",
+                            "minimum" : -999999999.99,
+                            "maximum" : 999999999.99
+                          },
+                          "Tilbakekrevingsbelop" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "KodeKlasse" : {
+                                  "type" : "string",
+                                  "maxLength" : 20
+                                },
+                                "TypeKlasse" : {
+                                  "type" : "string",
+                                  "maxLength" : 4
+                                },
+                                "BelopOpprinneligUtbetalt" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999999999.99,
+                                  "maximum" : 999999999.99
+                                },
+                                "BelopNy" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999999999.99,
+                                  "maximum" : 999999999.99
+                                },
+                                "BelopTilbakekreves" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999999999.99,
+                                  "maximum" : 999999999.99
+                                },
+                                "BelopUinnkrevd" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999999999.99,
+                                  "maximum" : 999999999.99
+                                },
+                                "SkattProsent" : {
+                                  "type" : "number",
+                                  "format" : "decimal",
+                                  "minimum" : -999.9999,
+                                  "maximum" : 999.9999
+                                },
+                                "KodeResultat" : {
+                                  "type" : "string",
+                                  "maxLength" : 20
+                                },
+                                "KodeAarsak" : {
+                                  "type" : "string",
+                                  "maxLength" : 20
+                                },
+                                "KodeSkyld" : {
+                                  "type" : "string",
+                                  "maxLength" : 20
+                                }
+                              }
+                            },
+                            "maxItems" : 20,
+                            "minItems" : 1
+                          }
+                        }
+                      },
+                      "maxItems" : 500,
+                      "minItems" : 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required" : [ "Kravgrunnlagsdetaljer" ]
+        }
+      }
+    },
+    "postOsKravgrunnlagAnnuler_request" : {
+      "type" : "object",
+      "properties" : {
+        "OsKravgrunnlagAnnulerOperation" : {
+          "type" : "object",
+          "properties" : {
+            "KravgrunnlagAnnuler" : {
+              "type" : "object",
+              "properties" : {
+                "RequestKravgrunnlagAnnuler" : {
+                  "type" : "object",
+                  "properties" : {
+                    "KodeAksjon" : {
+                      "type" : "string",
+                      "maxLength" : 1
+                    },
+                    "VedtakId" : {
+                      "type" : "integer",
+                      "minimum" : 0,
+                      "maximum" : 999999999
+                    },
+                    "EnhetAnsvarlig" : {
+                      "type" : "string",
+                      "maxLength" : 13
+                    },
+                    "SaksbehandlerId" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required" : [ "KravgrunnlagAnnuler" ]
+        }
+      }
+    },
+    "postOsKravgrunnlagAnnuler_response_200" : {
+      "type" : "object",
+      "properties" : {
+        "OsKravgrunnlagAnnulerOperationResponse" : {
+          "type" : "object",
+          "properties" : {
+            "KravgrunnlagAnnulert" : {
+              "type" : "object",
+              "properties" : {
+                "ResponsKravgrunnlagAnnuler" : {
+                  "type" : "object",
+                  "properties" : {
+                    "Status" : {
+                      "type" : "integer",
+                      "description" : "Status på resultat av forespørsel (Alvorlighetsgrad)\r\n0 = OK\r\n4 = Varselmelding\r\n8 = Alvorlig feil som skal logges og stoppe behehandling av aktuelt tilfelle\r\n12 = SQL-feil",
+                      "minimum" : 0,
+                      "maximum" : 99
+                    },
+                    "StatusMelding" : {
+                      "type" : "string",
+                      "maxLength" : 100
+                    },
+                    "KodeAksjon" : {
+                      "type" : "string",
+                      "maxLength" : 1
+                    },
+                    "VedtakId" : {
+                      "type" : "integer",
+                      "minimum" : 0,
+                      "maximum" : 999999999
+                    },
+                    "SaksbehandlerId" : {
+                      "type" : "string",
+                      "maxLength" : 8
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required" : [ "KravgrunnlagAnnulert" ]
+        }
+      }
+    }
+  }
+}

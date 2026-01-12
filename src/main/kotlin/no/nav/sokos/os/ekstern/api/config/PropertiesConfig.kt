@@ -50,11 +50,18 @@ object PropertiesConfig {
         val profile: Profile = Profile.valueOf(get("APPLICATION_PROFILE")),
         val useAuthentication: Boolean = get("USE_AUTHENTICATION").toBoolean(),
         val azureAdProperties: AzureAdProperties = AzureAdProperties(),
+        val osConfiguration: OsConfiguration = OsConfiguration(),
     )
 
     class AzureAdProperties(
         val clientId: String = getOrEmpty("AZURE_APP_CLIENT_ID"),
         val wellKnownUrl: String = getOrEmpty("AZURE_APP_WELL_KNOWN_URL"),
+    )
+
+    class OsConfiguration(
+        val url: String = getOrEmpty("OS_ENDPOINT_URL"),
+        val trustStore: String = getOrEmpty("OS_TRUSTSTORE_PATH"),
+        val trustStorePassword: String = getOrEmpty("OS_TRUSTSTORE_PASSWORD"),
     )
 
     enum class Profile {
