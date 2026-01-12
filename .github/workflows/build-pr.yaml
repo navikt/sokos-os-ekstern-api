@@ -1,0 +1,28 @@
+name: Build & test PR
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'LICENCE'
+      - 'CODEOWNERS'
+      - '.gitignore'
+      - '.editorconfig'
+      - 'setupLocalEnvironment.sh'
+      - '.scripts'
+      - 'dokumentasjon/**'
+      - '.github/workflows/codeql-trivy-scan.yaml'
+      - '.github/workflows/deploy.yaml'
+      - '.github/workflows/chainguard-digestabot.yaml'
+      - '.github/workflows/manual-deploy.yaml'
+      - '.github/dependabot.yaml'
+
+jobs:
+  build-test-pr:
+    permissions:
+      contents: read
+    name: Build & test application
+    uses: navikt/mob-gha-workflows/.github/workflows/gradle-run-test.yaml@main
+    with:
+      gradle-task: './gradlew build installDist --configuration-cache'
+
