@@ -17,10 +17,10 @@ import io.ktor.serialization.kotlinx.json.json
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
 
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.KravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.TilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakRequest
 
 fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
     HttpClient(Apache) {

@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.dto
+package no.nav.sokos.os.ekstern.api.dto.vedtak
 
 import kotlinx.serialization.Serializable
 
@@ -13,20 +13,20 @@ data class TilbakekrevingsvedtakRequest(
     val kontrollfelt: String,
     val saksbehandlerId: String,
     val datoTilleggsfrist: String? = null,
-    val perioder: List<VedtaksPeriode>,
+    val perioder: List<Periode>,
 )
 
 @Serializable
-data class VedtaksPeriode(
+data class Periode(
     val periodeFom: String,
     val periodeTom: String,
     val renterPeriodeBeregnes: Boolean,
     val belopRenter: Double,
-    val posteringer: List<VedtaksPostering>,
+    val posteringer: List<Postering>,
 )
 
 @Serializable
-data class VedtaksPostering(
+data class Postering(
     val kodeKlasse: String,
     val belopOpprinneligUtbetalt: Double,
     val belopNy: Double,
@@ -36,12 +36,4 @@ data class VedtaksPostering(
     val kodeResultat: String,
     val kodeAarsak: String,
     val kodeSkyld: String,
-)
-
-@Serializable
-data class TilbakekrevingsvedtakResponse(
-    val status: Int,
-    val melding: String,
-    val vedtakId: Long,
-    val datoVedtakFagsystem: String,
 )

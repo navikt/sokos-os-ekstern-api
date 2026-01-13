@@ -4,20 +4,20 @@ import io.ktor.client.call.body
 import io.ktor.http.HttpStatusCode
 import mu.KotlinLogging
 
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagDetaljerResponse as ZosHentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagResponse as ZosHentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.KravgrunnlagAnnulerResponse as ZosKravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.TilbakekrevingsvedtakResponse as ZosTilbakekrevingsvedtakResponse
-import no.nav.sokos.os.ekstern.api.dto.HentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.dto.HentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.dto.HentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.dto.HentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.dto.KravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.dto.KravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.dto.TilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.dto.TilbakekrevingsvedtakResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerResponse as ZosKravgrunnlagAnnulerResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerResponse as ZosHentKravgrunnlagDetaljerResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagResponse as ZosHentKravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakResponse as ZosTilbakekrevingsvedtakResponse
+import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerResponse
+import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerResponse
+import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagResponse
 import no.nav.sokos.os.ekstern.api.dto.toDto
 import no.nav.sokos.os.ekstern.api.dto.toZosRequest
+import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
 import no.nav.sokos.os.ekstern.api.zOs.OsHttpClient
 
 private val logger = KotlinLogging.logger {}

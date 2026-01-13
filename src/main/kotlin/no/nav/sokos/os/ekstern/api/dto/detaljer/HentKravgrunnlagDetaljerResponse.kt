@@ -1,14 +1,6 @@
-package no.nav.sokos.os.ekstern.api.dto
+package no.nav.sokos.os.ekstern.api.dto.detaljer
 
 import kotlinx.serialization.Serializable
-
-@Serializable
-data class HentKravgrunnlagDetaljerRequest(
-    val kodeAksjon: String,
-    val kravgrunnlagId: Long,
-    val enhetAnsvarlig: String,
-    val saksbehandlerId: String,
-)
 
 @Serializable
 data class HentKravgrunnlagDetaljerResponse(
@@ -39,19 +31,19 @@ data class KravgrunnlagDetaljer(
     val saksbehandlerId: String,
     val referanse: String,
     val datoTilleggsfrist: String? = null,
-    val perioder: List<KravgrunnlagPeriode>,
+    val perioder: List<DetaljerPeriode>,
 )
 
 @Serializable
-data class KravgrunnlagPeriode(
+data class DetaljerPeriode(
     val periodeFom: String,
     val periodeTom: String,
     val belopSkattMnd: Double,
-    val posteringer: List<KravgrunnlagPostering>,
+    val posteringer: List<DetaljerPostering>,
 )
 
 @Serializable
-data class KravgrunnlagPostering(
+data class DetaljerPostering(
     val kodeKlasse: String,
     val typeKlasse: String,
     val belopOpprinneligUtbetalt: Double,

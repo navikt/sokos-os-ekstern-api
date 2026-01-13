@@ -8,10 +8,10 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import mu.KotlinLogging
 
-import no.nav.sokos.os.ekstern.api.dto.HentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.dto.HentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.dto.KravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.dto.TilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
 import no.nav.sokos.os.ekstern.api.service.TilbakekrevingException
 import no.nav.sokos.os.ekstern.api.service.TilbakekrevingService
 

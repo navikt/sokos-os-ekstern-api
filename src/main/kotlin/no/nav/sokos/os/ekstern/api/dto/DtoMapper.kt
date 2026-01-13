@@ -1,27 +1,40 @@
 package no.nav.sokos.os.ekstern.api.dto
 
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagDetaljerRequest as ZosHentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagDetaljerResponse as ZosHentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagRequest as ZosHentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagResponse as ZosHentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.KravgrunnlagAnnulerRequest as ZosKravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.KravgrunnlagAnnulerResponse as ZosKravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.TilbakekrevingsvedtakRequest as ZosTilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.TilbakekrevingsvedtakResponse as ZosTilbakekrevingsvedtakResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagDetaljerRequestContainer
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagDetaljerRequestData
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagDetaljerRequestOperation
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagRequestContainer
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagRequestData
-import no.nav.sokos.os.ekstern.api.zOs.entitet.HentKravgrunnlagRequestOperation
-import no.nav.sokos.os.ekstern.api.zOs.entitet.KravgrunnlagAnnulerRequestContainer
-import no.nav.sokos.os.ekstern.api.zOs.entitet.KravgrunnlagAnnulerRequestData
-import no.nav.sokos.os.ekstern.api.zOs.entitet.KravgrunnlagAnnulerRequestOperation
-import no.nav.sokos.os.ekstern.api.zOs.entitet.Tilbakekrevingsperiode
-import no.nav.sokos.os.ekstern.api.zOs.entitet.TilbakekrevingsvedtakRequestContainer
-import no.nav.sokos.os.ekstern.api.zOs.entitet.TilbakekrevingsvedtakRequestData
-import no.nav.sokos.os.ekstern.api.zOs.entitet.TilbakekrevingsvedtakRequestOperation
-import no.nav.sokos.os.ekstern.api.zOs.entitet.Tilbakerevingsbelop
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerRequest as ZosKravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerResponse as ZosKravgrunnlagAnnulerResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerRequest as ZosHentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerResponse as ZosHentKravgrunnlagDetaljerResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagRequest as ZosHentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagResponse as ZosHentKravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakRequest as ZosTilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakResponse as ZosTilbakekrevingsvedtakResponse
+import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerResponse
+import no.nav.sokos.os.ekstern.api.dto.detaljer.DetaljerPeriode
+import no.nav.sokos.os.ekstern.api.dto.detaljer.DetaljerPostering
+import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerResponse
+import no.nav.sokos.os.ekstern.api.dto.detaljer.KravgrunnlagDetaljer
+import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.Kravgrunnlag
+import no.nav.sokos.os.ekstern.api.dto.vedtak.Periode
+import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerRequestContainer
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerRequestData
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerRequestOperation
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerRequestContainer
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerRequestData
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerRequestOperation
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagRequestContainer
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagRequestData
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagRequestOperation
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.Tilbakekrevingsperiode
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakRequestContainer
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakRequestData
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakRequestOperation
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.Tilbakerevingsbelop
 
 fun TilbakekrevingsvedtakRequest.toZosRequest(): ZosTilbakekrevingsvedtakRequest =
     ZosTilbakekrevingsvedtakRequest(
@@ -46,7 +59,7 @@ fun TilbakekrevingsvedtakRequest.toZosRequest(): ZosTilbakekrevingsvedtakRequest
             ),
     )
 
-fun VedtaksPeriode.toZosPeriode(): Tilbakekrevingsperiode =
+fun Periode.toZosPeriode(): Tilbakekrevingsperiode =
     Tilbakekrevingsperiode(
         datoPeriodeFom = periodeFom,
         datoPeriodeTom = periodeTom,
@@ -109,7 +122,7 @@ fun ZosHentKravgrunnlagResponse.toDto(): HentKravgrunnlagResponse {
         melding = resp.statusMelding,
         kravgrunnlagListe =
             resp.kravgrunnlag.map {
-                no.nav.sokos.os.ekstern.api.dto.Kravgrunnlag(
+                Kravgrunnlag(
                     kravgrunnlagId = it.kravgrunnlagId.toLong(),
                     kodeStatusKrav = it.kodeStatusKrav,
                     gjelderId = it.gjelderId,
@@ -176,13 +189,13 @@ fun ZosHentKravgrunnlagDetaljerResponse.toDto(): HentKravgrunnlagDetaljerRespons
                 datoTilleggsfrist = resp.datoTilleggsfrist,
                 perioder =
                     resp.tilbakekrevingsperiode.map { periode ->
-                        KravgrunnlagPeriode(
+                        DetaljerPeriode(
                             periodeFom = periode.datoPeriodeFom,
                             periodeTom = periode.datoPeriodeTom,
                             belopSkattMnd = periode.belopSkattMnd,
                             posteringer =
                                 periode.tilbakekrevingsbelop.map { belop ->
-                                    KravgrunnlagPostering(
+                                    DetaljerPostering(
                                         kodeKlasse = belop.kodeKlasse,
                                         typeKlasse = belop.typeKlasse,
                                         belopOpprinneligUtbetalt = belop.belopOpprinneligUtbetalt,
