@@ -1,58 +1,28 @@
-package no.nav.sokos.os.ekstern.api.domain
+package no.nav.sokos.os.ekstern.api.zOs.entitet
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HentKravgrunnlagDetaljerRequest(
-    @SerialName("OsHentKravgrunnlagDetaljerOperation")
-    val operation: HentKravgrunnlagDetaljerOperation,
-)
-
-@Serializable
-data class HentKravgrunnlagDetaljerOperation(
-    @SerialName("Kravgrunnlagsdetaljer")
-    val kravgrunnlagsdetaljer: KravgrunnlagDetaljerRequestWrapper,
-)
-
-@Serializable
-data class KravgrunnlagDetaljerRequestWrapper(
-    @SerialName("RequestDetaljer")
-    val request: RequestDetaljer,
-)
-
-@Serializable
-data class RequestDetaljer(
-    @SerialName("KodeAksjon")
-    val kodeAksjon: String,
-    @SerialName("KravgrunnlagId")
-    val kravgrunnlagId: Int,
-    @SerialName("EnhetAnsvarlig")
-    val enhetAnsvarlig: String,
-    @SerialName("SaksbehandlerId")
-    val saksbehandlerId: String,
-)
-
-@Serializable
 data class HentKravgrunnlagDetaljerResponse(
     @SerialName("OsHentKravgrunnlagDetaljerOperationResponse")
-    val operationResponse: HentKravgrunnlagDetaljerOperationResponse,
+    val operation: HentKravgrunnlagDetaljerResponseOperation,
 )
 
 @Serializable
-data class HentKravgrunnlagDetaljerOperationResponse(
+data class HentKravgrunnlagDetaljerResponseOperation(
     @SerialName("Kravgrunnlagsdetaljer")
-    val kravgrunnlagsdetaljer: KravgrunnlagDetaljerResponseWrapper,
+    val container: HentKravgrunnlagDetaljerResponseContainer,
 )
 
 @Serializable
-data class KravgrunnlagDetaljerResponseWrapper(
+data class HentKravgrunnlagDetaljerResponseContainer(
     @SerialName("ResponsDetaljer")
-    val response: ResponsDetaljer,
+    val response: HentKravgrunnlagDetaljerResponseData,
 )
 
 @Serializable
-data class ResponsDetaljer(
+data class HentKravgrunnlagDetaljerResponseData(
     @SerialName("Status")
     val status: Int,
     @SerialName("StatusMelding")
@@ -108,7 +78,7 @@ data class TilbakekrevingsperiodeDetalj(
     @SerialName("DatoPeriodeTom")
     val datoPeriodeTom: String,
     @SerialName("BelopSkattMnd")
-    val belopSkattMnd: BigDecimalSerial,
+    val belopSkattMnd: Double,
     @SerialName("Tilbakekrevingsbelop")
     val tilbakekrevingsbelop: List<TilbakekrevingsbelopDetalj>,
 )
@@ -120,15 +90,15 @@ data class TilbakekrevingsbelopDetalj(
     @SerialName("TypeKlasse")
     val typeKlasse: String,
     @SerialName("BelopOpprinneligUtbetalt")
-    val belopOpprinneligUtbetalt: BigDecimalSerial,
+    val belopOpprinneligUtbetalt: Double,
     @SerialName("BelopNy")
-    val belopNy: BigDecimalSerial,
+    val belopNy: Double,
     @SerialName("BelopTilbakekreves")
-    val belopTilbakekreves: BigDecimalSerial,
+    val belopTilbakekreves: Double,
     @SerialName("BelopUinnkrevd")
-    val belopUinnkrevd: BigDecimalSerial,
+    val belopUinnkrevd: Double,
     @SerialName("SkattProsent")
-    val skattProsent: BigDecimalSerial,
+    val skattProsent: Double,
     @SerialName("KodeResultat")
     val kodeResultat: String,
     @SerialName("KodeAarsak")

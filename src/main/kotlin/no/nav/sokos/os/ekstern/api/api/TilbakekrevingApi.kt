@@ -1,7 +1,6 @@
 package no.nav.sokos.os.ekstern.api.api
 
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -9,10 +8,10 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import mu.KotlinLogging
 
-import no.nav.sokos.os.ekstern.api.domain.HentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.domain.HentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.domain.KravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.domain.TilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.dto.HentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.dto.HentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.dto.KravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.dto.TilbakekrevingsvedtakRequest
 import no.nav.sokos.os.ekstern.api.service.TilbakekrevingException
 import no.nav.sokos.os.ekstern.api.service.TilbakekrevingService
 
