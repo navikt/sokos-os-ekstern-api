@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class KravgrunnlagAnnulerResponse(
+data class OsKravgrunnlagAnnulerResponse(
     @SerialName("OsKravgrunnlagAnnulerOperationResponse")
     val operation: KravgrunnlagAnnulerResponseOperation,
 )

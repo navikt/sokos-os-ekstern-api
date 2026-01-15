@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HentKravgrunnlagDetaljerRequest(
+data class OsHentKravgrunnlagDetaljerRequest(
     @SerialName("OsHentKravgrunnlagDetaljerOperation")
     val operation: HentKravgrunnlagDetaljerRequestOperation,
 )

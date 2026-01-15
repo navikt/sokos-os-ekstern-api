@@ -4,10 +4,6 @@ import io.ktor.client.call.body
 import io.ktor.http.HttpStatusCode
 import mu.KotlinLogging
 
-import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerResponse as ZosKravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerResponse as ZosHentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagResponse as ZosHentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakResponse as ZosTilbakekrevingsvedtakResponse
 import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerRequest
 import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerResponse
 import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerRequest
@@ -19,6 +15,10 @@ import no.nav.sokos.os.ekstern.api.dto.toZosRequest
 import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
 import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
 import no.nav.sokos.os.ekstern.api.zOs.OsHttpClient
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.OsKravgrunnlagAnnulerResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.OsHentKravgrunnlagDetaljerResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.OsHentKravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.OsTilbakekrevingsvedtakResponse
 
 private val logger = KotlinLogging.logger {}
 
@@ -33,7 +33,7 @@ class TilbakekrevingService(
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<ZosTilbakekrevingsvedtakResponse>()
+                val body = response.body<OsTilbakekrevingsvedtakResponse>()
                 logger.info { "Tilbakekrevingsvedtak sendt, status: ${body.operation.container.response.status}" }
                 body.toDto()
             }
@@ -52,7 +52,7 @@ class TilbakekrevingService(
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<ZosHentKravgrunnlagResponse>()
+                val body = response.body<OsHentKravgrunnlagResponse>()
                 logger.info { "Kravgrunnlag liste hentet, status: ${body.operation.container.response.status}" }
                 body.toDto()
             }
@@ -71,7 +71,7 @@ class TilbakekrevingService(
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<ZosHentKravgrunnlagDetaljerResponse>()
+                val body = response.body<OsHentKravgrunnlagDetaljerResponse>()
                 logger.info { "Kravgrunnlag detaljer hentet, status: ${body.operation.container.response.status}" }
                 body.toDto()
             }
@@ -90,7 +90,7 @@ class TilbakekrevingService(
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<ZosKravgrunnlagAnnulerResponse>()
+                val body = response.body<OsKravgrunnlagAnnulerResponse>()
                 logger.info { "Kravgrunnlag annullert, status: ${body.operation.container.response.status}" }
                 body.toDto()
             }

@@ -1,13 +1,5 @@
 package no.nav.sokos.os.ekstern.api.dto
 
-import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerRequest as ZosKravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerResponse as ZosKravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerRequest as ZosHentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerResponse as ZosHentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagRequest as ZosHentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagResponse as ZosHentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakRequest as ZosTilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakResponse as ZosTilbakekrevingsvedtakResponse
 import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerRequest
 import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerResponse
 import no.nav.sokos.os.ekstern.api.dto.detaljer.DetaljerPeriode
@@ -24,20 +16,28 @@ import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
 import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerRequestContainer
 import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerRequestData
 import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.KravgrunnlagAnnulerRequestOperation
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.OsKravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.OsKravgrunnlagAnnulerResponse
 import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerRequestContainer
 import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerRequestData
 import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.HentKravgrunnlagDetaljerRequestOperation
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.OsHentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.OsHentKravgrunnlagDetaljerResponse
 import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagRequestContainer
 import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagRequestData
 import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.HentKravgrunnlagRequestOperation
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.OsHentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.OsHentKravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.OsTilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.OsTilbakekrevingsvedtakResponse
 import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.Tilbakekrevingsperiode
 import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakRequestContainer
 import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakRequestData
 import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.TilbakekrevingsvedtakRequestOperation
 import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.Tilbakerevingsbelop
 
-fun TilbakekrevingsvedtakRequest.toZosRequest(): ZosTilbakekrevingsvedtakRequest =
-    ZosTilbakekrevingsvedtakRequest(
+fun TilbakekrevingsvedtakRequest.toZosRequest(): OsTilbakekrevingsvedtakRequest =
+    OsTilbakekrevingsvedtakRequest(
         operation =
             TilbakekrevingsvedtakRequestOperation(
                 container =
@@ -81,7 +81,7 @@ fun Periode.toZosPeriode(): Tilbakekrevingsperiode =
             },
     )
 
-fun ZosTilbakekrevingsvedtakResponse.toDto(): TilbakekrevingsvedtakResponse {
+fun OsTilbakekrevingsvedtakResponse.toDto(): TilbakekrevingsvedtakResponse {
     val resp = operation.container.response
     return TilbakekrevingsvedtakResponse(
         status = resp.status,
@@ -91,8 +91,8 @@ fun ZosTilbakekrevingsvedtakResponse.toDto(): TilbakekrevingsvedtakResponse {
     )
 }
 
-fun HentKravgrunnlagRequest.toZosRequest(): ZosHentKravgrunnlagRequest =
-    ZosHentKravgrunnlagRequest(
+fun HentKravgrunnlagRequest.toZosRequest(): OsHentKravgrunnlagRequest =
+    OsHentKravgrunnlagRequest(
         operation =
             HentKravgrunnlagRequestOperation(
                 container =
@@ -115,7 +115,7 @@ fun HentKravgrunnlagRequest.toZosRequest(): ZosHentKravgrunnlagRequest =
             ),
     )
 
-fun ZosHentKravgrunnlagResponse.toDto(): HentKravgrunnlagResponse {
+fun OsHentKravgrunnlagResponse.toDto(): HentKravgrunnlagResponse {
     val resp = operation.container.response
     return HentKravgrunnlagResponse(
         status = resp.status,
@@ -143,8 +143,8 @@ fun ZosHentKravgrunnlagResponse.toDto(): HentKravgrunnlagResponse {
     )
 }
 
-fun HentKravgrunnlagDetaljerRequest.toZosRequest(): ZosHentKravgrunnlagDetaljerRequest =
-    ZosHentKravgrunnlagDetaljerRequest(
+fun HentKravgrunnlagDetaljerRequest.toZosRequest(): OsHentKravgrunnlagDetaljerRequest =
+    OsHentKravgrunnlagDetaljerRequest(
         operation =
             HentKravgrunnlagDetaljerRequestOperation(
                 container =
@@ -160,7 +160,7 @@ fun HentKravgrunnlagDetaljerRequest.toZosRequest(): ZosHentKravgrunnlagDetaljerR
             ),
     )
 
-fun ZosHentKravgrunnlagDetaljerResponse.toDto(): HentKravgrunnlagDetaljerResponse {
+fun OsHentKravgrunnlagDetaljerResponse.toDto(): HentKravgrunnlagDetaljerResponse {
     val resp = operation.container.response
     return HentKravgrunnlagDetaljerResponse(
         status = resp.status,
@@ -214,8 +214,8 @@ fun ZosHentKravgrunnlagDetaljerResponse.toDto(): HentKravgrunnlagDetaljerRespons
     )
 }
 
-fun KravgrunnlagAnnulerRequest.toZosRequest(): ZosKravgrunnlagAnnulerRequest =
-    ZosKravgrunnlagAnnulerRequest(
+fun KravgrunnlagAnnulerRequest.toZosRequest(): OsKravgrunnlagAnnulerRequest =
+    OsKravgrunnlagAnnulerRequest(
         operation =
             KravgrunnlagAnnulerRequestOperation(
                 container =
@@ -231,7 +231,7 @@ fun KravgrunnlagAnnulerRequest.toZosRequest(): ZosKravgrunnlagAnnulerRequest =
             ),
     )
 
-fun ZosKravgrunnlagAnnulerResponse.toDto(): KravgrunnlagAnnulerResponse {
+fun OsKravgrunnlagAnnulerResponse.toDto(): KravgrunnlagAnnulerResponse {
     val resp = operation.container.response
     return KravgrunnlagAnnulerResponse(
         status = resp.status,

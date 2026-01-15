@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TilbakekrevingsvedtakRequest(
+data class OsTilbakekrevingsvedtakRequest(
     @SerialName("OsTilbakekrevingsvedtakOperation")
     val operation: TilbakekrevingsvedtakRequestOperation,
 )
