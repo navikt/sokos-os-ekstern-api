@@ -4,15 +4,21 @@ import io.ktor.client.call.body
 import io.ktor.http.HttpStatusCode
 import mu.KotlinLogging
 
-import no.nav.sokos.os.ekstern.api.domain.HentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.domain.HentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.domain.HentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.domain.HentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.domain.KravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.domain.KravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.domain.TilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.domain.TilbakekrevingsvedtakResponse
-import no.nav.sokos.os.ekstern.api.zOs.OsHttpClient
+import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerResponse
+import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerResponse
+import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.dto.toDto
+import no.nav.sokos.os.ekstern.api.dto.toZosRequest
+import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
+import no.nav.sokos.os.ekstern.api.os.OsHttpClient
+import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerResponse
+import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerResponse
+import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakResponse
 
 private val logger = KotlinLogging.logger {}
 
@@ -22,13 +28,14 @@ class TilbakekrevingService(
     suspend fun sendTilbakekrevingsvedtak(request: TilbakekrevingsvedtakRequest): TilbakekrevingsvedtakResponse {
         logger.info { "Sender tilbakekrevingsvedtak request til OS" }
 
-        val response = osHttpClient.postTilbakekrevingsvedtak(request)
+        val zosRequest = request.toZosRequest()
+        val response = osHttpClient.postTilbakekrevingsvedtak(zosRequest)
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<TilbakekrevingsvedtakResponse>()
-                logger.info { "Tilbakekrevingsvedtak sendt, status: ${body.operationResponse.container.response.status}" }
-                body
+                val body = response.body<OsTilbakekrevingsvedtakResponse>()
+                logger.info { "Tilbakekrevingsvedtak sendt, status: ${body.operation.container.response.status}" }
+                body.toDto()
             }
             else -> {
                 logger.error { "Feil ved sending av tilbakekrevingsvedtak: ${response.status}" }
@@ -40,13 +47,14 @@ class TilbakekrevingService(
     suspend fun hentKravgrunnlagListe(request: HentKravgrunnlagRequest): HentKravgrunnlagResponse {
         logger.info { "Henter kravgrunnlag liste fra OS" }
 
-        val response = osHttpClient.postHentKravgrunnlag(request)
+        val zosRequest = request.toZosRequest()
+        val response = osHttpClient.postHentKravgrunnlag(zosRequest)
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<HentKravgrunnlagResponse>()
-                logger.info { "Kravgrunnlag liste hentet, status: ${body.operationResponse.kravgrunnlagListe.response.status}" }
-                body
+                val body = response.body<OsHentKravgrunnlagResponse>()
+                logger.info { "Kravgrunnlag liste hentet, status: ${body.operation.container.response.status}" }
+                body.toDto()
             }
             else -> {
                 logger.error { "Feil ved henting av kravgrunnlag liste: ${response.status}" }
@@ -58,13 +66,14 @@ class TilbakekrevingService(
     suspend fun hentKravgrunnlagDetaljer(request: HentKravgrunnlagDetaljerRequest): HentKravgrunnlagDetaljerResponse {
         logger.info { "Henter kravgrunnlag detaljer fra OS" }
 
-        val response = osHttpClient.postHentKravgrunnlagDetaljer(request)
+        val zosRequest = request.toZosRequest()
+        val response = osHttpClient.postHentKravgrunnlagDetaljer(zosRequest)
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<HentKravgrunnlagDetaljerResponse>()
-                logger.info { "Kravgrunnlag detaljer hentet, status: ${body.operationResponse.kravgrunnlagsdetaljer.response.status}" }
-                body
+                val body = response.body<OsHentKravgrunnlagDetaljerResponse>()
+                logger.info { "Kravgrunnlag detaljer hentet, status: ${body.operation.container.response.status}" }
+                body.toDto()
             }
             else -> {
                 logger.error { "Feil ved henting av kravgrunnlag detaljer: ${response.status}" }
@@ -76,13 +85,14 @@ class TilbakekrevingService(
     suspend fun annulerKravgrunnlag(request: KravgrunnlagAnnulerRequest): KravgrunnlagAnnulerResponse {
         logger.info { "Annullerer kravgrunnlag i OS" }
 
-        val response = osHttpClient.postKravgrunnlagAnnuler(request)
+        val zosRequest = request.toZosRequest()
+        val response = osHttpClient.postKravgrunnlagAnnuler(zosRequest)
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<KravgrunnlagAnnulerResponse>()
-                logger.info { "Kravgrunnlag annullert, status: ${body.operationResponse.kravgrunnlagAnnulert.response.status}" }
-                body
+                val body = response.body<OsKravgrunnlagAnnulerResponse>()
+                logger.info { "Kravgrunnlag annullert, status: ${body.operation.container.response.status}" }
+                body.toDto()
             }
             else -> {
                 logger.error { "Feil ved annullering av kravgrunnlag: ${response.status}" }

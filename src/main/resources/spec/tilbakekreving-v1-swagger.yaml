@@ -1,0 +1,850 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Tilbakekreving API (sokos-os-ekstern-api)
+  description: API-tjeneste for håndtering av tilbakekrevingsvedtak og kravgrunnlag
+  contact:
+    name: Team Motta og Beregne
+    email: okonomi@nav.no
+    url: https://nav-it.slack.com/archives/CKZADNFBP
+
+tags:
+  - name: Tilbakekreving
+    description: Opplysninger om tilbakekrevingsvedtak og kravgrunnlag
+
+servers:
+  - url: /api/v1/tilbakekreving
+
+paths:
+
+  /vedtak:
+    post:
+      tags:
+        - tilbakekreving
+      summary: Send tilbakekrevingsvedtak
+      description: Sender et tilbakekrevingsvedtak til OS
+      operationId: sendTilbakekrevingsvedtak
+      requestBody:
+        description: Tilbakekrevingsvedtak med perioder og posteringer
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TilbakekrevingsvedtakRequest'
+        required: true
+      responses:
+        200:
+          description: OK - Vedtak sendt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TilbakekrevingsvedtakResponse'
+        400:
+          description: Ugyldig request, oppfyller ikke swagger-kontrakt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Ingen tilgang
+        500:
+          description: Annen feil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      security:
+        - Bearer: [ ]
+
+  /kravgrunnlag/liste:
+    post:
+      tags:
+        - tilbakekreving
+      summary: Hent kravgrunnlag liste
+      description: Returnerer en liste av kravgrunnlag basert på søkeparametere
+      operationId: hentKravgrunnlagListe
+      requestBody:
+        description: Søkeparametere for kravgrunnlag
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HentKravgrunnlagRequest'
+        required: true
+      responses:
+        200:
+          description: OK - Returnerer liste med kravgrunnlag
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HentKravgrunnlagResponse'
+        400:
+          description: Ugyldig request, oppfyller ikke swagger-kontrakt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Ingen tilgang
+        500:
+          description: Annen feil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      security:
+        - Bearer: [ ]
+
+  /kravgrunnlag/detaljer:
+    post:
+      tags:
+        - tilbakekreving
+      summary: Hent kravgrunnlag detaljer
+      description: Returnerer detaljert informasjon om et spesifikt kravgrunnlag
+      operationId: hentKravgrunnlagDetaljer
+      requestBody:
+        description: Kravgrunnlag ID og søkeparametere
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HentKravgrunnlagDetaljerRequest'
+        required: true
+      responses:
+        200:
+          description: OK - Returnerer kravgrunnlag detaljer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HentKravgrunnlagDetaljerResponse'
+        400:
+          description: Ugyldig request, oppfyller ikke swagger-kontrakt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Ingen tilgang
+        500:
+          description: Annen feil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      security:
+        - Bearer: [ ]
+
+  /kravgrunnlag/annuler:
+    post:
+      tags:
+        - tilbakekreving
+      summary: Annuler kravgrunnlag
+      description: Annullerer et eksisterende kravgrunnlag
+      operationId: annulerKravgrunnlag
+      requestBody:
+        description: Vedtak ID og annulleringsparametere
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KravgrunnlagAnnulerRequest'
+        required: true
+      responses:
+        200:
+          description: OK - Kravgrunnlag annullert
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KravgrunnlagAnnulerResponse'
+        400:
+          description: Ugyldig request, oppfyller ikke swagger-kontrakt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        401:
+          description: Ingen tilgang
+        500:
+          description: Annen feil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      security:
+        - Bearer: [ ]
+
+components:
+  schemas:
+    TilbakekrevingsvedtakRequest:
+      type: object
+      required:
+        - kodeAksjon
+        - vedtakId
+        - vedtaksDato
+        - kodeHjemmel
+        - renterBeregnes
+        - enhetAnsvarlig
+        - kontrollfelt
+        - saksbehandlerId
+        - perioder
+      properties:
+        kodeAksjon:
+          type: string
+          example: "NY"
+          description: Aksjonskode for vedtaket
+        vedtakId:
+          type: integer
+          format: int64
+          example: 123456789
+          description: Unik identifikator for vedtaket
+        vedtaksDato:
+          type: string
+          format: date
+          example: "2026-01-15"
+          description: Dato for vedtaket
+        kodeHjemmel:
+          type: string
+          example: "FVL-22"
+          description: Hjemmelskode
+        renterBeregnes:
+          type: boolean
+          example: true
+          description: Om renter skal beregnes
+        enhetAnsvarlig:
+          type: string
+          example: "8020"
+          description: Ansvarlig enhet
+        kontrollfelt:
+          type: string
+          example: "2026-01-15-01.12.34.123456"
+          description: Kontrollfelt for validering
+        saksbehandlerId:
+          type: string
+          example: "Z999999"
+          description: Saksbehandlers ID
+        datoTilleggsfrist:
+          type: string
+          format: date
+          example: "2026-03-15"
+          description: Tilleggsfrist dato
+          nullable: true
+        perioder:
+          type: array
+          items:
+            $ref: '#/components/schemas/Periode'
+
+    Periode:
+      type: object
+      required:
+        - periodeFom
+        - periodeTom
+        - renterPeriodeBeregnes
+        - belopRenter
+        - posteringer
+      properties:
+        periodeFom:
+          type: string
+          format: date
+          example: "2026-01-01"
+          description: Periode fra dato
+        periodeTom:
+          type: string
+          format: date
+          example: "2026-01-31"
+          description: Periode til dato
+        renterPeriodeBeregnes:
+          type: boolean
+          example: true
+          description: Om renter beregnes for perioden
+        belopRenter:
+          type: number
+          format: double
+          example: 150.50
+          description: Beløp for renter
+        posteringer:
+          type: array
+          items:
+            $ref: '#/components/schemas/Postering'
+
+    Postering:
+      type: object
+      required:
+        - kodeKlasse
+        - belopOpprinneligUtbetalt
+        - belopNy
+        - belopTilbakekreves
+        - belopUinnkrevd
+        - belopSkatt
+        - kodeResultat
+        - kodeAarsak
+        - kodeSkyld
+      properties:
+        kodeKlasse:
+          type: string
+          example: "KL_KODE_CLASS1"
+          description: Klassekode
+        belopOpprinneligUtbetalt:
+          type: number
+          format: double
+          example: 10000.00
+          description: Opprinnelig utbetalt beløp
+        belopNy:
+          type: number
+          format: double
+          example: 8000.00
+          description: Nytt beløp
+        belopTilbakekreves:
+          type: number
+          format: double
+          example: 2000.00
+          description: Beløp som skal tilbakekreves
+        belopUinnkrevd:
+          type: number
+          format: double
+          example: 0.00
+          description: Uinnkrevd beløp
+        belopSkatt:
+          type: number
+          format: double
+          example: 500.00
+          description: Skattebeløp
+        kodeResultat:
+          type: string
+          example: "FULL_TILBAKEKREV"
+          description: Resultatkode
+        kodeAarsak:
+          type: string
+          example: "FEIL_OPPLYSNINGER"
+          description: Årsakskode
+        kodeSkyld:
+          type: string
+          example: "BRUKER"
+          description: Skyldkode
+
+    TilbakekrevingsvedtakResponse:
+      type: object
+      required:
+        - status
+        - melding
+        - vedtakId
+        - datoVedtakFagsystem
+      properties:
+        status:
+          type: integer
+          example: 200
+          description: Statuskode for operasjonen
+        melding:
+          type: string
+          example: "Vedtak sendt"
+          description: Statusmelding
+        vedtakId:
+          type: integer
+          format: int64
+          example: 123456789
+          description: Vedtak ID
+        datoVedtakFagsystem:
+          type: string
+          format: date
+          example: "2026-01-15"
+          description: Dato for vedtak i fagsystem
+
+    HentKravgrunnlagRequest:
+      type: object
+      required:
+        - kodeAksjon
+        - gjelderId
+        - typeGjelder
+        - utbetalesTilId
+        - typeUtbetalesTil
+        - enhetAnsvarlig
+        - kodeFaggruppe
+        - kodeFagomraade
+        - fagsystemId
+        - saksbehandlerId
+      properties:
+        kodeAksjon:
+          type: string
+          example: "HENT"
+          description: Aksjonskode
+        gjelderId:
+          type: string
+          example: "12345678901"
+          description: Gjelder ID (fnr/orgnr)
+        typeGjelder:
+          type: string
+          example: "PERSON"
+          description: Type gjelder
+        utbetalesTilId:
+          type: string
+          example: "12345678901"
+          description: Utbetales til ID
+        typeUtbetalesTil:
+          type: string
+          example: "PERSON"
+          description: Type utbetales til
+        enhetAnsvarlig:
+          type: string
+          example: "8020"
+          description: Ansvarlig enhet
+        kodeFaggruppe:
+          type: string
+          example: "PEN"
+          description: Faggruppekode
+        kodeFagomraade:
+          type: string
+          example: "PENALD"
+          description: Fagområdekode
+        fagsystemId:
+          type: string
+          example: "FS123456"
+          description: Fagsystem ID
+        kravgrunnlagId:
+          type: integer
+          example: 123456
+          description: Kravgrunnlag ID
+          nullable: true
+        saksbehandlerId:
+          type: string
+          example: "Z999999"
+          description: Saksbehandlers ID
+
+    HentKravgrunnlagResponse:
+      type: object
+      required:
+        - status
+        - melding
+        - kravgrunnlagListe
+      properties:
+        status:
+          type: integer
+          example: 200
+          description: Statuskode
+        melding:
+          type: string
+          example: "Kravgrunnlag hentet"
+          description: Statusmelding
+        kravgrunnlagListe:
+          type: array
+          items:
+            $ref: '#/components/schemas/Kravgrunnlag'
+
+    Kravgrunnlag:
+      type: object
+      required:
+        - kravgrunnlagId
+        - kodeStatusKrav
+        - gjelderId
+        - typeGjelder
+        - utbetalesTilId
+        - typeUtbetalesTil
+        - kodeFagomraade
+        - fagsystemId
+        - datoVedtakFagsystem
+        - enhetBosted
+        - enhetAnsvarlig
+        - datoKravDannet
+        - datoPeriodeFom
+        - datoPeriodeTom
+        - belopSumFeilutbetalt
+      properties:
+        kravgrunnlagId:
+          type: integer
+          format: int64
+          example: 123456
+          description: Kravgrunnlag ID
+        kodeStatusKrav:
+          type: string
+          example: "NY"
+          description: Status kode for krav
+        gjelderId:
+          type: string
+          example: "12345678901"
+          description: Gjelder ID
+        typeGjelder:
+          type: string
+          example: "PERSON"
+          description: Type gjelder
+        utbetalesTilId:
+          type: string
+          example: "12345678901"
+          description: Utbetales til ID
+        typeUtbetalesTil:
+          type: string
+          example: "PERSON"
+          description: Type utbetales til
+        kodeFagomraade:
+          type: string
+          example: "PENALD"
+          description: Fagområdekode
+        fagsystemId:
+          type: string
+          example: "FS123456"
+          description: Fagsystem ID
+        datoVedtakFagsystem:
+          type: string
+          format: date
+          example: "2026-01-15"
+          description: Vedtaksdato i fagsystem
+        enhetBosted:
+          type: string
+          example: "0219"
+          description: Bostedsenhet
+        enhetAnsvarlig:
+          type: string
+          example: "8020"
+          description: Ansvarlig enhet
+        datoKravDannet:
+          type: string
+          format: date
+          example: "2026-01-15"
+          description: Dato krav dannet
+        datoPeriodeFom:
+          type: string
+          format: date
+          example: "2026-01-01"
+          description: Periode fra dato
+        datoPeriodeTom:
+          type: string
+          format: date
+          example: "2026-01-31"
+          description: Periode til dato
+        belopSumFeilutbetalt:
+          type: number
+          format: double
+          example: 10000.00
+          description: Sum feilutbetalt beløp
+
+    HentKravgrunnlagDetaljerRequest:
+      type: object
+      required:
+        - kodeAksjon
+        - kravgrunnlagId
+        - enhetAnsvarlig
+        - saksbehandlerId
+      properties:
+        kodeAksjon:
+          type: string
+          example: "HENT_DETALJER"
+          description: Aksjonskode
+        kravgrunnlagId:
+          type: integer
+          format: int64
+          example: 123456
+          description: Kravgrunnlag ID
+        enhetAnsvarlig:
+          type: string
+          example: "8020"
+          description: Ansvarlig enhet
+        saksbehandlerId:
+          type: string
+          example: "Z999999"
+          description: Saksbehandlers ID
+
+    HentKravgrunnlagDetaljerResponse:
+      type: object
+      required:
+        - status
+        - melding
+        - kravgrunnlag
+      properties:
+        status:
+          type: integer
+          example: 200
+          description: Statuskode
+        melding:
+          type: string
+          example: "Kravgrunnlag detaljer hentet"
+          description: Statusmelding
+        kravgrunnlag:
+          $ref: '#/components/schemas/KravgrunnlagDetaljer'
+
+    KravgrunnlagDetaljer:
+      type: object
+      required:
+        - kravgrunnlagId
+        - vedtakId
+        - kodeStatusKrav
+        - kodeFagomraade
+        - fagsystemId
+        - datoVedtakFagsystem
+        - vedtakIdImgjort
+        - gjelderId
+        - typeGjelder
+        - utbetalesTilId
+        - typeUtbetalesTilId
+        - kodeHjemmel
+        - renterBeregnes
+        - enhetAnsvarlig
+        - enhetBosted
+        - enhetBehandl
+        - kontrollfelt
+        - saksbehandlerId
+        - referanse
+        - perioder
+      properties:
+        kravgrunnlagId:
+          type: integer
+          format: int64
+          example: 123456
+          description: Kravgrunnlag ID
+        vedtakId:
+          type: integer
+          format: int64
+          example: 123456789
+          description: Vedtak ID
+        kodeStatusKrav:
+          type: string
+          example: "NY"
+          description: Status kode for krav
+        kodeFagomraade:
+          type: string
+          example: "PENALD"
+          description: Fagområdekode
+        fagsystemId:
+          type: string
+          example: "FS123456"
+          description: Fagsystem ID
+        datoVedtakFagsystem:
+          type: string
+          format: date
+          example: "2026-01-15"
+          description: Vedtaksdato i fagsystem
+        vedtakIdImgjort:
+          type: integer
+          format: int64
+          example: 123456788
+          description: Vedtak ID omgjort
+        gjelderId:
+          type: string
+          example: "12345678901"
+          description: Gjelder ID
+        typeGjelder:
+          type: string
+          example: "PERSON"
+          description: Type gjelder
+        utbetalesTilId:
+          type: string
+          example: "12345678901"
+          description: Utbetales til ID
+        typeUtbetalesTilId:
+          type: string
+          example: "PERSON"
+          description: Type utbetales til
+        kodeHjemmel:
+          type: string
+          example: "FVL-22"
+          description: Hjemmelskode
+        renterBeregnes:
+          type: boolean
+          example: true
+          description: Om renter beregnes
+        enhetAnsvarlig:
+          type: string
+          example: "8020"
+          description: Ansvarlig enhet
+        enhetBosted:
+          type: string
+          example: "0219"
+          description: Bostedsenhet
+        enhetBehandl:
+          type: string
+          example: "8020"
+          description: Behandlende enhet
+        kontrollfelt:
+          type: string
+          example: "2026-01-15-01.12.34.123456"
+          description: Kontrollfelt
+        saksbehandlerId:
+          type: string
+          example: "Z999999"
+          description: Saksbehandlers ID
+        referanse:
+          type: string
+          example: "REF123456"
+          description: Referanse
+        datoTilleggsfrist:
+          type: string
+          format: date
+          example: "2026-03-15"
+          description: Tilleggsfrist dato
+          nullable: true
+        perioder:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetaljerPeriode'
+
+    DetaljerPeriode:
+      type: object
+      required:
+        - periodeFom
+        - periodeTom
+        - belopSkattMnd
+        - posteringer
+      properties:
+        periodeFom:
+          type: string
+          format: date
+          example: "2026-01-01"
+          description: Periode fra dato
+        periodeTom:
+          type: string
+          format: date
+          example: "2026-01-31"
+          description: Periode til dato
+        belopSkattMnd:
+          type: number
+          format: double
+          example: 500.00
+          description: Skattebeløp per måned
+        posteringer:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetaljerPostering'
+
+    DetaljerPostering:
+      type: object
+      required:
+        - kodeKlasse
+        - typeKlasse
+        - belopOpprinneligUtbetalt
+        - belopNy
+        - belopTilbakekreves
+        - belopUinnkrevd
+        - skattProsent
+        - kodeResultat
+        - kodeAarsak
+        - kodeSkyld
+      properties:
+        kodeKlasse:
+          type: string
+          example: "KL_KODE_CLASS1"
+          description: Klassekode
+        typeKlasse:
+          type: string
+          example: "YTEL"
+          description: Type klasse
+        belopOpprinneligUtbetalt:
+          type: number
+          format: double
+          example: 10000.00
+          description: Opprinnelig utbetalt beløp
+        belopNy:
+          type: number
+          format: double
+          example: 8000.00
+          description: Nytt beløp
+        belopTilbakekreves:
+          type: number
+          format: double
+          example: 2000.00
+          description: Beløp som skal tilbakekreves
+        belopUinnkrevd:
+          type: number
+          format: double
+          example: 0.00
+          description: Uinnkrevd beløp
+        skattProsent:
+          type: number
+          format: double
+          example: 25.0
+          description: Skatteprosent
+        kodeResultat:
+          type: string
+          example: "FULL_TILBAKEKREV"
+          description: Resultatkode
+        kodeAarsak:
+          type: string
+          example: "FEIL_OPPLYSNINGER"
+          description: Årsakskode
+        kodeSkyld:
+          type: string
+          example: "BRUKER"
+          description: Skyldkode
+
+    KravgrunnlagAnnulerRequest:
+      type: object
+      required:
+        - kodeAksjon
+        - vedtakId
+        - enhetAnsvarlig
+        - saksbehandlerId
+      properties:
+        kodeAksjon:
+          type: string
+          example: "ANNULER"
+          description: Aksjonskode
+        vedtakId:
+          type: integer
+          format: int64
+          example: 123456789
+          description: Vedtak ID som skal annulleres
+        enhetAnsvarlig:
+          type: string
+          example: "8020"
+          description: Ansvarlig enhet
+        saksbehandlerId:
+          type: string
+          example: "Z999999"
+          description: Saksbehandlers ID
+
+    KravgrunnlagAnnulerResponse:
+      type: object
+      required:
+        - status
+        - melding
+        - vedtakId
+        - saksbehandlerId
+      properties:
+        status:
+          type: integer
+          example: 200
+          description: Statuskode
+        melding:
+          type: string
+          example: "Kravgrunnlag annullert"
+          description: Statusmelding
+        vedtakId:
+          type: integer
+          format: int64
+          example: 123456789
+          description: Vedtak ID som ble annullert
+        saksbehandlerId:
+          type: string
+          example: "Z999999"
+          description: Saksbehandlers ID
+
+    ApiError:
+      type: object
+      required:
+        - timestamp
+        - status
+        - error
+        - message
+        - path
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Tidspunkt feilen oppsto
+        status:
+          type: integer
+          example: 500
+          description: HTTP status kode
+        error:
+          type: string
+          example: "Internal Server Error"
+          description: En kort, lesbar oppsummering av problemet
+        message:
+          type: string
+          example: "Det skjedde en feil"
+          description: En lesbar forklaring som er spesifikk for denne forekomsten av problemet
+        path:
+          type: string
+          example: "/api/v1/tilbakekreving/vedtak"
+          description: Endepunktet hvor feilen oppsto
+
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: |-
+        OBO-token (JWT via OAuth2.0).<br> 
+          Følgende format må brukes i input-feltet "Value" under: <strong>\"Bearer {token}\"</strong>.<br> 
+          Eksempel på verdi i input-felt: <strong>Bearer eYdmifml0ejugm</strong>
+      name: Authorization
+      in: header

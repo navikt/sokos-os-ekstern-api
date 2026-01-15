@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.zOs
+package no.nav.sokos.os.ekstern.api.os
 
 import java.net.ProxySelector
 
@@ -17,10 +17,10 @@ import io.ktor.serialization.kotlinx.json.json
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
 
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.domain.HentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.domain.HentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.domain.KravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.domain.TilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakRequest
 
 fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
     HttpClient(Apache) {
@@ -70,25 +70,25 @@ class OsHttpClient(
 ) {
     private val baseUrl = osConfig.url
 
-    suspend fun postTilbakekrevingsvedtak(request: TilbakekrevingsvedtakRequest): HttpResponse =
+    suspend fun postTilbakekrevingsvedtak(request: OsTilbakekrevingsvedtakRequest): HttpResponse =
         httpClient.post("$baseUrl/tilbakekrevingsvedtak") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }
 
-    suspend fun postHentKravgrunnlag(request: HentKravgrunnlagRequest): HttpResponse =
+    suspend fun postHentKravgrunnlag(request: OsHentKravgrunnlagRequest): HttpResponse =
         httpClient.post("$baseUrl/kravgrunnlagHentListe") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }
 
-    suspend fun postHentKravgrunnlagDetaljer(request: HentKravgrunnlagDetaljerRequest): HttpResponse =
+    suspend fun postHentKravgrunnlagDetaljer(request: OsHentKravgrunnlagDetaljerRequest): HttpResponse =
         httpClient.post("$baseUrl/kravgrunnlagHentDetalj") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }
 
-    suspend fun postKravgrunnlagAnnuler(request: KravgrunnlagAnnulerRequest): HttpResponse =
+    suspend fun postKravgrunnlagAnnuler(request: OsKravgrunnlagAnnulerRequest): HttpResponse =
         httpClient.post("$baseUrl/kravgrunnlagAnnuler") {
             contentType(ContentType.Application.Json)
             setBody(request)

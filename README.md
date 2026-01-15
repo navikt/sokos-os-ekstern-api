@@ -2,37 +2,6 @@
 
 API for vedtaksløsninger som skal sende tilbakekrevingsoppdrag til OS via zOS connect
 
-
-## Workflows
-
-1. [Deploy application](.github/workflows/deploy.yaml) -> Kjører tester og bygger (assembler) distribution, bygger og pusher Docker image og deploy til dev og prod
-    1. Denne workflow trigges når kode pushes i `main` branch
-2. [Build/test PR](.github/workflows/build-pr.yaml) -> Kjører tester og bygger (assembler) distribution alle PR som blir opprettet
-    1. Denne workflow kjøres kun når det opprettes pull requester
-3. [Security](.github/workflows/codeql-trivy-scan.yaml) -> For å skanne kode og docker image for sårbarheter. Kjøres hver morgen kl 06:00
-    1. Denne kjøres hver mandag klokka 06.00
-4. [Deploy application manual](.github/workflows/manual-deploy.yaml) -> For å deploye applikasjonen manuelt til ulike miljøer
-    1. Denne workflow trigges manuelt basert på branch og miljø
-
-## Bygge og kjøre prosjekt
-
-1. Bygg prosjektet ved å kjøre `./gradlew build installDist`
-2. Start appen lokalt ved å kjøre main metoden i ***Application.kt***
-3. For å kjøre tester i IntelliJ IDEA trenger du [Kotest IntelliJ Plugin](https://plugins.jetbrains.com/plugin/14080-kotest)
-
-# NB!! Kommer du på noe lurt vi bør ha med i template som default så opprett gjerne en PR
-
-## Henvendelser
-
-- Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på github.
-- Interne henvendelser kan sendes via Slack i kanalen [#utbetaling](https://nav-it.slack.com/archives/CKZADNFBP)
-
-```
-‼️ Alt under her skal beholdes som en standard dokumentasjon som må fylles ut av utviklere. Vi prøver å ha standard mal for alle våre applikasjoner ‼️
-```
-
-# Prosjektnavn
-
 * [1. Dokumentasjon](dokumentasjon/dokumentasjon.md)
 * [2. Funksjonelle krav](#2-funksjonelle-krav)
 * [3. Utviklingsmiljø](#3-utviklingsmiljø)
@@ -41,13 +10,18 @@ API for vedtaksløsninger som skal sende tilbakekrevingsoppdrag til OS via zOS c
 * [6. Autentisering](#6-autentisering)
 * [7. Drift og støtte](#7-drift-og-støtte)
 * [8. Swagger](#8-swagger)
-* [9. Henvendelser](#9-henvendelser)
+* [9. Henvendelser og tilgang](#9-henvendelser-og-tilgang)
 
 ---
 
 # 2. Funksjonelle Krav
 
-Hva er oppgaven til denne applikasjonen
+API for å håndtere tilbakekrevingsvedtak og kravgrunnlag. Applikasjonen tilbyr følgende funksjonalitet:
+
+- **Send tilbakekrevingsvedtak** - Sender vedtak om tilbakekreving til OS via zOS Connect
+- **Hent kravgrunnlag liste** - Henter liste over kravgrunnlag basert på søkekriterier
+- **Hent kravgrunnlag detaljer** - Henter detaljert informasjon om et spesifikt kravgrunnlag
+- **Annuler kravgrunnlag** - Annullerer et eksisterende kravgrunnlag
 
 # 3. Utviklingsmiljø
 
@@ -59,15 +33,21 @@ Hva er oppgaven til denne applikasjonen
 
 ### Bygge prosjekt
 
-`./gradlew build installDist`
+`./gradlew build`
 
 ### Lokal utvikling
 
-Hvordan kan jeg kjøre lokalt og hva trenger jeg?
+1. Kjør `./gradlew build` for å bygge prosjektet
+2. Start applikasjonen ved å kjøre main-metoden i `Application.kt`
+3. API er tilgjengelig på `http://localhost:8080/api/v1/tilbakekreving`
+
+For testing:
+- Generer AzureAD token via [azure-token-generator](https://azure-token-generator.intern.dev.nav.no/)
+- Send requests med `Authorization: Bearer <token>` header
 
 # 4. Programvarearkitektur
 
-Legg ved skissediagram for hvordan arkitekturen er bygget
+TODO: Mermaid chart
 
 # 5. Deployment
 
@@ -123,15 +103,13 @@ Varsler blir sendt til følgende Slack-kanaler:
 
 ### Grafana
 
-- [appavn](url)
+Grafana dashboards for overvåkning og metrikker blir opprettet etter deploy.
 
 ---
 
 # 8. Swagger
 
-- Url Lokal
-- Url Dev 
-- Url Prod
+- [dev-gcp](https://sokos-os-ekstern-api.intern.dev.nav.no/api/v1/tilbakekreving/docs)
 
 # 9. Henvendelser og tilgang
 
