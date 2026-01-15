@@ -69,7 +69,7 @@ jobs:
     with:
       cluster: dev-gcp
       resource: .nais/dev/naiserator-dev.yaml
-      image: ${{ needs.assemble-build-push-image-dev.outputs.image }}
+      image: ${{ needs.build-push-image-dev.outputs.image }}
 
 #  deploy-prod:
 #    permissions:
