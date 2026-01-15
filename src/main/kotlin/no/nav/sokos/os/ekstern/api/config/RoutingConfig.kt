@@ -5,9 +5,10 @@ import io.ktor.server.auth.authenticate
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
 
+import no.nav.sokos.os.ekstern.api.api.swaggerApi
 import no.nav.sokos.os.ekstern.api.api.tilbakekrevingApi
+import no.nav.sokos.os.ekstern.api.os.OsHttpClient
 import no.nav.sokos.os.ekstern.api.service.TilbakekrevingService
-import no.nav.sokos.os.ekstern.api.zOs.OsHttpClient
 
 fun Application.routingConfig(
     useAuthentication: Boolean,
@@ -19,6 +20,7 @@ fun Application.routingConfig(
 
     routing {
         internalNaisRoutes(applicationState)
+        swaggerApi()
         authenticate(useAuthentication, AUTHENTICATION_NAME) {
             tilbakekrevingApi(tilbakekrevingService)
         }

@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag
+package no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

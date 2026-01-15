@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak
+package no.nav.sokos.os.ekstern.api.os.entitet.vedtak
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

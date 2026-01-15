@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.zOs.entitet.annuler
+package no.nav.sokos.os.ekstern.api.os.entitet.annuler
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

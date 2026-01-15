@@ -14,11 +14,11 @@ import no.nav.sokos.os.ekstern.api.dto.toDto
 import no.nav.sokos.os.ekstern.api.dto.toZosRequest
 import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
 import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
-import no.nav.sokos.os.ekstern.api.zOs.OsHttpClient
-import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.OsKravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.OsHentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.OsHentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.OsTilbakekrevingsvedtakResponse
+import no.nav.sokos.os.ekstern.api.os.OsHttpClient
+import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerResponse
+import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerResponse
+import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakResponse
 
 private val logger = KotlinLogging.logger {}
 

@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.zOs
+package no.nav.sokos.os.ekstern.api.os
 
 import java.net.ProxySelector
 
@@ -17,10 +17,10 @@ import io.ktor.serialization.kotlinx.json.json
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
 
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.zOs.entitet.annuler.OsKravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.detaljer.OsHentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.kravgrunnlag.OsHentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.zOs.entitet.vedtak.OsTilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakRequest
 
 fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
     HttpClient(Apache) {
