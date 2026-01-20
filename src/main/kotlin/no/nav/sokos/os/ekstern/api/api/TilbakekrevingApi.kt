@@ -27,7 +27,8 @@ fun Route.tilbakekrevingApi(tilbakekrevingService: TilbakekrevingService) {
                 call.respond(HttpStatusCode.OK, response)
             } catch (e: TilbakekrevingException) {
                 logger.error(e) { "Feil ved sending av tilbakekrevingsvedtak: ${e.message}" }
-                call.respond(HttpStatusCode.InternalServerError, mapOf("error" to e.message))
+                val statusCode = e.statusCode ?: HttpStatusCode.InternalServerError
+                call.respond(statusCode, mapOf("error" to e.message))
             } catch (e: Exception) {
                 logger.error(e) { "Uventet feil ved sending av tilbakekrevingsvedtak: ${e.message}" }
                 call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Uventet feil oppstod"))
@@ -43,7 +44,8 @@ fun Route.tilbakekrevingApi(tilbakekrevingService: TilbakekrevingService) {
                     call.respond(HttpStatusCode.OK, response)
                 } catch (e: TilbakekrevingException) {
                     logger.error(e) { "Feil ved henting av kravgrunnlag liste: ${e.message}" }
-                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to e.message))
+                    val statusCode = e.statusCode ?: HttpStatusCode.InternalServerError
+                    call.respond(statusCode, mapOf("error" to e.message))
                 } catch (e: Exception) {
                     logger.error(e) { "Uventet feil ved henting av kravgrunnlag liste: ${e.message}" }
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Uventet feil oppstod"))
@@ -58,7 +60,8 @@ fun Route.tilbakekrevingApi(tilbakekrevingService: TilbakekrevingService) {
                     call.respond(HttpStatusCode.OK, response)
                 } catch (e: TilbakekrevingException) {
                     logger.error(e) { "Feil ved henting av kravgrunnlag detaljer: ${e.message}" }
-                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to e.message))
+                    val statusCode = e.statusCode ?: HttpStatusCode.InternalServerError
+                    call.respond(statusCode, mapOf("error" to e.message))
                 } catch (e: Exception) {
                     logger.error(e) { "Uventet feil ved henting av kravgrunnlag detaljer: ${e.message}" }
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Uventet feil oppstod"))
@@ -73,7 +76,8 @@ fun Route.tilbakekrevingApi(tilbakekrevingService: TilbakekrevingService) {
                     call.respond(HttpStatusCode.OK, response)
                 } catch (e: TilbakekrevingException) {
                     logger.error(e) { "Feil ved annullering av kravgrunnlag: ${e.message}" }
-                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to e.message))
+                    val statusCode = e.statusCode ?: HttpStatusCode.InternalServerError
+                    call.respond(statusCode, mapOf("error" to e.message))
                 } catch (e: Exception) {
                     logger.error(e) { "Uventet feil ved annullering av kravgrunnlag: ${e.message}" }
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Uventet feil oppstod"))

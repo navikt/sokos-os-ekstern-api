@@ -14,6 +14,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import mu.KotlinLogging
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
 
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
@@ -21,6 +22,8 @@ import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerReque
 import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerRequest
 import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagRequest
 import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakRequest
+
+private val logger = KotlinLogging.logger {}
 
 fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
     HttpClient(Apache) {
@@ -70,27 +73,35 @@ class OsHttpClient(
 ) {
     private val baseUrl = osConfig.url
 
-    suspend fun postTilbakekrevingsvedtak(request: OsTilbakekrevingsvedtakRequest): HttpResponse =
-        httpClient.post("$baseUrl/tilbakekrevingsvedtak") {
+    suspend fun postTilbakekrevingsvedtak(request: OsTilbakekrevingsvedtakRequest): HttpResponse {
+        logger.info { "Sender tilbakekrevingsvedtak request til OS: $request" }
+        return httpClient.post("$baseUrl/tilbakekrevingsvedtak") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }
+    }
 
-    suspend fun postHentKravgrunnlag(request: OsHentKravgrunnlagRequest): HttpResponse =
-        httpClient.post("$baseUrl/kravgrunnlagHentListe") {
+    suspend fun postHentKravgrunnlag(request: OsHentKravgrunnlagRequest): HttpResponse {
+        logger.info { "Sender hent-kravgrunnlag request til OS: $request" }
+        return httpClient.post("$baseUrl/kravgrunnlagHentListe") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }
+    }
 
-    suspend fun postHentKravgrunnlagDetaljer(request: OsHentKravgrunnlagDetaljerRequest): HttpResponse =
-        httpClient.post("$baseUrl/kravgrunnlagHentDetalj") {
+    suspend fun postHentKravgrunnlagDetaljer(request: OsHentKravgrunnlagDetaljerRequest): HttpResponse {
+        logger.info { "Sender hent-kravgrunnlagdetaljer request til OS: $request" }
+        return httpClient.post("$baseUrl/kravgrunnlagHentDetalj") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }
+    }
 
-    suspend fun postKravgrunnlagAnnuler(request: OsKravgrunnlagAnnulerRequest): HttpResponse =
-        httpClient.post("$baseUrl/kravgrunnlagAnnuler") {
+    suspend fun postKravgrunnlagAnnuler(request: OsKravgrunnlagAnnulerRequest): HttpResponse {
+        logger.info { "Sender kravgrunnlag annuler request til OS: $request" }
+        return httpClient.post("$baseUrl/kravgrunnlagAnnuler") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }
+    }
 }

@@ -39,7 +39,7 @@ class TilbakekrevingService(
             }
             else -> {
                 logger.error { "Feil ved sending av tilbakekrevingsvedtak: ${response.status}" }
-                throw TilbakekrevingException("Feil ved sending av tilbakekrevingsvedtak: ${response.status}")
+                throw TilbakekrevingException("Feil ved sending av tilbakekrevingsvedtak: ${response.status}", response.status)
             }
         }
     }
@@ -58,7 +58,7 @@ class TilbakekrevingService(
             }
             else -> {
                 logger.error { "Feil ved henting av kravgrunnlag liste: ${response.status}" }
-                throw TilbakekrevingException("Feil ved henting av kravgrunnlag liste: ${response.status}")
+                throw TilbakekrevingException("Feil ved henting av kravgrunnlag liste: ${response.status}", response.status)
             }
         }
     }
@@ -77,7 +77,7 @@ class TilbakekrevingService(
             }
             else -> {
                 logger.error { "Feil ved henting av kravgrunnlag detaljer: ${response.status}" }
-                throw TilbakekrevingException("Feil ved henting av kravgrunnlag detaljer: ${response.status}")
+                throw TilbakekrevingException("Feil ved henting av kravgrunnlag detaljer: ${response.status}", response.status)
             }
         }
     }
@@ -96,7 +96,7 @@ class TilbakekrevingService(
             }
             else -> {
                 logger.error { "Feil ved annullering av kravgrunnlag: ${response.status}" }
-                throw TilbakekrevingException("Feil ved annullering av kravgrunnlag: ${response.status}")
+                throw TilbakekrevingException("Feil ved annullering av kravgrunnlag: ${response.status}", response.status)
             }
         }
     }
@@ -104,4 +104,6 @@ class TilbakekrevingService(
 
 class TilbakekrevingException(
     message: String,
-) : Exception(message)
+    val statusCode: HttpStatusCode? = null,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause)
