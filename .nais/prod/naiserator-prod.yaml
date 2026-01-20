@@ -47,7 +47,7 @@ spec:
         - application: logging
           namespace: nais-system
       external:
-        - ipv4: 155.55.1.82  # OS via zos-connect
+        - ipv4: 155.55.1.78  # OS via zos-connect
           ports:
             - port: 9080
 
