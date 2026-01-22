@@ -360,23 +360,23 @@ components:
       properties:
         kodeAksjon:
           type: string
-          example: "HENT"
+          example: "2"
           description: Aksjonskode
         gjelderId:
           type: string
-          example: "12345678901"
+          example: ""
           description: Gjelder ID (fnr/orgnr)
         typeGjelder:
           type: string
-          example: "PERSON"
+          example: ""
           description: Type gjelder
         utbetalesTilId:
           type: string
-          example: "12345678901"
+          example: ""
           description: Utbetales til ID
         typeUtbetalesTil:
           type: string
-          example: "PERSON"
+          example: ""
           description: Type utbetales til
         enhetAnsvarlig:
           type: string
@@ -384,24 +384,24 @@ components:
           description: Ansvarlig enhet
         kodeFaggruppe:
           type: string
-          example: "PEN"
+          example: ""
           description: Faggruppekode
         kodeFagomraade:
           type: string
-          example: "PENALD"
+          example: ""
           description: Fagområdekode
         fagsystemId:
           type: string
-          example: "FS123456"
+          example: ""
           description: Fagsystem ID
         kravgrunnlagId:
           type: integer
-          example: 123456
+          example: 533049
           description: Kravgrunnlag ID
           nullable: true
         saksbehandlerId:
           type: string
-          example: "Z999999"
+          example: "Test"
           description: Saksbehandlers ID
 
     HentKravgrunnlagResponse:
@@ -470,11 +470,11 @@ components:
           description: Type utbetales til
         kodeFagomraade:
           type: string
-          example: "PENALD"
+          example: "BA"
           description: Fagområdekode
         fagsystemId:
           type: string
-          example: "FS123456"
+          example: "1234567"
           description: Fagsystem ID
         datoVedtakFagsystem:
           type: string
