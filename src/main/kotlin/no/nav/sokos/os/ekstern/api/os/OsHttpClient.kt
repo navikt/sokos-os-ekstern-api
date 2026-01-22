@@ -6,8 +6,6 @@ import java.security.KeyStore
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 
-import kotlinx.serialization.json.Json
-
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.plugins.HttpTimeout
@@ -22,6 +20,7 @@ import mu.KotlinLogging
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
 
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+import no.nav.sokos.os.ekstern.api.config.jsonConfig
 
 private val logger = KotlinLogging.logger {}
 
@@ -34,14 +33,7 @@ fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
             }
         }
         install(ContentNegotiation) {
-            json(
-                Json {
-                    prettyPrint = true
-                    ignoreUnknownKeys = true
-                    encodeDefaults = true
-                    explicitNulls = false
-                },
-            )
+            json(jsonConfig)
         }
         install(HttpTimeout) {
             requestTimeoutMillis = 300000

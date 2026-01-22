@@ -34,8 +34,9 @@ class TilbakekrevingService(
         return when (response.status) {
             HttpStatusCode.OK -> {
                 val body = response.body<PostOsTilbakekrevingsvedtakResponse200>()
-                logger.info { "Tilbakekrevingsvedtak sendt, status: ${body.osTilbakekrevingsvedtakOperationResponse?.zt1OCont?.responsTilbakekrevingsvedtak?.status}" }
-                body.toDto()
+                val dto = body.toDto()
+                logger.info { "Tilbakekrevingsvedtak sendt, status: ${dto.status}, vedtakId: ${dto.vedtakId}" }
+                dto
             }
             else -> {
                 logger.error { "Feil ved sending av tilbakekrevingsvedtak: ${response.status}" }
@@ -53,8 +54,9 @@ class TilbakekrevingService(
         return when (response.status) {
             HttpStatusCode.OK -> {
                 val body = response.body<PostOsHentKravgrunnlagResponse200>()
-                logger.info { "Kravgrunnlag liste hentet, status: ${body.osHentKravgrunnlagOperationResponse?.kravgrunnlagListe?.responsKravgrunnlagListe?.status}" }
-                body.toDto()
+                val dto = body.toDto()
+                logger.info { "Kravgrunnlag liste hentet, status: ${dto.status}, antall: ${dto.kravgrunnlagListe.size}" }
+                dto
             }
             else -> {
                 logger.error { "Feil ved henting av kravgrunnlag liste: ${response.status}" }
@@ -72,8 +74,9 @@ class TilbakekrevingService(
         return when (response.status) {
             HttpStatusCode.OK -> {
                 val body = response.body<PostOsHentKravgrunnlagDetaljerResponse200>()
-                logger.info { "Kravgrunnlag detaljer hentet, status: ${body.osHentKravgrunnlagDetaljerOperationResponse?.kravgrunnlagsdetaljer?.responsDetaljer?.status}" }
-                body.toDto()
+                val dto = body.toDto()
+                logger.info { "Kravgrunnlag detaljer hentet, status: ${dto.status}, kravgrunnlagId: ${dto.kravgrunnlag.kravgrunnlagId}" }
+                dto
             }
             else -> {
                 logger.error { "Feil ved henting av kravgrunnlag detaljer: ${response.status}" }
@@ -91,8 +94,9 @@ class TilbakekrevingService(
         return when (response.status) {
             HttpStatusCode.OK -> {
                 val body = response.body<PostOsKravgrunnlagAnnulerResponse200>()
-                logger.info { "Kravgrunnlag annullert, status: ${body.osKravgrunnlagAnnulerOperationResponse?.kravgrunnlagAnnulert?.responsKravgrunnlagAnnuler?.status}" }
-                body.toDto()
+                val dto = body.toDto()
+                logger.info { "Kravgrunnlag annullert, status: ${dto.status}, vedtakId: ${dto.vedtakId}" }
+                dto
             }
             else -> {
                 logger.error { "Feil ved annullering av kravgrunnlag: ${response.status}" }

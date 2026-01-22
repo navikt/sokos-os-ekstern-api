@@ -136,6 +136,11 @@ tasks {
                 "models" to "",
             ),
         )
+        typeMappings.set(
+            mapOf(
+                "number" to "kotlin.Double",
+            ),
+        )
     }
 
     withType<Wrapper> {

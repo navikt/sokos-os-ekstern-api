@@ -18,16 +18,22 @@ import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHen
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperationKravgrunnlagsdetaljer
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperationKravgrunnlagsdetaljerRequestDetaljer
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200OsHentKravgrunnlagDetaljerOperationResponseKravgrunnlagsdetaljerResponsDetaljer
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200OsHentKravgrunnlagDetaljerOperationResponseKravgrunnlagsdetaljerResponsDetaljerTilbakekrevingsperiodeInner
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200OsHentKravgrunnlagDetaljerOperationResponseKravgrunnlagsdetaljerResponsDetaljerTilbakekrevingsperiodeInnerTilbakekrevingsbelopInner
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequest
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperation
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperationKravgrunnlag
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperationKravgrunnlagRequestTilbakekrevingsgrunnlag
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagResponse200OsHentKravgrunnlagOperationResponseKravgrunnlagListeResponsKravgrunnlagListe
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagResponse200OsHentKravgrunnlagOperationResponseKravgrunnlagListeResponsKravgrunnlagListeKravgrunnlagInner
 import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequest
 import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperation
 import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperationKravgrunnlagAnnuler
 import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperationKravgrunnlagAnnulerRequestKravgrunnlagAnnuler
 import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerResponse200OsKravgrunnlagAnnulerOperationResponseKravgrunnlagAnnulertResponsKravgrunnlagAnnuler
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequest
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperation
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1ICont
@@ -35,6 +41,29 @@ import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbak
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInner
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInnerTilbakerevingsbelopInner
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakResponse200OsTilbakekrevingsvedtakOperationResponseZT1OContResponsTilbakekrevingsvedtak
+import no.nav.sokos.os.ekstern.api.service.TilbakekrevingException
+
+private typealias OsTilbakekrevingsvedtakRespons =
+    PostOsTilbakekrevingsvedtakResponse200OsTilbakekrevingsvedtakOperationResponseZT1OContResponsTilbakekrevingsvedtak
+
+private typealias OsKravgrunnlagListeRespons =
+    PostOsHentKravgrunnlagResponse200OsHentKravgrunnlagOperationResponseKravgrunnlagListeResponsKravgrunnlagListe
+
+private typealias OsKravgrunnlagListeElement =
+    PostOsHentKravgrunnlagResponse200OsHentKravgrunnlagOperationResponseKravgrunnlagListeResponsKravgrunnlagListeKravgrunnlagInner
+
+private typealias OsKravgrunnlagDetaljerRespons =
+    PostOsHentKravgrunnlagDetaljerResponse200OsHentKravgrunnlagDetaljerOperationResponseKravgrunnlagsdetaljerResponsDetaljer
+
+private typealias OsTilbakekrevingsperiode =
+    PostOsHentKravgrunnlagDetaljerResponse200OsHentKravgrunnlagDetaljerOperationResponseKravgrunnlagsdetaljerResponsDetaljerTilbakekrevingsperiodeInner
+
+private typealias OsTilbakekrevingsbelop =
+    PostOsHentKravgrunnlagDetaljerResponse200OsHentKravgrunnlagDetaljerOperationResponseKravgrunnlagsdetaljerResponsDetaljerTilbakekrevingsperiodeInnerTilbakekrevingsbelopInner
+
+private typealias OsKravgrunnlagAnnulerRespons =
+    PostOsKravgrunnlagAnnulerResponse200OsKravgrunnlagAnnulerOperationResponseKravgrunnlagAnnulertResponsKravgrunnlagAnnuler
 
 fun TilbakekrevingsvedtakRequest.toZosRequest(): PostOsTilbakekrevingsvedtakRequest =
     PostOsTilbakekrevingsvedtakRequest(
@@ -64,16 +93,16 @@ fun Periode.toZosPeriode(): PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsv
         datoPeriodeFom = periodeFom,
         datoPeriodeTom = periodeTom,
         renterPeriodeBeregnes = renterPeriodeBeregnes,
-        belopRenter = belopRenter.toBigDecimal(),
+        belopRenter = belopRenter,
         tilbakerevingsbelop =
             posteringer.map {
                 PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInnerTilbakerevingsbelopInner(
                     kodeKlasse = it.kodeKlasse,
-                    belopOpprinneligUtbetalt = it.belopOpprinneligUtbetalt.toBigDecimal(),
-                    belopNy = it.belopNy.toBigDecimal(),
-                    belopTilbakekreves = it.belopTilbakekreves.toBigDecimal(),
-                    belopUinnkrevd = it.belopUinnkrevd.toBigDecimal(),
-                    belopSkatt = it.belopSkatt.toBigDecimal(),
+                    belopOpprinneligUtbetalt = it.belopOpprinneligUtbetalt,
+                    belopNy = it.belopNy,
+                    belopTilbakekreves = it.belopTilbakekreves,
+                    belopUinnkrevd = it.belopUinnkrevd,
+                    belopSkatt = it.belopSkatt,
                     kodeResultat = it.kodeResultat,
                     kodeAarsak = it.kodeAarsak,
                     kodeSkyld = it.kodeSkyld,
@@ -82,14 +111,22 @@ fun Periode.toZosPeriode(): PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsv
     )
 
 fun PostOsTilbakekrevingsvedtakResponse200.toDto(): TilbakekrevingsvedtakResponse {
-    val resp = osTilbakekrevingsvedtakOperationResponse?.zt1OCont?.responsTilbakekrevingsvedtak
+    val resp = extractTilbakekrevingsvedtakResponse()
     return TilbakekrevingsvedtakResponse(
-        status = resp?.status ?: 0,
-        melding = resp?.statusMelding ?: "",
-        vedtakId = resp?.vedtakId?.toLong() ?: 0L,
-        datoVedtakFagsystem = resp?.datoVedtakFagsystem ?: "",
+        status = resp.status ?: 0,
+        melding = resp.statusMelding.orEmpty(),
+        vedtakId =
+            resp.vedtakId?.toLong()
+                ?: throw TilbakekrevingException("OS response mangler vedtakId i tilbakekrevingsvedtak respons"),
+        datoVedtakFagsystem = resp.datoVedtakFagsystem.orEmpty(),
     )
 }
+
+private fun PostOsTilbakekrevingsvedtakResponse200.extractTilbakekrevingsvedtakResponse(): OsTilbakekrevingsvedtakRespons =
+    osTilbakekrevingsvedtakOperationResponse
+        ?.zt1OCont
+        ?.responsTilbakekrevingsvedtak
+        ?: throw TilbakekrevingException("OS response mangler tilbakekrevingsvedtak wrapper struktur")
 
 fun HentKravgrunnlagRequest.toZosRequest(): PostOsHentKravgrunnlagRequest =
     PostOsHentKravgrunnlagRequest(
@@ -116,32 +153,40 @@ fun HentKravgrunnlagRequest.toZosRequest(): PostOsHentKravgrunnlagRequest =
     )
 
 fun PostOsHentKravgrunnlagResponse200.toDto(): HentKravgrunnlagResponse {
-    val resp = osHentKravgrunnlagOperationResponse?.kravgrunnlagListe?.responsKravgrunnlagListe
+    val resp = extractKravgrunnlagListeResponse()
     return HentKravgrunnlagResponse(
-        status = resp?.status ?: 0,
-        melding = resp?.statusMelding ?: "",
-        kravgrunnlagListe =
-            resp?.kravgrunnlag?.map {
-                Kravgrunnlag(
-                    kravgrunnlagId = it.kravgrunnlagId?.toLong() ?: 0L,
-                    kodeStatusKrav = it.kodeStatusKrav ?: "",
-                    gjelderId = it.gjelderId ?: "",
-                    typeGjelder = it.typeGjelder ?: "",
-                    utbetalesTilId = it.utbetalesTilId ?: "",
-                    typeUtbetalesTil = it.typeUtbetalesTil ?: "",
-                    kodeFagomraade = it.kodeFagomraade ?: "",
-                    fagsystemId = it.fagsystemId ?: "",
-                    datoVedtakFagsystem = it.datoVedtakFagsystem ?: "",
-                    enhetBosted = it.enhetBosted ?: "",
-                    enhetAnsvarlig = it.enhetAnsvarlig ?: "",
-                    datoKravDannet = it.datoKravDannet ?: "",
-                    datoPeriodeFom = it.datoPeriodeFom ?: "",
-                    datoPeriodeTom = it.datoPeriodeTom ?: "",
-                    belopSumFeilutbetalt = it.belopSumFeilutbetalt?.toDouble() ?: 0.0,
-                )
-            } ?: emptyList(),
+        status = resp.status ?: 0,
+        melding = resp.statusMelding.orEmpty(),
+        kravgrunnlagListe = resp.kravgrunnlag?.map { it.toKravgrunnlag() } ?: emptyList(),
     )
 }
+
+private fun PostOsHentKravgrunnlagResponse200.extractKravgrunnlagListeResponse(): OsKravgrunnlagListeRespons =
+    osHentKravgrunnlagOperationResponse
+        ?.kravgrunnlagListe
+        ?.responsKravgrunnlagListe
+        ?: throw TilbakekrevingException("OS response mangler kravgrunnlagListe wrapper struktur")
+
+private fun OsKravgrunnlagListeElement.toKravgrunnlag(): Kravgrunnlag =
+    Kravgrunnlag(
+        kravgrunnlagId =
+            kravgrunnlagId?.toLong()
+                ?: throw TilbakekrevingException("OS response mangler kravgrunnlagId i kravgrunnlag liste element"),
+        kodeStatusKrav = kodeStatusKrav.orEmpty(),
+        gjelderId = gjelderId.orEmpty(),
+        typeGjelder = typeGjelder.orEmpty(),
+        utbetalesTilId = utbetalesTilId.orEmpty(),
+        typeUtbetalesTil = typeUtbetalesTil.orEmpty(),
+        kodeFagomraade = kodeFagomraade.orEmpty(),
+        fagsystemId = fagsystemId.orEmpty(),
+        datoVedtakFagsystem = datoVedtakFagsystem.orEmpty(),
+        enhetBosted = enhetBosted.orEmpty(),
+        enhetAnsvarlig = enhetAnsvarlig.orEmpty(),
+        datoKravDannet = datoKravDannet.orEmpty(),
+        datoPeriodeFom = datoPeriodeFom.orEmpty(),
+        datoPeriodeTom = datoPeriodeTom.orEmpty(),
+        belopSumFeilutbetalt = belopSumFeilutbetalt ?: 0.0,
+    )
 
 fun HentKravgrunnlagDetaljerRequest.toZosRequest(): PostOsHentKravgrunnlagDetaljerRequest =
     PostOsHentKravgrunnlagDetaljerRequest(
@@ -161,58 +206,70 @@ fun HentKravgrunnlagDetaljerRequest.toZosRequest(): PostOsHentKravgrunnlagDetalj
     )
 
 fun PostOsHentKravgrunnlagDetaljerResponse200.toDto(): HentKravgrunnlagDetaljerResponse {
-    val resp = osHentKravgrunnlagDetaljerOperationResponse?.kravgrunnlagsdetaljer?.responsDetaljer
+    val resp = extractKravgrunnlagDetaljerResponse()
     return HentKravgrunnlagDetaljerResponse(
-        status = resp?.status ?: 0,
-        melding = resp?.statusMelding ?: "",
-        kravgrunnlag =
-            KravgrunnlagDetaljer(
-                kravgrunnlagId = resp?.kravgrunnlagId?.toLong() ?: 0L,
-                vedtakId = resp?.vedtakId?.toLong() ?: 0L,
-                kodeStatusKrav = resp?.kodeStatusKrav ?: "",
-                kodeFagomraade = resp?.kodeFagomraade ?: "",
-                fagsystemId = resp?.fagsystemId ?: "",
-                datoVedtakFagsystem = resp?.datoVedtakFagsystem ?: "",
-                vedtakIdImgjort = resp?.vedtakIdImgjort?.toLong() ?: 0L,
-                gjelderId = resp?.gjelderId ?: "",
-                typeGjelder = resp?.typeGjelder ?: "",
-                utbetalesTilId = resp?.utbetalesTilId ?: "",
-                typeUtbetalesTilId = resp?.typeUtbetalesTilId ?: "",
-                kodeHjemmel = resp?.kodeHjemmel ?: "",
-                renterBeregnes = resp?.renterBeregnes ?: false,
-                enhetAnsvarlig = resp?.enhetAnsvarlig ?: "",
-                enhetBosted = resp?.enhetBosted ?: "",
-                enhetBehandl = resp?.enhetBehandl ?: "",
-                kontrollfelt = resp?.kontrollfelt ?: "",
-                saksbehandlerId = resp?.saksbehandlerId ?: "",
-                referanse = resp?.referanse ?: "",
-                datoTilleggsfrist = resp?.datoTilleggsfrist ?: "",
-                perioder =
-                    resp?.tilbakekrevingsperiode?.map { periode ->
-                        DetaljerPeriode(
-                            periodeFom = periode.datoPeriodeFom ?: "",
-                            periodeTom = periode.datoPeriodeTom ?: "",
-                            belopSkattMnd = periode.belopSkattMnd?.toDouble() ?: 0.0,
-                            posteringer =
-                                periode.tilbakekrevingsbelop?.map { belop ->
-                                    DetaljerPostering(
-                                        kodeKlasse = belop.kodeKlasse ?: "",
-                                        typeKlasse = belop.typeKlasse ?: "",
-                                        belopOpprinneligUtbetalt = belop.belopOpprinneligUtbetalt?.toDouble() ?: 0.0,
-                                        belopNy = belop.belopNy?.toDouble() ?: 0.0,
-                                        belopTilbakekreves = belop.belopTilbakekreves?.toDouble() ?: 0.0,
-                                        belopUinnkrevd = belop.belopUinnkrevd?.toDouble() ?: 0.0,
-                                        skattProsent = belop.skattProsent?.toDouble() ?: 0.0,
-                                        kodeResultat = belop.kodeResultat ?: "",
-                                        kodeAarsak = belop.kodeAarsak ?: "",
-                                        kodeSkyld = belop.kodeSkyld ?: "",
-                                    )
-                                } ?: emptyList(),
-                        )
-                    } ?: emptyList(),
-            ),
+        status = resp.status ?: 0,
+        melding = resp.statusMelding.orEmpty(),
+        kravgrunnlag = resp.toKravgrunnlagDetaljer(),
     )
 }
+
+private fun PostOsHentKravgrunnlagDetaljerResponse200.extractKravgrunnlagDetaljerResponse(): OsKravgrunnlagDetaljerRespons =
+    osHentKravgrunnlagDetaljerOperationResponse
+        ?.kravgrunnlagsdetaljer
+        ?.responsDetaljer
+        ?: throw TilbakekrevingException("OS response mangler kravgrunnlagDetaljer wrapper struktur")
+
+private fun OsKravgrunnlagDetaljerRespons.toKravgrunnlagDetaljer(): KravgrunnlagDetaljer =
+    KravgrunnlagDetaljer(
+        kravgrunnlagId =
+            kravgrunnlagId?.toLong()
+                ?: throw TilbakekrevingException("OS response mangler kravgrunnlagId i detaljer"),
+        vedtakId =
+            vedtakId?.toLong()
+                ?: throw TilbakekrevingException("OS response mangler vedtakId i detaljer"),
+        kodeStatusKrav = kodeStatusKrav.orEmpty(),
+        kodeFagomraade = kodeFagomraade.orEmpty(),
+        fagsystemId = fagsystemId.orEmpty(),
+        datoVedtakFagsystem = datoVedtakFagsystem.orEmpty(),
+        vedtakIdImgjort = vedtakIdImgjort?.toLong() ?: 0L,
+        gjelderId = gjelderId.orEmpty(),
+        typeGjelder = typeGjelder.orEmpty(),
+        utbetalesTilId = utbetalesTilId.orEmpty(),
+        typeUtbetalesTilId = typeUtbetalesTilId.orEmpty(),
+        kodeHjemmel = kodeHjemmel.orEmpty(),
+        renterBeregnes = renterBeregnes ?: false,
+        enhetAnsvarlig = enhetAnsvarlig.orEmpty(),
+        enhetBosted = enhetBosted.orEmpty(),
+        enhetBehandl = enhetBehandl.orEmpty(),
+        kontrollfelt = kontrollfelt.orEmpty(),
+        saksbehandlerId = saksbehandlerId.orEmpty(),
+        referanse = referanse.orEmpty(),
+        datoTilleggsfrist = datoTilleggsfrist,
+        perioder = tilbakekrevingsperiode?.map { it.toDetaljerPeriode() } ?: emptyList(),
+    )
+
+private fun OsTilbakekrevingsperiode.toDetaljerPeriode(): DetaljerPeriode =
+    DetaljerPeriode(
+        periodeFom = datoPeriodeFom.orEmpty(),
+        periodeTom = datoPeriodeTom.orEmpty(),
+        belopSkattMnd = belopSkattMnd ?: 0.0,
+        posteringer = tilbakekrevingsbelop?.map { it.toDetaljerPostering() } ?: emptyList(),
+    )
+
+private fun OsTilbakekrevingsbelop.toDetaljerPostering(): DetaljerPostering =
+    DetaljerPostering(
+        kodeKlasse = kodeKlasse.orEmpty(),
+        typeKlasse = typeKlasse.orEmpty(),
+        belopOpprinneligUtbetalt = belopOpprinneligUtbetalt ?: 0.0,
+        belopNy = belopNy ?: 0.0,
+        belopTilbakekreves = belopTilbakekreves ?: 0.0,
+        belopUinnkrevd = belopUinnkrevd ?: 0.0,
+        skattProsent = skattProsent ?: 0.0,
+        kodeResultat = kodeResultat.orEmpty(),
+        kodeAarsak = kodeAarsak.orEmpty(),
+        kodeSkyld = kodeSkyld.orEmpty(),
+    )
 
 fun KravgrunnlagAnnulerRequest.toZosRequest(): PostOsKravgrunnlagAnnulerRequest =
     PostOsKravgrunnlagAnnulerRequest(
@@ -232,11 +289,19 @@ fun KravgrunnlagAnnulerRequest.toZosRequest(): PostOsKravgrunnlagAnnulerRequest 
     )
 
 fun PostOsKravgrunnlagAnnulerResponse200.toDto(): KravgrunnlagAnnulerResponse {
-    val resp = osKravgrunnlagAnnulerOperationResponse?.kravgrunnlagAnnulert?.responsKravgrunnlagAnnuler
+    val resp = extractKravgrunnlagAnnulerResponse()
     return KravgrunnlagAnnulerResponse(
-        status = resp?.status ?: 0,
-        melding = resp?.statusMelding ?: "",
-        vedtakId = resp?.vedtakId?.toLong() ?: 0L,
-        saksbehandlerId = resp?.saksbehandlerId ?: "",
+        status = resp.status ?: 0,
+        melding = resp.statusMelding.orEmpty(),
+        vedtakId =
+            resp.vedtakId?.toLong()
+                ?: throw TilbakekrevingException("OS response mangler vedtakId i annuler respons"),
+        saksbehandlerId = resp.saksbehandlerId.orEmpty(),
     )
 }
+
+private fun PostOsKravgrunnlagAnnulerResponse200.extractKravgrunnlagAnnulerResponse(): OsKravgrunnlagAnnulerRespons =
+    osKravgrunnlagAnnulerOperationResponse
+        ?.kravgrunnlagAnnulert
+        ?.responsKravgrunnlagAnnuler
+        ?: throw TilbakekrevingException("OS response mangler kravgrunnlagAnnuler wrapper struktur")
