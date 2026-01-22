@@ -61,4 +61,4 @@ spec:
 
     # ZOS-Connect
     - name: OS_ENDPOINT_URL
-      value: "https://155.55.1.82:9080"
+      value: "https://155.55.1.82:9080/ostilbakekrevingapi"

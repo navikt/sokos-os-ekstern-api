@@ -24,7 +24,7 @@ object PropertiesConfig {
             mapOf(
                 "APPLICATION_PROFILE" to Profile.LOCAL.toString(),
                 "USE_AUTHENTICATION" to "false",
-                "OS_ENDPOINT_URL" to "https://155.55.1.82:9080",
+                "OS_ENDPOINT_URL" to "https://155.55.1.82:9080/ostilbakekrevingapi",
             ),
         )
 
