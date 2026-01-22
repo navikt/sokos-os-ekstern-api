@@ -22,10 +22,6 @@ import mu.KotlinLogging
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
 
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakRequest
 
 private val logger = KotlinLogging.logger {}
 
@@ -84,13 +80,13 @@ class OsHttpClient(
         logger.info { "OsHttpClient initialized with baseUrl: $baseUrl" }
     }
 
-    suspend fun postTilbakekrevingsvedtak(request: OsTilbakekrevingsvedtakRequest): HttpResponse = post("tilbakekrevingsvedtak", request)
+    suspend fun postTilbakekrevingsvedtak(request: PostOsTilbakekrevingsvedtakRequest): HttpResponse = post("tilbakekrevingsvedtak", request)
 
-    suspend fun postHentKravgrunnlag(request: OsHentKravgrunnlagRequest): HttpResponse = post("kravgrunnlagHentListe", request)
+    suspend fun postHentKravgrunnlag(request: PostOsHentKravgrunnlagRequest): HttpResponse = post("kravgrunnlagHentListe", request)
 
-    suspend fun postHentKravgrunnlagDetaljer(request: OsHentKravgrunnlagDetaljerRequest): HttpResponse = post("kravgrunnlagHentDetalj", request)
+    suspend fun postHentKravgrunnlagDetaljer(request: PostOsHentKravgrunnlagDetaljerRequest): HttpResponse = post("kravgrunnlagHentDetalj", request)
 
-    suspend fun postKravgrunnlagAnnuler(request: OsKravgrunnlagAnnulerRequest): HttpResponse = post("kravgrunnlagAnnuler", request)
+    suspend fun postKravgrunnlagAnnuler(request: PostOsKravgrunnlagAnnulerRequest): HttpResponse = post("kravgrunnlagAnnuler", request)
 
     private suspend fun post(
         path: String,

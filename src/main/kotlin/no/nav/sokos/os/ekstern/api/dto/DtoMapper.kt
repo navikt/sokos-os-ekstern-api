@@ -13,37 +13,37 @@ import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.Kravgrunnlag
 import no.nav.sokos.os.ekstern.api.dto.vedtak.Periode
 import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
 import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
-import no.nav.sokos.os.ekstern.api.os.entitet.annuler.KravgrunnlagAnnulerRequestContainer
-import no.nav.sokos.os.ekstern.api.os.entitet.annuler.KravgrunnlagAnnulerRequestData
-import no.nav.sokos.os.ekstern.api.os.entitet.annuler.KravgrunnlagAnnulerRequestOperation
-import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.HentKravgrunnlagDetaljerRequestContainer
-import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.HentKravgrunnlagDetaljerRequestData
-import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.HentKravgrunnlagDetaljerRequestOperation
-import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.HentKravgrunnlagRequestContainer
-import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.HentKravgrunnlagRequestData
-import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.HentKravgrunnlagRequestOperation
-import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakResponse
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.Tilbakekrevingsperiode
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.TilbakekrevingsvedtakRequestContainer
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.TilbakekrevingsvedtakRequestData
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.TilbakekrevingsvedtakRequestOperation
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.Tilbakerevingsbelop
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequest
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperation
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperationKravgrunnlagsdetaljer
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperationKravgrunnlagsdetaljerRequestDetaljer
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperation
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperationKravgrunnlag
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperationKravgrunnlagRequestTilbakekrevingsgrunnlag
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequest
+import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperation
+import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperationKravgrunnlagAnnuler
+import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperationKravgrunnlagAnnulerRequestKravgrunnlagAnnuler
+import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperation
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1ICont
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtak
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInner
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInnerTilbakerevingsbelopInner
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakResponse200
 
-fun TilbakekrevingsvedtakRequest.toZosRequest(): OsTilbakekrevingsvedtakRequest =
-    OsTilbakekrevingsvedtakRequest(
-        operation =
-            TilbakekrevingsvedtakRequestOperation(
-                container =
-                    TilbakekrevingsvedtakRequestContainer(
-                        request =
-                            TilbakekrevingsvedtakRequestData(
+fun TilbakekrevingsvedtakRequest.toZosRequest(): PostOsTilbakekrevingsvedtakRequest =
+    PostOsTilbakekrevingsvedtakRequest(
+        osTilbakekrevingsvedtakOperation =
+            PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperation(
+                zt1ICont =
+                    PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1ICont(
+                        requestTilbakekrevingsvedtak =
+                            PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtak(
                                 kodeAksjon = kodeAksjon,
                                 vedtakId = vedtakId.toInt(),
                                 datoVedtakFagsystem = vedtaksDato,
@@ -59,21 +59,21 @@ fun TilbakekrevingsvedtakRequest.toZosRequest(): OsTilbakekrevingsvedtakRequest 
             ),
     )
 
-fun Periode.toZosPeriode(): Tilbakekrevingsperiode =
-    Tilbakekrevingsperiode(
+fun Periode.toZosPeriode(): PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInner =
+    PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInner(
         datoPeriodeFom = periodeFom,
         datoPeriodeTom = periodeTom,
         renterPeriodeBeregnes = renterPeriodeBeregnes,
-        belopRenter = belopRenter,
+        belopRenter = belopRenter.toBigDecimal(),
         tilbakerevingsbelop =
             posteringer.map {
-                Tilbakerevingsbelop(
+                PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInnerTilbakerevingsbelopInner(
                     kodeKlasse = it.kodeKlasse,
-                    belopOpprinneligUtbetalt = it.belopOpprinneligUtbetalt,
-                    belopNy = it.belopNy,
-                    belopTilbakekreves = it.belopTilbakekreves,
-                    belopUinnkrevd = it.belopUinnkrevd,
-                    belopSkatt = it.belopSkatt,
+                    belopOpprinneligUtbetalt = it.belopOpprinneligUtbetalt.toBigDecimal(),
+                    belopNy = it.belopNy.toBigDecimal(),
+                    belopTilbakekreves = it.belopTilbakekreves.toBigDecimal(),
+                    belopUinnkrevd = it.belopUinnkrevd.toBigDecimal(),
+                    belopSkatt = it.belopSkatt.toBigDecimal(),
                     kodeResultat = it.kodeResultat,
                     kodeAarsak = it.kodeAarsak,
                     kodeSkyld = it.kodeSkyld,
@@ -81,24 +81,24 @@ fun Periode.toZosPeriode(): Tilbakekrevingsperiode =
             },
     )
 
-fun OsTilbakekrevingsvedtakResponse.toDto(): TilbakekrevingsvedtakResponse {
-    val resp = operation.container.response
+fun PostOsTilbakekrevingsvedtakResponse200.toDto(): TilbakekrevingsvedtakResponse {
+    val resp = osTilbakekrevingsvedtakOperationResponse?.zt1OCont?.responsTilbakekrevingsvedtak
     return TilbakekrevingsvedtakResponse(
-        status = resp.status,
-        melding = resp.statusMelding,
-        vedtakId = resp.vedtakId.toLong(),
-        datoVedtakFagsystem = resp.datoVedtakFagsystem,
+        status = resp?.status ?: 0,
+        melding = resp?.statusMelding ?: "",
+        vedtakId = resp?.vedtakId?.toLong() ?: 0L,
+        datoVedtakFagsystem = resp?.datoVedtakFagsystem ?: "",
     )
 }
 
-fun HentKravgrunnlagRequest.toZosRequest(): OsHentKravgrunnlagRequest =
-    OsHentKravgrunnlagRequest(
-        operation =
-            HentKravgrunnlagRequestOperation(
-                container =
-                    HentKravgrunnlagRequestContainer(
-                        request =
-                            HentKravgrunnlagRequestData(
+fun HentKravgrunnlagRequest.toZosRequest(): PostOsHentKravgrunnlagRequest =
+    PostOsHentKravgrunnlagRequest(
+        osHentKravgrunnlagOperation =
+            PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperation(
+                kravgrunnlag =
+                    PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperationKravgrunnlag(
+                        requestTilbakekrevingsgrunnlag =
+                            PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperationKravgrunnlagRequestTilbakekrevingsgrunnlag(
                                 kodeAksjon = kodeAksjon,
                                 gjelderId = gjelderId,
                                 typeGjelder = typeGjelder,
@@ -115,42 +115,42 @@ fun HentKravgrunnlagRequest.toZosRequest(): OsHentKravgrunnlagRequest =
             ),
     )
 
-fun OsHentKravgrunnlagResponse.toDto(): HentKravgrunnlagResponse {
-    val resp = operation.container.response
+fun PostOsHentKravgrunnlagResponse200.toDto(): HentKravgrunnlagResponse {
+    val resp = osHentKravgrunnlagOperationResponse?.kravgrunnlagListe?.responsKravgrunnlagListe
     return HentKravgrunnlagResponse(
-        status = resp.status,
-        melding = resp.statusMelding,
+        status = resp?.status ?: 0,
+        melding = resp?.statusMelding ?: "",
         kravgrunnlagListe =
-            resp.kravgrunnlag.map {
+            resp?.kravgrunnlag?.map {
                 Kravgrunnlag(
-                    kravgrunnlagId = it.kravgrunnlagId.toLong(),
-                    kodeStatusKrav = it.kodeStatusKrav,
-                    gjelderId = it.gjelderId,
-                    typeGjelder = it.typeGjelder,
-                    utbetalesTilId = it.utbetalesTilId,
-                    typeUtbetalesTil = it.typeUtbetalesTil,
-                    kodeFagomraade = it.kodeFagomraade,
-                    fagsystemId = it.fagsystemId,
-                    datoVedtakFagsystem = it.datoVedtakFagsystem,
-                    enhetBosted = it.enhetBosted,
-                    enhetAnsvarlig = it.enhetAnsvarlig,
-                    datoKravDannet = it.datoKravDannet,
-                    datoPeriodeFom = it.datoPeriodeFom,
-                    datoPeriodeTom = it.datoPeriodeTom,
-                    belopSumFeilutbetalt = it.belopSumFeilutbetalt,
+                    kravgrunnlagId = it.kravgrunnlagId?.toLong() ?: 0L,
+                    kodeStatusKrav = it.kodeStatusKrav ?: "",
+                    gjelderId = it.gjelderId ?: "",
+                    typeGjelder = it.typeGjelder ?: "",
+                    utbetalesTilId = it.utbetalesTilId ?: "",
+                    typeUtbetalesTil = it.typeUtbetalesTil ?: "",
+                    kodeFagomraade = it.kodeFagomraade ?: "",
+                    fagsystemId = it.fagsystemId ?: "",
+                    datoVedtakFagsystem = it.datoVedtakFagsystem ?: "",
+                    enhetBosted = it.enhetBosted ?: "",
+                    enhetAnsvarlig = it.enhetAnsvarlig ?: "",
+                    datoKravDannet = it.datoKravDannet ?: "",
+                    datoPeriodeFom = it.datoPeriodeFom ?: "",
+                    datoPeriodeTom = it.datoPeriodeTom ?: "",
+                    belopSumFeilutbetalt = it.belopSumFeilutbetalt?.toDouble() ?: 0.0,
                 )
-            },
+            } ?: emptyList(),
     )
 }
 
-fun HentKravgrunnlagDetaljerRequest.toZosRequest(): OsHentKravgrunnlagDetaljerRequest =
-    OsHentKravgrunnlagDetaljerRequest(
-        operation =
-            HentKravgrunnlagDetaljerRequestOperation(
-                container =
-                    HentKravgrunnlagDetaljerRequestContainer(
-                        request =
-                            HentKravgrunnlagDetaljerRequestData(
+fun HentKravgrunnlagDetaljerRequest.toZosRequest(): PostOsHentKravgrunnlagDetaljerRequest =
+    PostOsHentKravgrunnlagDetaljerRequest(
+        osHentKravgrunnlagDetaljerOperation =
+            PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperation(
+                kravgrunnlagsdetaljer =
+                    PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperationKravgrunnlagsdetaljer(
+                        requestDetaljer =
+                            PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperationKravgrunnlagsdetaljerRequestDetaljer(
                                 kodeAksjon = kodeAksjon,
                                 kravgrunnlagId = kravgrunnlagId.toInt(),
                                 enhetAnsvarlig = enhetAnsvarlig,
@@ -160,68 +160,68 @@ fun HentKravgrunnlagDetaljerRequest.toZosRequest(): OsHentKravgrunnlagDetaljerRe
             ),
     )
 
-fun OsHentKravgrunnlagDetaljerResponse.toDto(): HentKravgrunnlagDetaljerResponse {
-    val resp = operation.container.response
+fun PostOsHentKravgrunnlagDetaljerResponse200.toDto(): HentKravgrunnlagDetaljerResponse {
+    val resp = osHentKravgrunnlagDetaljerOperationResponse?.kravgrunnlagsdetaljer?.responsDetaljer
     return HentKravgrunnlagDetaljerResponse(
-        status = resp.status,
-        melding = resp.statusMelding,
+        status = resp?.status ?: 0,
+        melding = resp?.statusMelding ?: "",
         kravgrunnlag =
             KravgrunnlagDetaljer(
-                kravgrunnlagId = resp.kravgrunnlagId.toLong(),
-                vedtakId = resp.vedtakId.toLong(),
-                kodeStatusKrav = resp.kodeStatusKrav,
-                kodeFagomraade = resp.kodeFagomraade,
-                fagsystemId = resp.fagsystemId,
-                datoVedtakFagsystem = resp.datoVedtakFagsystem,
-                vedtakIdImgjort = resp.vedtakIdImgjort.toLong(),
-                gjelderId = resp.gjelderId,
-                typeGjelder = resp.typeGjelder,
-                utbetalesTilId = resp.utbetalesTilId,
-                typeUtbetalesTilId = resp.typeUtbetalesTilId,
-                kodeHjemmel = resp.kodeHjemmel,
-                renterBeregnes = resp.renterBeregnes,
-                enhetAnsvarlig = resp.enhetAnsvarlig,
-                enhetBosted = resp.enhetBosted,
-                enhetBehandl = resp.enhetBehandl,
-                kontrollfelt = resp.kontrollfelt,
-                saksbehandlerId = resp.saksbehandlerId,
-                referanse = resp.referanse,
-                datoTilleggsfrist = resp.datoTilleggsfrist,
+                kravgrunnlagId = resp?.kravgrunnlagId?.toLong() ?: 0L,
+                vedtakId = resp?.vedtakId?.toLong() ?: 0L,
+                kodeStatusKrav = resp?.kodeStatusKrav ?: "",
+                kodeFagomraade = resp?.kodeFagomraade ?: "",
+                fagsystemId = resp?.fagsystemId ?: "",
+                datoVedtakFagsystem = resp?.datoVedtakFagsystem ?: "",
+                vedtakIdImgjort = resp?.vedtakIdImgjort?.toLong() ?: 0L,
+                gjelderId = resp?.gjelderId ?: "",
+                typeGjelder = resp?.typeGjelder ?: "",
+                utbetalesTilId = resp?.utbetalesTilId ?: "",
+                typeUtbetalesTilId = resp?.typeUtbetalesTilId ?: "",
+                kodeHjemmel = resp?.kodeHjemmel ?: "",
+                renterBeregnes = resp?.renterBeregnes ?: false,
+                enhetAnsvarlig = resp?.enhetAnsvarlig ?: "",
+                enhetBosted = resp?.enhetBosted ?: "",
+                enhetBehandl = resp?.enhetBehandl ?: "",
+                kontrollfelt = resp?.kontrollfelt ?: "",
+                saksbehandlerId = resp?.saksbehandlerId ?: "",
+                referanse = resp?.referanse ?: "",
+                datoTilleggsfrist = resp?.datoTilleggsfrist ?: "",
                 perioder =
-                    resp.tilbakekrevingsperiode.map { periode ->
+                    resp?.tilbakekrevingsperiode?.map { periode ->
                         DetaljerPeriode(
-                            periodeFom = periode.datoPeriodeFom,
-                            periodeTom = periode.datoPeriodeTom,
-                            belopSkattMnd = periode.belopSkattMnd,
+                            periodeFom = periode.datoPeriodeFom ?: "",
+                            periodeTom = periode.datoPeriodeTom ?: "",
+                            belopSkattMnd = periode.belopSkattMnd?.toDouble() ?: 0.0,
                             posteringer =
-                                periode.tilbakekrevingsbelop.map { belop ->
+                                periode.tilbakekrevingsbelop?.map { belop ->
                                     DetaljerPostering(
-                                        kodeKlasse = belop.kodeKlasse,
-                                        typeKlasse = belop.typeKlasse,
-                                        belopOpprinneligUtbetalt = belop.belopOpprinneligUtbetalt,
-                                        belopNy = belop.belopNy,
-                                        belopTilbakekreves = belop.belopTilbakekreves,
-                                        belopUinnkrevd = belop.belopUinnkrevd,
-                                        skattProsent = belop.skattProsent,
-                                        kodeResultat = belop.kodeResultat,
-                                        kodeAarsak = belop.kodeAarsak,
-                                        kodeSkyld = belop.kodeSkyld,
+                                        kodeKlasse = belop.kodeKlasse ?: "",
+                                        typeKlasse = belop.typeKlasse ?: "",
+                                        belopOpprinneligUtbetalt = belop.belopOpprinneligUtbetalt?.toDouble() ?: 0.0,
+                                        belopNy = belop.belopNy?.toDouble() ?: 0.0,
+                                        belopTilbakekreves = belop.belopTilbakekreves?.toDouble() ?: 0.0,
+                                        belopUinnkrevd = belop.belopUinnkrevd?.toDouble() ?: 0.0,
+                                        skattProsent = belop.skattProsent?.toDouble() ?: 0.0,
+                                        kodeResultat = belop.kodeResultat ?: "",
+                                        kodeAarsak = belop.kodeAarsak ?: "",
+                                        kodeSkyld = belop.kodeSkyld ?: "",
                                     )
-                                },
+                                } ?: emptyList(),
                         )
-                    },
+                    } ?: emptyList(),
             ),
     )
 }
 
-fun KravgrunnlagAnnulerRequest.toZosRequest(): OsKravgrunnlagAnnulerRequest =
-    OsKravgrunnlagAnnulerRequest(
-        operation =
-            KravgrunnlagAnnulerRequestOperation(
-                container =
-                    KravgrunnlagAnnulerRequestContainer(
-                        request =
-                            KravgrunnlagAnnulerRequestData(
+fun KravgrunnlagAnnulerRequest.toZosRequest(): PostOsKravgrunnlagAnnulerRequest =
+    PostOsKravgrunnlagAnnulerRequest(
+        osKravgrunnlagAnnulerOperation =
+            PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperation(
+                kravgrunnlagAnnuler =
+                    PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperationKravgrunnlagAnnuler(
+                        requestKravgrunnlagAnnuler =
+                            PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperationKravgrunnlagAnnulerRequestKravgrunnlagAnnuler(
                                 kodeAksjon = kodeAksjon,
                                 vedtakId = vedtakId.toInt(),
                                 enhetAnsvarlig = enhetAnsvarlig,
@@ -231,12 +231,12 @@ fun KravgrunnlagAnnulerRequest.toZosRequest(): OsKravgrunnlagAnnulerRequest =
             ),
     )
 
-fun OsKravgrunnlagAnnulerResponse.toDto(): KravgrunnlagAnnulerResponse {
-    val resp = operation.container.response
+fun PostOsKravgrunnlagAnnulerResponse200.toDto(): KravgrunnlagAnnulerResponse {
+    val resp = osKravgrunnlagAnnulerOperationResponse?.kravgrunnlagAnnulert?.responsKravgrunnlagAnnuler
     return KravgrunnlagAnnulerResponse(
-        status = resp.status,
-        melding = resp.statusMelding,
-        vedtakId = resp.vedtakId.toLong(),
-        saksbehandlerId = resp.saksbehandlerId,
+        status = resp?.status ?: 0,
+        melding = resp?.statusMelding ?: "",
+        vedtakId = resp?.vedtakId?.toLong() ?: 0L,
+        saksbehandlerId = resp?.saksbehandlerId ?: "",
     )
 }

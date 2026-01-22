@@ -15,10 +15,10 @@ import no.nav.sokos.os.ekstern.api.dto.toZosRequest
 import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
 import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
 import no.nav.sokos.os.ekstern.api.os.OsHttpClient
-import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakResponse
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerResponse200
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakResponse200
 
 private val logger = KotlinLogging.logger {}
 
@@ -33,8 +33,8 @@ class TilbakekrevingService(
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<OsTilbakekrevingsvedtakResponse>()
-                logger.info { "Tilbakekrevingsvedtak sendt, status: ${body.operation.container.response.status}" }
+                val body = response.body<PostOsTilbakekrevingsvedtakResponse200>()
+                logger.info { "Tilbakekrevingsvedtak sendt, status: ${body.osTilbakekrevingsvedtakOperationResponse?.zt1OCont?.responsTilbakekrevingsvedtak?.status}" }
                 body.toDto()
             }
             else -> {
@@ -52,8 +52,8 @@ class TilbakekrevingService(
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<OsHentKravgrunnlagResponse>()
-                logger.info { "Kravgrunnlag liste hentet, status: ${body.operation.container.response.status}" }
+                val body = response.body<PostOsHentKravgrunnlagResponse200>()
+                logger.info { "Kravgrunnlag liste hentet, status: ${body.osHentKravgrunnlagOperationResponse?.kravgrunnlagListe?.responsKravgrunnlagListe?.status}" }
                 body.toDto()
             }
             else -> {
@@ -71,8 +71,8 @@ class TilbakekrevingService(
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<OsHentKravgrunnlagDetaljerResponse>()
-                logger.info { "Kravgrunnlag detaljer hentet, status: ${body.operation.container.response.status}" }
+                val body = response.body<PostOsHentKravgrunnlagDetaljerResponse200>()
+                logger.info { "Kravgrunnlag detaljer hentet, status: ${body.osHentKravgrunnlagDetaljerOperationResponse?.kravgrunnlagsdetaljer?.responsDetaljer?.status}" }
                 body.toDto()
             }
             else -> {
@@ -90,8 +90,8 @@ class TilbakekrevingService(
 
         return when (response.status) {
             HttpStatusCode.OK -> {
-                val body = response.body<OsKravgrunnlagAnnulerResponse>()
-                logger.info { "Kravgrunnlag annullert, status: ${body.operation.container.response.status}" }
+                val body = response.body<PostOsKravgrunnlagAnnulerResponse200>()
+                logger.info { "Kravgrunnlag annullert, status: ${body.osKravgrunnlagAnnulerOperationResponse?.kravgrunnlagAnnulert?.responsKravgrunnlagAnnuler?.status}" }
                 body.toDto()
             }
             else -> {
