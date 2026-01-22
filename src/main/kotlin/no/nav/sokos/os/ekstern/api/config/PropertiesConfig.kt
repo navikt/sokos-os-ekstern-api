@@ -60,9 +60,9 @@ object PropertiesConfig {
     )
 
     class OsConfiguration(
-        val url: String = getOrEmpty("OS_ENDPOINT_URL"),
-        val trustStore: String = getOrEmpty("OS_TRUSTSTORE_PATH"),
-        val trustStorePassword: String = getOrEmpty("OS_TRUSTSTORE_PASSWORD"),
+        val endpointUrl: String = getOrEmpty("OS_ENDPOINT_URL"),
+        val trustStore: String = getOrEmpty("NAV_TRUSTSTORE_PATH"),
+        val trustStorePassword: String = getOrEmpty("NAV_TRUSTSTORE_PASSWORD"),
     )
 
     enum class Profile {

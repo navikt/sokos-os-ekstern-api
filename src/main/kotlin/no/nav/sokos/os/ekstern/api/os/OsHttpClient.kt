@@ -1,6 +1,10 @@
 package no.nav.sokos.os.ekstern.api.os
 
+import java.io.FileInputStream
 import java.net.ProxySelector
+import java.security.KeyStore
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
 
 import kotlinx.serialization.json.Json
 
@@ -28,7 +32,7 @@ private val logger = KotlinLogging.logger {}
 fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
     HttpClient(Apache) {
         engine {
-            // sslContext = sslContext(urConfig)
+            sslContext = sslContext(osConfig)
             customizeClient {
                 setRoutePlanner(SystemDefaultRoutePlanner(ProxySelector.getDefault()))
             }
@@ -50,58 +54,57 @@ fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
         }
     }
 
-// TODO
+private fun sslContext(osConfig: PropertiesConfig.OsConfiguration): SSLContext {
+    val keyStore =
+        KeyStore
+            .getInstance(KeyStore.getDefaultType())
+            .apply {
+                val keyStoreFile = FileInputStream(osConfig.trustStore)
+                val keyStorePassword = osConfig.trustStorePassword.toCharArray()
+                load(keyStoreFile, keyStorePassword)
+            }
 
-/*private fun sslContext(urConfig: PropertiesConfig.Configuration): SSLContext {
-    val keyStore = KeyStore.getInstance(KeyStore.getDefaultType())
-        .apply {
-            val keyStoreFile = FileInputStream(osConfig.trustStore)
-            val keyStorePassword = osConfig.trustStorePassword.toCharArray()
-            load(keyStoreFile, keyStorePassword)
-        }
+    val trustManagerFactory =
+        TrustManagerFactory
+            .getInstance(TrustManagerFactory.getDefaultAlgorithm())
+            .apply { init(keyStore) }
 
-    val trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
-        .apply { init(keyStore) }
-
-    return SSLContext.getInstance("TLS")
+    return SSLContext
+        .getInstance("TLS")
         .apply { init(null, trustManagerFactory.trustManagers, null) }
-}*/
+}
 
 class OsHttpClient(
     private val osConfig: PropertiesConfig.OsConfiguration,
     private val httpClient: HttpClient = osHttpClient(osConfig),
 ) {
-    private val baseUrl = osConfig.url
+    private val baseUrl = osConfig.endpointUrl
 
-    suspend fun postTilbakekrevingsvedtak(request: OsTilbakekrevingsvedtakRequest): HttpResponse {
-        logger.info { "Sender tilbakekrevingsvedtak request til OS: $request" }
-        return httpClient.post("$baseUrl/tilbakekrevingsvedtak") {
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
+    init {
+        logger.info { "OsHttpClient initialized with baseUrl: $baseUrl" }
     }
 
-    suspend fun postHentKravgrunnlag(request: OsHentKravgrunnlagRequest): HttpResponse {
-        logger.info { "Sender hent-kravgrunnlag request til OS: $request" }
-        return httpClient.post("$baseUrl/kravgrunnlagHentListe") {
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
-    }
+    suspend fun postTilbakekrevingsvedtak(request: OsTilbakekrevingsvedtakRequest): HttpResponse = post("tilbakekrevingsvedtak", request)
 
-    suspend fun postHentKravgrunnlagDetaljer(request: OsHentKravgrunnlagDetaljerRequest): HttpResponse {
-        logger.info { "Sender hent-kravgrunnlagdetaljer request til OS: $request" }
-        return httpClient.post("$baseUrl/kravgrunnlagHentDetalj") {
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
-    }
+    suspend fun postHentKravgrunnlag(request: OsHentKravgrunnlagRequest): HttpResponse = post("kravgrunnlagHentListe", request)
 
-    suspend fun postKravgrunnlagAnnuler(request: OsKravgrunnlagAnnulerRequest): HttpResponse {
-        logger.info { "Sender kravgrunnlag annuler request til OS: $request" }
-        return httpClient.post("$baseUrl/kravgrunnlagAnnuler") {
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
+    suspend fun postHentKravgrunnlagDetaljer(request: OsHentKravgrunnlagDetaljerRequest): HttpResponse = post("kravgrunnlagHentDetalj", request)
+
+    suspend fun postKravgrunnlagAnnuler(request: OsKravgrunnlagAnnulerRequest): HttpResponse = post("kravgrunnlagAnnuler", request)
+
+    private suspend fun post(
+        path: String,
+        request: Any,
+    ): HttpResponse {
+        val fullUrl = "$baseUrl/$path"
+        logger.info { "Calling OS API: $fullUrl" }
+        logger.info { "Request: $request" }
+        return httpClient
+            .post(fullUrl) {
+                contentType(ContentType.Application.Json)
+                setBody(request)
+            }.also { response ->
+                logger.info { "OS API response status: ${response.status}" }
+            }
     }
 }
