@@ -6,8 +6,6 @@ import java.security.KeyStore
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 
-import kotlinx.serialization.json.Json
-
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.plugins.HttpTimeout
@@ -22,10 +20,7 @@ import mu.KotlinLogging
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
 
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.os.entitet.annuler.OsKravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.detaljer.OsHentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.kravgrunnlag.OsHentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.os.entitet.vedtak.OsTilbakekrevingsvedtakRequest
+import no.nav.sokos.os.ekstern.api.config.jsonConfig
 
 private val logger = KotlinLogging.logger {}
 
@@ -38,14 +33,7 @@ fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
             }
         }
         install(ContentNegotiation) {
-            json(
-                Json {
-                    prettyPrint = true
-                    ignoreUnknownKeys = true
-                    encodeDefaults = true
-                    explicitNulls = false
-                },
-            )
+            json(jsonConfig)
         }
         install(HttpTimeout) {
             requestTimeoutMillis = 300000
@@ -84,13 +72,13 @@ class OsHttpClient(
         logger.info { "OsHttpClient initialized with baseUrl: $baseUrl" }
     }
 
-    suspend fun postTilbakekrevingsvedtak(request: OsTilbakekrevingsvedtakRequest): HttpResponse = post("tilbakekrevingsvedtak", request)
+    suspend fun postTilbakekrevingsvedtak(request: PostOsTilbakekrevingsvedtakRequest): HttpResponse = post("tilbakekrevingsvedtak", request)
 
-    suspend fun postHentKravgrunnlag(request: OsHentKravgrunnlagRequest): HttpResponse = post("kravgrunnlagHentListe", request)
+    suspend fun postHentKravgrunnlag(request: PostOsHentKravgrunnlagRequest): HttpResponse = post("kravgrunnlagHentListe", request)
 
-    suspend fun postHentKravgrunnlagDetaljer(request: OsHentKravgrunnlagDetaljerRequest): HttpResponse = post("kravgrunnlagHentDetalj", request)
+    suspend fun postHentKravgrunnlagDetaljer(request: PostOsHentKravgrunnlagDetaljerRequest): HttpResponse = post("kravgrunnlagHentDetalj", request)
 
-    suspend fun postKravgrunnlagAnnuler(request: OsKravgrunnlagAnnulerRequest): HttpResponse = post("kravgrunnlagAnnuler", request)
+    suspend fun postKravgrunnlagAnnuler(request: PostOsKravgrunnlagAnnulerRequest): HttpResponse = post("kravgrunnlagAnnuler", request)
 
     private suspend fun post(
         path: String,

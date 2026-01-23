@@ -1,7 +1,5 @@
 package no.nav.sokos.os.ekstern.api.config
 
-import kotlinx.serialization.json.Json
-
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -38,14 +36,7 @@ fun Application.commonConfig() {
         disableDefaultColors()
     }
     install(ContentNegotiation) {
-        json(
-            Json {
-                prettyPrint = true
-                ignoreUnknownKeys = true
-                encodeDefaults = true
-                explicitNulls = false
-            },
-        )
+        json(jsonConfig)
     }
     install(MicrometerMetrics) {
         registry = Metrics.prometheusMeterRegistry

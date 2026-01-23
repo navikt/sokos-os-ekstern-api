@@ -1,12 +1,14 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
     kotlin("jvm") version "2.3.0"
     kotlin("plugin.serialization") version "2.3.0"
     id("org.jlleitschuh.gradle.ktlint") version "14.0.1"
     id("org.jetbrains.kotlinx.kover") version "0.9.4"
+    id("org.openapi.generator") version "7.18.0"
 
     application
 }
@@ -77,8 +79,8 @@ application {
 
 sourceSets {
     main {
-        java {
-            srcDirs("${layout.buildDirectory.get()}/generated/src/main/kotlin")
+        kotlin {
+            srcDir("${layout.buildDirectory.get()}/generated/src/main/kotlin")
         }
     }
 }
@@ -90,9 +92,17 @@ kotlin {
 }
 
 tasks {
+    named("runKtlintCheckOverMainSourceSet").configure {
+        dependsOn("openApiGenerate")
+    }
+
+    named("runKtlintFormatOverMainSourceSet").configure {
+        dependsOn("openApiGenerate")
+    }
 
     withType<KotlinCompile>().configureEach {
         dependsOn("ktlintFormat")
+        dependsOn("openApiGenerate")
     }
 
     withType<Test>().configureEach {
@@ -108,6 +118,29 @@ tasks {
         reports.forEach { report -> report.required.value(false) }
 
         finalizedBy(koverHtmlReport)
+    }
+
+    withType<GenerateTask>().configureEach {
+        generatorName.set("kotlin")
+        inputSpec.set("$rootDir/src/main/resources/spec/os-tilbakekreving-swagger.json")
+        outputDir.set("${layout.buildDirectory.get()}/generated")
+        modelPackage.set("no.nav.sokos.os.ekstern.api.os")
+        configOptions.set(
+            mapOf(
+                "library" to "jvm-ktor",
+                "serializationLibrary" to "kotlinx_serialization",
+            ),
+        )
+        globalProperties.set(
+            mapOf(
+                "models" to "",
+            ),
+        )
+        typeMappings.set(
+            mapOf(
+                "number" to "kotlin.Double",
+            ),
+        )
     }
 
     withType<Wrapper> {
