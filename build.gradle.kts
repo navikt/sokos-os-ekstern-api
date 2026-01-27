@@ -8,7 +8,7 @@ plugins {
     kotlin("plugin.serialization") version "2.3.0"
     id("org.jlleitschuh.gradle.ktlint") version "14.0.1"
     id("org.jetbrains.kotlinx.kover") version "0.9.4"
-    id("org.openapi.generator") version "7.18.0"
+    id("org.openapi.generator") version "7.19.0"
 
     application
 }
@@ -20,7 +20,7 @@ repositories {
 }
 
 val ktorVersion = "3.3.3"
-val logbackVersion = "1.5.24"
+val logbackVersion = "1.5.25"
 val logstashVersion = "9.0"
 val micrometerVersion = "1.16.2"
 val kotlinLoggingVersion = "3.0.5"
