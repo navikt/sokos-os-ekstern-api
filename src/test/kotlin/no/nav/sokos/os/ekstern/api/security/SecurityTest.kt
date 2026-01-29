@@ -55,7 +55,7 @@ class SecurityTest :
                             }
                         }
                     application {
-                        configureTestApplication(mockOAuth2Server)
+                        configureTestApplication(mockOAuth2Server, tilbakekrevingService)
                     }
 
                     endpoints.forEach { endpoint ->
@@ -84,7 +84,7 @@ class SecurityTest :
                             }
                         }
                     application {
-                        configureTestApplication(mockOAuth2Server)
+                        configureTestApplication(mockOAuth2Server, tilbakekrevingService)
                     }
 
                     endpoints.forEach { endpoint ->
@@ -113,7 +113,10 @@ private fun MockOAuth2Server.tokenFromDefaultProvider() =
         tokenCallback = DefaultOAuth2TokenCallback(),
     ).serialize()
 
-private fun Application.configureTestApplication(mockOAuth2Server: MockOAuth2Server) {
+private fun Application.configureTestApplication(
+    mockOAuth2Server: MockOAuth2Server,
+    tilbakekrevingService: TilbakekrevingService,
+) {
     commonConfig()
     securityConfig(true, mockOAuth2Server.authConfig())
     routing {
