@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class TilbakekrevingsvedtakResponse(
     val status: Int,
     val melding: String,
-    val vedtakId: Long,
+    val vedtakId: Int,
     val datoVedtakFagsystem: String,
 )

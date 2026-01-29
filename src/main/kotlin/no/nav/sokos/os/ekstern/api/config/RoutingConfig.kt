@@ -22,7 +22,7 @@ fun Application.routingConfig(
         internalNaisRoutes(applicationState)
         swaggerApi()
         authenticate(useAuthentication, AUTHENTICATION_NAME) {
-            tilbakekrevingApi(tilbakekrevingService)
+            tilbakekrevingApi()
         }
     }
 }

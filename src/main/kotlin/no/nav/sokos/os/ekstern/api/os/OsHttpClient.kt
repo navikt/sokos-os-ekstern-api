@@ -6,7 +6,12 @@ import java.security.KeyStore
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -63,7 +68,7 @@ private fun sslContext(osConfig: PropertiesConfig.OsConfiguration): SSLContext {
 }
 
 class OsHttpClient(
-    private val osConfig: PropertiesConfig.OsConfiguration,
+    private val osConfig: PropertiesConfig.OsConfiguration = PropertiesConfig.OsConfiguration(),
     private val httpClient: HttpClient = osHttpClient(osConfig),
 ) {
     private val baseUrl = osConfig.endpointUrl
@@ -72,7 +77,7 @@ class OsHttpClient(
         logger.info { "OsHttpClient initialized with baseUrl: $baseUrl" }
     }
 
-    suspend fun postTilbakekrevingsvedtak(request: PostOsTilbakekrevingsvedtakRequest): HttpResponse = post("tilbakekrevingsvedtak", request)
+    // suspend fun postTilbakekrevingsvedtak(request: PostOsTilbakekrevingsvedtakRequest): HttpResponse = post("tilbakekrevingsvedtak", request)
 
     suspend fun postHentKravgrunnlag(request: PostOsHentKravgrunnlagRequest): HttpResponse = post("kravgrunnlagHentListe", request)
 
@@ -96,3 +101,7 @@ class OsHttpClient(
             }
     }
 }
+
+suspend fun HttpResponse.errorMessage() = body<JsonElement>().jsonObject["errorMessage"]?.jsonPrimitive?.content
+
+suspend fun HttpResponse.errorDetails() = body<JsonElement>().jsonObject["errorDetails"]?.jsonPrimitive?.content

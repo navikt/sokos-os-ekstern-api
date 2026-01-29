@@ -12,7 +12,6 @@ import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagResponse
 import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.Kravgrunnlag
 import no.nav.sokos.os.ekstern.api.dto.vedtak.Periode
 import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequest
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperation
 import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperationKravgrunnlagsdetaljer
@@ -40,9 +39,7 @@ import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbak
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtak
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInner
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInnerTilbakerevingsbelopInner
-import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakResponse200
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakResponse200OsTilbakekrevingsvedtakOperationResponseZT1OContResponsTilbakekrevingsvedtak
-import no.nav.sokos.os.ekstern.api.service.TilbakekrevingException
 
 private typealias OsTilbakekrevingsvedtakRespons =
     PostOsTilbakekrevingsvedtakResponse200OsTilbakekrevingsvedtakOperationResponseZT1OContResponsTilbakekrevingsvedtak
@@ -110,24 +107,6 @@ fun Periode.toZosPeriode(): PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsv
             },
     )
 
-fun PostOsTilbakekrevingsvedtakResponse200.toDto(): TilbakekrevingsvedtakResponse {
-    val resp = extractTilbakekrevingsvedtakResponse()
-    return TilbakekrevingsvedtakResponse(
-        status = resp.status ?: 0,
-        melding = resp.statusMelding.orEmpty(),
-        vedtakId =
-            resp.vedtakId?.toLong()
-                ?: throw TilbakekrevingException("OS response mangler vedtakId i tilbakekrevingsvedtak respons"),
-        datoVedtakFagsystem = resp.datoVedtakFagsystem.orEmpty(),
-    )
-}
-
-private fun PostOsTilbakekrevingsvedtakResponse200.extractTilbakekrevingsvedtakResponse(): OsTilbakekrevingsvedtakRespons =
-    osTilbakekrevingsvedtakOperationResponse
-        ?.zt1OCont
-        ?.responsTilbakekrevingsvedtak
-        ?: throw TilbakekrevingException("OS response mangler tilbakekrevingsvedtak wrapper struktur")
-
 fun HentKravgrunnlagRequest.toZosRequest(): PostOsHentKravgrunnlagRequest =
     PostOsHentKravgrunnlagRequest(
         osHentKravgrunnlagOperation =
@@ -165,13 +144,13 @@ private fun PostOsHentKravgrunnlagResponse200.extractKravgrunnlagListeResponse()
     osHentKravgrunnlagOperationResponse
         ?.kravgrunnlagListe
         ?.responsKravgrunnlagListe
-        ?: throw TilbakekrevingException("OS response mangler kravgrunnlagListe wrapper struktur")
+        ?: throw Exception("OS response mangler kravgrunnlagListe wrapper struktur")
 
 private fun OsKravgrunnlagListeElement.toKravgrunnlag(): Kravgrunnlag =
     Kravgrunnlag(
         kravgrunnlagId =
             kravgrunnlagId?.toLong()
-                ?: throw TilbakekrevingException("OS response mangler kravgrunnlagId i kravgrunnlag liste element"),
+                ?: throw Exception("OS response mangler kravgrunnlagId i kravgrunnlag liste element"),
         kodeStatusKrav = kodeStatusKrav.orEmpty(),
         gjelderId = gjelderId.orEmpty(),
         typeGjelder = typeGjelder.orEmpty(),
@@ -218,16 +197,16 @@ private fun PostOsHentKravgrunnlagDetaljerResponse200.extractKravgrunnlagDetalje
     osHentKravgrunnlagDetaljerOperationResponse
         ?.kravgrunnlagsdetaljer
         ?.responsDetaljer
-        ?: throw TilbakekrevingException("OS response mangler kravgrunnlagDetaljer wrapper struktur")
+        ?: throw Exception("OS response mangler kravgrunnlagDetaljer wrapper struktur")
 
 private fun OsKravgrunnlagDetaljerRespons.toKravgrunnlagDetaljer(): KravgrunnlagDetaljer =
     KravgrunnlagDetaljer(
         kravgrunnlagId =
             kravgrunnlagId?.toLong()
-                ?: throw TilbakekrevingException("OS response mangler kravgrunnlagId i detaljer"),
+                ?: throw Exception("OS response mangler kravgrunnlagId i detaljer"),
         vedtakId =
             vedtakId?.toLong()
-                ?: throw TilbakekrevingException("OS response mangler vedtakId i detaljer"),
+                ?: throw Exception("OS response mangler vedtakId i detaljer"),
         kodeStatusKrav = kodeStatusKrav.orEmpty(),
         kodeFagomraade = kodeFagomraade.orEmpty(),
         fagsystemId = fagsystemId.orEmpty(),
@@ -295,7 +274,7 @@ fun PostOsKravgrunnlagAnnulerResponse200.toDto(): KravgrunnlagAnnulerResponse {
         melding = resp.statusMelding.orEmpty(),
         vedtakId =
             resp.vedtakId?.toLong()
-                ?: throw TilbakekrevingException("OS response mangler vedtakId i annuler respons"),
+                ?: throw Exception("OS response mangler vedtakId i annuler respons"),
         saksbehandlerId = resp.saksbehandlerId.orEmpty(),
     )
 }
@@ -304,4 +283,4 @@ private fun PostOsKravgrunnlagAnnulerResponse200.extractKravgrunnlagAnnulerRespo
     osKravgrunnlagAnnulerOperationResponse
         ?.kravgrunnlagAnnulert
         ?.responsKravgrunnlagAnnuler
-        ?: throw TilbakekrevingException("OS response mangler kravgrunnlagAnnuler wrapper struktur")
+        ?: throw Exception("OS response mangler kravgrunnlagAnnuler wrapper struktur")

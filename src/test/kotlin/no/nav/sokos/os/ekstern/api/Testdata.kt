@@ -56,7 +56,7 @@ object Testdata {
         TilbakekrevingsvedtakResponse(
             status = 200,
             melding = "Vedtak sendt",
-            vedtakId = 123456789L,
+            vedtakId = 123456789,
             datoVedtakFagsystem = "2026-01-15",
         )
 
