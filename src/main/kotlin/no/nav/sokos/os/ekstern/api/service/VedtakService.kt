@@ -13,15 +13,17 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.Periode
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakRequest
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakResponse
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.dto.toZosPeriode
-import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequest
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperation
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1ICont
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtak
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInner
+import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInnerTilbakerevingsbelopInner
 import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakResponse200
 import no.nav.sokos.os.ekstern.api.os.errorDetails
 import no.nav.sokos.os.ekstern.api.os.errorMessage
@@ -35,34 +37,31 @@ class VedtakService(
 ) {
     private val url = "$endpointUrl/tilbakekrevingsvedtak"
 
-    suspend fun postVedtak(request: TilbakekrevingsvedtakRequest): TilbakekrevingsvedtakResponse {
+    suspend fun postVedtak(request: VedtakRequest): VedtakResponse {
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
-                setBody(request.toZosRequest())
+                setBody(request.toOsRequest())
             }
 
         return when {
             response.status.isSuccess() -> {
                 val result = response.body<PostOsTilbakekrevingsvedtakResponse200>()
-                val kvittering = result.osTilbakekrevingsvedtakOperationResponse?.zt1OCont?.responsTilbakekrevingsvedtak
+                val responsTilbakekrevingsvedtak = result.osTilbakekrevingsvedtakOperationResponse?.zt1OCont?.responsTilbakekrevingsvedtak
                 val response =
-                    TilbakekrevingsvedtakResponse(
-                        status =
-                            result.osTilbakekrevingsvedtakOperationResponse!!
-                                .zt1OCont.responsTilbakekrevingsvedtak!!
-                                .status!!,
-                        melding = result.osTilbakekrevingsvedtakOperationResponse.zt1OCont.responsTilbakekrevingsvedtak.statusMelding!!,
-                        vedtakId = result.osTilbakekrevingsvedtakOperationResponse.zt1OCont.responsTilbakekrevingsvedtak.vedtakId!!,
-                        datoVedtakFagsystem = result.osTilbakekrevingsvedtakOperationResponse.zt1OCont.responsTilbakekrevingsvedtak.datoVedtakFagsystem!!,
+                    VedtakResponse(
+                        status = responsTilbakekrevingsvedtak?.status!!,
+                        melding = responsTilbakekrevingsvedtak.statusMelding!!,
+                        vedtakId = responsTilbakekrevingsvedtak.vedtakId!!,
+                        datoVedtakFagsystem = responsTilbakekrevingsvedtak.datoVedtakFagsystem!!,
                     )
-                if (kvittering.status != 0) {
+                if (responsTilbakekrevingsvedtak.status != 0) {
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
-                            kvittering.statusMelding,
+                            responsTilbakekrevingsvedtak.statusMelding,
                             url,
                         ),
                     )
@@ -82,7 +81,7 @@ class VedtakService(
         }
     }
 
-    fun TilbakekrevingsvedtakRequest.toZosRequest(): PostOsTilbakekrevingsvedtakRequest =
+    fun VedtakRequest.toOsRequest(): PostOsTilbakekrevingsvedtakRequest =
         PostOsTilbakekrevingsvedtakRequest(
             osTilbakekrevingsvedtakOperation =
                 PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperation(
@@ -99,9 +98,31 @@ class VedtakService(
                                     kontrollfelt = kontrollfelt,
                                     saksbehandlerId = saksbehandlerId,
                                     datoTilleggsfrist = datoTilleggsfrist,
-                                    tilbakekrevingsperiode = perioder.map { it.toZosPeriode() },
+                                    tilbakekrevingsperiode = perioder.map { it.toOsPeriode() },
                                 ),
                         ),
                 ),
+        )
+
+    fun Periode.toOsPeriode(): PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInner =
+        PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInner(
+            datoPeriodeFom = periodeFom,
+            datoPeriodeTom = periodeTom,
+            renterPeriodeBeregnes = renterPeriodeBeregnes,
+            belopRenter = belopRenter,
+            tilbakerevingsbelop =
+                posteringer.map {
+                    PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInnerTilbakerevingsbelopInner(
+                        kodeKlasse = it.kodeKlasse,
+                        belopOpprinneligUtbetalt = it.belopOpprinneligUtbetalt,
+                        belopNy = it.belopNy,
+                        belopTilbakekreves = it.belopTilbakekreves,
+                        belopUinnkrevd = it.belopUinnkrevd,
+                        belopSkatt = it.belopSkatt,
+                        kodeResultat = it.kodeResultat,
+                        kodeAarsak = it.kodeAarsak,
+                        kodeSkyld = it.kodeSkyld,
+                    )
+                },
         )
 }

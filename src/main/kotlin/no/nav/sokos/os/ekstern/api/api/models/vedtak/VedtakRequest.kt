@@ -1,9 +1,9 @@
-package no.nav.sokos.os.ekstern.api.dto.vedtak
+package no.nav.sokos.os.ekstern.api.api.models.vedtak
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TilbakekrevingsvedtakRequest(
+data class VedtakRequest(
     val kodeAksjon: String,
     val vedtakId: Long,
     val vedtaksDato: String,

@@ -15,11 +15,7 @@ import io.ktor.client.call.body
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import mu.KotlinLogging
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
@@ -65,41 +61,6 @@ private fun sslContext(osConfig: PropertiesConfig.OsConfiguration): SSLContext {
     return SSLContext
         .getInstance("TLS")
         .apply { init(null, trustManagerFactory.trustManagers, null) }
-}
-
-class OsHttpClient(
-    private val osConfig: PropertiesConfig.OsConfiguration = PropertiesConfig.OsConfiguration(),
-    private val httpClient: HttpClient = osHttpClient(osConfig),
-) {
-    private val baseUrl = osConfig.endpointUrl
-
-    init {
-        logger.info { "OsHttpClient initialized with baseUrl: $baseUrl" }
-    }
-
-    // suspend fun postTilbakekrevingsvedtak(request: PostOsTilbakekrevingsvedtakRequest): HttpResponse = post("tilbakekrevingsvedtak", request)
-
-    suspend fun postHentKravgrunnlag(request: PostOsHentKravgrunnlagRequest): HttpResponse = post("kravgrunnlagHentListe", request)
-
-    suspend fun postHentKravgrunnlagDetaljer(request: PostOsHentKravgrunnlagDetaljerRequest): HttpResponse = post("kravgrunnlagHentDetalj", request)
-
-    suspend fun postKravgrunnlagAnnuler(request: PostOsKravgrunnlagAnnulerRequest): HttpResponse = post("kravgrunnlagAnnuler", request)
-
-    private suspend fun post(
-        path: String,
-        request: Any,
-    ): HttpResponse {
-        val fullUrl = "$baseUrl/$path"
-        logger.info { "Calling OS API: $fullUrl" }
-        logger.info { "Request: $request" }
-        return httpClient
-            .post(fullUrl) {
-                contentType(ContentType.Application.Json)
-                setBody(request)
-            }.also { response ->
-                logger.info { "OS API response status: ${response.status}" }
-            }
-    }
 }
 
 suspend fun HttpResponse.errorMessage() = body<JsonElement>().jsonObject["errorMessage"]?.jsonPrimitive?.content

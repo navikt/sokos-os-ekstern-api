@@ -13,7 +13,6 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
-import io.mockk.mockk
 
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
@@ -26,10 +25,8 @@ import no.nav.sokos.os.ekstern.api.config.authenticate
 import no.nav.sokos.os.ekstern.api.config.commonConfig
 import no.nav.sokos.os.ekstern.api.config.jsonConfig
 import no.nav.sokos.os.ekstern.api.config.securityConfig
-import no.nav.sokos.os.ekstern.api.service.TilbakekrevingService
 
 private const val TILBAKEKREVING_BASE_API_PATH = "$API_BASE_PATH/tilbakekreving"
-val tilbakekrevingService: TilbakekrevingService = mockk()
 
 class SecurityTest :
     FunSpec({
@@ -55,7 +52,7 @@ class SecurityTest :
                             }
                         }
                     application {
-                        configureTestApplication(mockOAuth2Server, tilbakekrevingService)
+                        configureTestApplication(mockOAuth2Server)
                     }
 
                     endpoints.forEach { endpoint ->
@@ -84,7 +81,7 @@ class SecurityTest :
                             }
                         }
                     application {
-                        configureTestApplication(mockOAuth2Server, tilbakekrevingService)
+                        configureTestApplication(mockOAuth2Server)
                     }
 
                     endpoints.forEach { endpoint ->
@@ -113,15 +110,12 @@ private fun MockOAuth2Server.tokenFromDefaultProvider() =
         tokenCallback = DefaultOAuth2TokenCallback(),
     ).serialize()
 
-private fun Application.configureTestApplication(
-    mockOAuth2Server: MockOAuth2Server,
-    tilbakekrevingService: TilbakekrevingService,
-) {
+private fun Application.configureTestApplication(mockOAuth2Server: MockOAuth2Server) {
     commonConfig()
     securityConfig(true, mockOAuth2Server.authConfig())
     routing {
         authenticate(true, AUTHENTICATION_NAME) {
-            tilbakekrevingApi(tilbakekrevingService)
+            tilbakekrevingApi()
         }
     }
 }

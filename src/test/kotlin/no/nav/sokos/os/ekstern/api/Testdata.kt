@@ -1,23 +1,23 @@
 package no.nav.sokos.os.ekstern.api
 
-import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.dto.detaljer.DetaljerPeriode
-import no.nav.sokos.os.ekstern.api.dto.detaljer.DetaljerPostering
-import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.dto.detaljer.KravgrunnlagDetaljer
-import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.Kravgrunnlag
-import no.nav.sokos.os.ekstern.api.dto.vedtak.Periode
-import no.nav.sokos.os.ekstern.api.dto.vedtak.Postering
-import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
+import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerRequest
+import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerResponse
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.DetaljerPeriode
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.DetaljerPostering
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravdetaljerRequest
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravdetaljerResponse
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravgrunnlagDetaljer
+import no.nav.sokos.os.ekstern.api.api.models.liste.Kravgrunnlag
+import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.Periode
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.Postering
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakRequest
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakResponse
 
 object Testdata {
-    val tilbakekrevingsvedtakRequest =
-        TilbakekrevingsvedtakRequest(
+    val vedtakRequest =
+        VedtakRequest(
             kodeAksjon = "NY",
             vedtakId = 123456789L,
             vedtaksDato = "2026-01-15",
@@ -52,16 +52,16 @@ object Testdata {
                 ),
         )
 
-    val tilbakekrevingsvedtakResponse =
-        TilbakekrevingsvedtakResponse(
+    val vedtakResponse =
+        VedtakResponse(
             status = 200,
             melding = "Vedtak sendt",
             vedtakId = 123456789,
             datoVedtakFagsystem = "2026-01-15",
         )
 
-    val hentKravgrunnlagRequest =
-        HentKravgrunnlagRequest(
+    val kravListeRequest =
+        KravgrunnlagRequest(
             kodeAksjon = "HENT",
             gjelderId = "12345678901",
             typeGjelder = "PERSON",
@@ -94,17 +94,17 @@ object Testdata {
             belopSumFeilutbetalt = 10000.00,
         )
 
-    val hentKravgrunnlagResponse =
-        HentKravgrunnlagResponse(
+    val kravgrunnlagResponse =
+        KravgrunnlagResponse(
             status = 200,
             melding = "Kravgrunnlag hentet",
             kravgrunnlagListe = listOf(kravgrunnlag),
         )
 
-    val hentKravgrunnlagDetaljerRequest =
-        HentKravgrunnlagDetaljerRequest(
+    val kravDetaljerRequest =
+        KravdetaljerRequest(
             kodeAksjon = "HENT_DETALJER",
-            kravgrunnlagId = 123456L,
+            kravgrunnlagId = 123456,
             enhetAnsvarlig = "8020",
             saksbehandlerId = "Z999999",
         )
@@ -156,26 +156,26 @@ object Testdata {
                 ),
         )
 
-    val hentKravgrunnlagDetaljerResponse =
-        HentKravgrunnlagDetaljerResponse(
+    val kravDetaljerResponse =
+        KravdetaljerResponse(
             status = 200,
             melding = "Kravgrunnlag detaljer hentet",
             kravgrunnlag = kravgrunnlagDetaljer,
         )
 
-    val kravgrunnlagAnnulerRequest =
-        KravgrunnlagAnnulerRequest(
+    val annulerRequest =
+        AnnulerRequest(
             kodeAksjon = "ANNULER",
             vedtakId = 123456789L,
             enhetAnsvarlig = "8020",
             saksbehandlerId = "Z999999",
         )
 
-    val kravgrunnlagAnnulerResponse =
-        KravgrunnlagAnnulerResponse(
+    val annulerResponse =
+        AnnulerResponse(
             status = 200,
             melding = "Kravgrunnlag annullert",
-            vedtakId = 123456789L,
+            vedtakId = 123456789,
             saksbehandlerId = "Z999999",
         )
 }
