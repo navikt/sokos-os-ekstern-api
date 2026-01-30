@@ -23,5 +23,5 @@ fun Application.module() {
     applicationLifecycleConfig(applicationState)
     commonConfig()
     securityConfig(useAuthentication)
-    routingConfig(useAuthentication, applicationState, propertiesConfig.osConfiguration)
+    routingConfig(useAuthentication, applicationState)
 }

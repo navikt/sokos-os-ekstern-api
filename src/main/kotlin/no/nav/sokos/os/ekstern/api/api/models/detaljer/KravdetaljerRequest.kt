@@ -1,11 +1,11 @@
-package no.nav.sokos.os.ekstern.api.dto.annuler
+package no.nav.sokos.os.ekstern.api.api.models.detaljer
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class KravgrunnlagAnnulerRequest(
+data class KravdetaljerRequest(
     val kodeAksjon: String,
-    val vedtakId: Long,
+    val kravgrunnlagId: Int,
     val enhetAnsvarlig: String,
     val saksbehandlerId: String,
 )

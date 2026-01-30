@@ -6,15 +6,16 @@ import java.security.KeyStore
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import mu.KotlinLogging
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
@@ -62,37 +63,6 @@ private fun sslContext(osConfig: PropertiesConfig.OsConfiguration): SSLContext {
         .apply { init(null, trustManagerFactory.trustManagers, null) }
 }
 
-class OsHttpClient(
-    private val osConfig: PropertiesConfig.OsConfiguration,
-    private val httpClient: HttpClient = osHttpClient(osConfig),
-) {
-    private val baseUrl = osConfig.endpointUrl
+suspend fun HttpResponse.errorMessage() = body<JsonElement>().jsonObject["errorMessage"]?.jsonPrimitive?.content
 
-    init {
-        logger.info { "OsHttpClient initialized with baseUrl: $baseUrl" }
-    }
-
-    suspend fun postTilbakekrevingsvedtak(request: PostOsTilbakekrevingsvedtakRequest): HttpResponse = post("tilbakekrevingsvedtak", request)
-
-    suspend fun postHentKravgrunnlag(request: PostOsHentKravgrunnlagRequest): HttpResponse = post("kravgrunnlagHentListe", request)
-
-    suspend fun postHentKravgrunnlagDetaljer(request: PostOsHentKravgrunnlagDetaljerRequest): HttpResponse = post("kravgrunnlagHentDetalj", request)
-
-    suspend fun postKravgrunnlagAnnuler(request: PostOsKravgrunnlagAnnulerRequest): HttpResponse = post("kravgrunnlagAnnuler", request)
-
-    private suspend fun post(
-        path: String,
-        request: Any,
-    ): HttpResponse {
-        val fullUrl = "$baseUrl/$path"
-        logger.info { "Calling OS API: $fullUrl" }
-        logger.info { "Request: $request" }
-        return httpClient
-            .post(fullUrl) {
-                contentType(ContentType.Application.Json)
-                setBody(request)
-            }.also { response ->
-                logger.info { "OS API response status: ${response.status}" }
-            }
-    }
-}
+suspend fun HttpResponse.errorDetails() = body<JsonElement>().jsonObject["errorDetails"]?.jsonPrimitive?.content

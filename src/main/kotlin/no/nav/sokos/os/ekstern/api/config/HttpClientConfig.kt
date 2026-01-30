@@ -2,8 +2,6 @@ package no.nav.sokos.os.ekstern.api.config
 
 import java.net.ProxySelector
 
-import kotlinx.serialization.json.Json
-
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -15,14 +13,7 @@ val httpClient =
         expectSuccess = false
 
         install(ContentNegotiation) {
-            json(
-                Json {
-                    prettyPrint = true
-                    ignoreUnknownKeys = true
-                    encodeDefaults = true
-                    explicitNulls = false
-                },
-            )
+            json(jsonConfig)
         }
 
         engine {

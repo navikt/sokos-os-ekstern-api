@@ -1,9 +1,9 @@
-package no.nav.sokos.os.ekstern.api.dto.kravgrunnlag
+package no.nav.sokos.os.ekstern.api.api.models.liste
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HentKravgrunnlagResponse(
+data class KravgrunnlagResponse(
     val status: Int,
     val melding: String,
     val kravgrunnlagListe: List<Kravgrunnlag>,
