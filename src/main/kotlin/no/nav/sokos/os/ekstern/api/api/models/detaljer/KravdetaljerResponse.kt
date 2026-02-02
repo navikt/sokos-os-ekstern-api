@@ -2,6 +2,8 @@ package no.nav.sokos.os.ekstern.api.api.models.detaljer
 
 import kotlinx.serialization.Serializable
 
+import no.nav.sokos.os.ekstern.api.util.BigDecimal
+
 @Serializable
 data class KravdetaljerResponse(
     val status: Int,
@@ -38,7 +40,7 @@ data class KravgrunnlagDetaljer(
 data class DetaljerPeriode(
     val periodeFom: String,
     val periodeTom: String,
-    val belopSkattMnd: Double,
+    val belopSkattMnd: BigDecimal,
     val posteringer: List<DetaljerPostering>,
 )
 
@@ -46,11 +48,11 @@ data class DetaljerPeriode(
 data class DetaljerPostering(
     val kodeKlasse: String,
     val typeKlasse: String,
-    val belopOpprinneligUtbetalt: Double,
-    val belopNy: Double,
-    val belopTilbakekreves: Double,
-    val belopUinnkrevd: Double,
-    val skattProsent: Double,
+    val belopOpprinneligUtbetalt: BigDecimal,
+    val belopNy: BigDecimal,
+    val belopTilbakekreves: BigDecimal,
+    val belopUinnkrevd: BigDecimal,
+    val skattProsent: BigDecimal,
     val kodeResultat: String,
     val kodeAarsak: String,
     val kodeSkyld: String,

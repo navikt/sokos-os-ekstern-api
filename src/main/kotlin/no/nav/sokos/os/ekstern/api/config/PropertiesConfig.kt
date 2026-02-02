@@ -15,7 +15,6 @@ object PropertiesConfig {
             mapOf(
                 "NAIS_APP_NAME" to "sokos-os-ekstern-api",
                 "NAIS_NAMESPACE" to "okonomi",
-                "USE_AUTHENTICATION" to "true",
             ),
         )
 

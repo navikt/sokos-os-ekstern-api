@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.service
+package no.nav.sokos.os.ekstern.api.os
 
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -17,14 +17,6 @@ import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerRequest
 import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerResponse
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperation
-import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperationKravgrunnlagAnnuler
-import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperationKravgrunnlagAnnulerRequestKravgrunnlagAnnuler
-import no.nav.sokos.os.ekstern.api.os.PostOsKravgrunnlagAnnulerResponse200
-import no.nav.sokos.os.ekstern.api.os.errorDetails
-import no.nav.sokos.os.ekstern.api.os.errorMessage
-import no.nav.sokos.os.ekstern.api.os.osHttpClient
 
 @OptIn(ExperimentalTime::class)
 class AnnulerService(

@@ -2,6 +2,8 @@ package no.nav.sokos.os.ekstern.api.api.models.vedtak
 
 import kotlinx.serialization.Serializable
 
+import no.nav.sokos.os.ekstern.api.util.BigDecimal
+
 @Serializable
 data class VedtakRequest(
     val kodeAksjon: String,
@@ -21,18 +23,18 @@ data class Periode(
     val periodeFom: String,
     val periodeTom: String,
     val renterPeriodeBeregnes: Boolean,
-    val belopRenter: Double,
+    val belopRenter: BigDecimal,
     val posteringer: List<Postering>,
 )
 
 @Serializable
 data class Postering(
     val kodeKlasse: String,
-    val belopOpprinneligUtbetalt: Double,
-    val belopNy: Double,
-    val belopTilbakekreves: Double,
-    val belopUinnkrevd: Double,
-    val belopSkatt: Double,
+    val belopOpprinneligUtbetalt: BigDecimal,
+    val belopNy: BigDecimal,
+    val belopTilbakekreves: BigDecimal,
+    val belopUinnkrevd: BigDecimal,
+    val belopSkatt: BigDecimal,
     val kodeResultat: String,
     val kodeAarsak: String,
     val kodeSkyld: String,

@@ -14,7 +14,7 @@ import io.ktor.server.request.httpMethod
 import io.ktor.server.request.path
 import io.ktor.server.response.respond
 
-import no.nav.sokos.os.ekstern.api.service.OsException
+import no.nav.sokos.os.ekstern.api.os.OsException
 
 fun StatusPagesConfig.statusPageConfig() {
     exception<Throwable> { call, cause ->

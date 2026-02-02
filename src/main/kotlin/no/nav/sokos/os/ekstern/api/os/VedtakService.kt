@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.service
+package no.nav.sokos.os.ekstern.api.os
 
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -18,16 +18,6 @@ import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakRequest
 import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakResponse
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperation
-import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1ICont
-import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtak
-import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInner
-import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtakTilbakekrevingsperiodeInnerTilbakerevingsbelopInner
-import no.nav.sokos.os.ekstern.api.os.PostOsTilbakekrevingsvedtakResponse200
-import no.nav.sokos.os.ekstern.api.os.errorDetails
-import no.nav.sokos.os.ekstern.api.os.errorMessage
-import no.nav.sokos.os.ekstern.api.os.osHttpClient
 
 @OptIn(ExperimentalTime::class)
 class VedtakService(

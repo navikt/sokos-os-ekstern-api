@@ -1,5 +1,7 @@
 package no.nav.sokos.os.ekstern.api
 
+import java.math.BigDecimal
+
 import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerRequest
 import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerResponse
 import no.nav.sokos.os.ekstern.api.api.models.detaljer.DetaljerPeriode
@@ -33,16 +35,16 @@ object Testdata {
                         periodeFom = "2026-01-01",
                         periodeTom = "2026-01-31",
                         renterPeriodeBeregnes = true,
-                        belopRenter = 150.50,
+                        belopRenter = BigDecimal(150.50),
                         posteringer =
                             listOf(
                                 Postering(
                                     kodeKlasse = "KL_KODE_CLASS1",
-                                    belopOpprinneligUtbetalt = 10000.00,
-                                    belopNy = 8000.00,
-                                    belopTilbakekreves = 2000.00,
-                                    belopUinnkrevd = 0.00,
-                                    belopSkatt = 500.00,
+                                    belopOpprinneligUtbetalt = BigDecimal(10000.00),
+                                    belopNy = BigDecimal(8000.00),
+                                    belopTilbakekreves = BigDecimal(2000.00),
+                                    belopUinnkrevd = BigDecimal(0.00),
+                                    belopSkatt = BigDecimal(500.00),
                                     kodeResultat = "FULL_TILBAKEKREV",
                                     kodeAarsak = "FEIL_OPPLYSNINGER",
                                     kodeSkyld = "BRUKER",
@@ -91,7 +93,7 @@ object Testdata {
             datoKravDannet = "2026-01-15",
             datoPeriodeFom = "2026-01-01",
             datoPeriodeTom = "2026-01-31",
-            belopSumFeilutbetalt = 10000.00,
+            belopSumFeilutbetalt = BigDecimal(10000.00),
         )
 
     val kravgrunnlagResponse =
@@ -136,17 +138,17 @@ object Testdata {
                     DetaljerPeriode(
                         periodeFom = "2026-01-01",
                         periodeTom = "2026-01-31",
-                        belopSkattMnd = 500.00,
+                        belopSkattMnd = BigDecimal(500.00),
                         posteringer =
                             listOf(
                                 DetaljerPostering(
                                     kodeKlasse = "KL_KODE_CLASS1",
                                     typeKlasse = "YTEL",
-                                    belopOpprinneligUtbetalt = 10000.00,
-                                    belopNy = 8000.00,
-                                    belopTilbakekreves = 2000.00,
-                                    belopUinnkrevd = 0.00,
-                                    skattProsent = 25.0,
+                                    belopOpprinneligUtbetalt = BigDecimal(10000.00),
+                                    belopNy = BigDecimal(8000.00),
+                                    belopTilbakekreves = BigDecimal(2000.00),
+                                    belopUinnkrevd = BigDecimal(0.00),
+                                    skattProsent = BigDecimal(25.0),
                                     kodeResultat = "FULL_TILBAKEKREV",
                                     kodeAarsak = "FEIL_OPPLYSNINGER",
                                     kodeSkyld = "BRUKER",

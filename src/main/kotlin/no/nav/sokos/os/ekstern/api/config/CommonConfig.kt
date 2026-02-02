@@ -39,6 +39,9 @@ fun Application.commonConfig() {
     install(ContentNegotiation) {
         json(jsonConfig)
     }
+    install(StatusPages) {
+        statusPageConfig()
+    }
     install(MicrometerMetrics) {
         registry = Metrics.prometheusMeterRegistry
         meterBinders =
@@ -49,9 +52,6 @@ fun Application.commonConfig() {
                 JvmThreadMetrics(),
                 ProcessorMetrics(),
             )
-    }
-    install(StatusPages) {
-        statusPageConfig()
     }
 }
 

@@ -2,6 +2,8 @@ package no.nav.sokos.os.ekstern.api.api.models.liste
 
 import kotlinx.serialization.Serializable
 
+import no.nav.sokos.os.ekstern.api.util.BigDecimal
+
 @Serializable
 data class KravgrunnlagResponse(
     val status: Int,
@@ -25,5 +27,5 @@ data class Kravgrunnlag(
     val datoKravDannet: String,
     val datoPeriodeFom: String,
     val datoPeriodeTom: String,
-    val belopSumFeilutbetalt: Double,
+    val belopSumFeilutbetalt: BigDecimal,
 )

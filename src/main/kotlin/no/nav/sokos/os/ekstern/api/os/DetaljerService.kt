@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.service
+package no.nav.sokos.os.ekstern.api.os
 
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -20,17 +20,7 @@ import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravdetaljerResponse
 import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravgrunnlagDetaljer
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperation
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperationKravgrunnlagsdetaljer
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerRequestOsHentKravgrunnlagDetaljerOperationKravgrunnlagsdetaljerRequestDetaljer
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200OsHentKravgrunnlagDetaljerOperationResponseKravgrunnlagsdetaljerResponsDetaljer
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200OsHentKravgrunnlagDetaljerOperationResponseKravgrunnlagsdetaljerResponsDetaljerTilbakekrevingsperiodeInner
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagDetaljerResponse200OsHentKravgrunnlagDetaljerOperationResponseKravgrunnlagsdetaljerResponsDetaljerTilbakekrevingsperiodeInnerTilbakekrevingsbelopInner
-import no.nav.sokos.os.ekstern.api.os.errorDetails
-import no.nav.sokos.os.ekstern.api.os.errorMessage
-import no.nav.sokos.os.ekstern.api.os.osHttpClient
+import no.nav.sokos.os.ekstern.api.util.BigDecimal
 
 @OptIn(ExperimentalTime::class)
 class DetaljerService(
@@ -130,7 +120,7 @@ class DetaljerService(
         DetaljerPeriode(
             periodeFom = datoPeriodeFom.orEmpty(),
             periodeTom = datoPeriodeTom.orEmpty(),
-            belopSkattMnd = belopSkattMnd ?: 0.0,
+            belopSkattMnd = belopSkattMnd ?: BigDecimal.ZERO,
             posteringer = tilbakekrevingsbelop?.map { it.toDetaljerPostering() } ?: emptyList(),
         )
 
@@ -138,11 +128,11 @@ class DetaljerService(
         DetaljerPostering(
             kodeKlasse = kodeKlasse.orEmpty(),
             typeKlasse = typeKlasse.orEmpty(),
-            belopOpprinneligUtbetalt = belopOpprinneligUtbetalt ?: 0.0,
-            belopNy = belopNy ?: 0.0,
-            belopTilbakekreves = belopTilbakekreves ?: 0.0,
-            belopUinnkrevd = belopUinnkrevd ?: 0.0,
-            skattProsent = skattProsent ?: 0.0,
+            belopOpprinneligUtbetalt = belopOpprinneligUtbetalt ?: BigDecimal.ZERO,
+            belopNy = belopNy ?: BigDecimal.ZERO,
+            belopTilbakekreves = belopTilbakekreves ?: BigDecimal.ZERO,
+            belopUinnkrevd = belopUinnkrevd ?: BigDecimal.ZERO,
+            skattProsent = skattProsent ?: BigDecimal.ZERO,
             kodeResultat = kodeResultat.orEmpty(),
             kodeAarsak = kodeAarsak.orEmpty(),
             kodeSkyld = kodeSkyld.orEmpty(),

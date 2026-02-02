@@ -19,7 +19,7 @@ repositories {
     mavenCentral()
 }
 
-val ktorVersion = "3.3.3"
+val ktorVersion = "3.4.0"
 val logbackVersion = "1.5.24"
 val logstashVersion = "9.0"
 val micrometerVersion = "1.16.2"
@@ -42,7 +42,7 @@ dependencies {
 
     // Ktor client
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-client-apache-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-client-apache5-jvm:$ktorVersion")
 
     // Security
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
@@ -138,11 +138,6 @@ tasks {
         globalProperties.set(
             mapOf(
                 "models" to "",
-            ),
-        )
-        typeMappings.set(
-            mapOf(
-                "number" to "kotlin.Double",
             ),
         )
     }

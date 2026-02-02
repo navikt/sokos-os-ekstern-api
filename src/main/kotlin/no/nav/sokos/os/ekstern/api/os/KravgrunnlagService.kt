@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.service
+package no.nav.sokos.os.ekstern.api.os
 
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -18,15 +18,7 @@ import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagRequest
 import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagResponse
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperation
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperationKravgrunnlag
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagRequestOsHentKravgrunnlagOperationKravgrunnlagRequestTilbakekrevingsgrunnlag
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagResponse200
-import no.nav.sokos.os.ekstern.api.os.PostOsHentKravgrunnlagResponse200OsHentKravgrunnlagOperationResponseKravgrunnlagListeResponsKravgrunnlagListeKravgrunnlagInner
-import no.nav.sokos.os.ekstern.api.os.errorDetails
-import no.nav.sokos.os.ekstern.api.os.errorMessage
-import no.nav.sokos.os.ekstern.api.os.osHttpClient
+import no.nav.sokos.os.ekstern.api.util.BigDecimal
 
 @OptIn(ExperimentalTime::class)
 class KravgrunnlagService(
@@ -122,6 +114,6 @@ class KravgrunnlagService(
             datoKravDannet = datoKravDannet.orEmpty(),
             datoPeriodeFom = datoPeriodeFom.orEmpty(),
             datoPeriodeTom = datoPeriodeTom.orEmpty(),
-            belopSumFeilutbetalt = belopSumFeilutbetalt ?: 0.0,
+            belopSumFeilutbetalt = belopSumFeilutbetalt ?: BigDecimal.ZERO,
         )
 }

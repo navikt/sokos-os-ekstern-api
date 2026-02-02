@@ -1,4 +1,4 @@
-package no.nav.sokos.os.ekstern.api.service
+package no.nav.sokos.os.ekstern.api.os
 
 import no.nav.sokos.os.ekstern.api.config.ApiError
 
