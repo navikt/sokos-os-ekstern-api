@@ -8,7 +8,7 @@ plugins {
     kotlin("plugin.serialization") version "2.3.0"
     id("org.jlleitschuh.gradle.ktlint") version "14.0.1"
     id("org.jetbrains.kotlinx.kover") version "0.9.4"
-    id("org.openapi.generator") version "7.18.0"
+    id("org.openapi.generator") version "7.19.0"
 
     application
 }
@@ -20,14 +20,14 @@ repositories {
 }
 
 val ktorVersion = "3.4.0"
-val logbackVersion = "1.5.24"
+val logbackVersion = "1.5.25"
 val logstashVersion = "9.0"
 val micrometerVersion = "1.16.2"
 val kotlinLoggingVersion = "3.0.5"
 val janionVersion = "3.1.12"
 val natpryceVersion = "1.6.10.0"
-val kotestVersion = "6.0.7"
-val kotlinxSerializationVersion = "1.9.0"
+val kotestVersion = "6.1.0"
+val kotlinxSerializationVersion = "1.10.0"
 val mockOAuth2ServerVersion = "3.0.1"
 val mockkVersion = "1.14.7"
 
@@ -58,9 +58,6 @@ dependencies {
 
     // Logging
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingVersion")
-    implementation("io.ktor:ktor-server-core:3.3.3")
-    implementation("io.ktor:ktor-server-host-common:3.3.3")
-    implementation("io.ktor:ktor-server-core:3.3.3")
     runtimeOnly("org.codehaus.janino:janino:$janionVersion")
     runtimeOnly("ch.qos.logback:logback-classic:$logbackVersion")
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
