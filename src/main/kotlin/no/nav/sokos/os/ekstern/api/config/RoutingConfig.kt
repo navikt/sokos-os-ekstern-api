@@ -7,22 +7,18 @@ import io.ktor.server.routing.routing
 
 import no.nav.sokos.os.ekstern.api.api.swaggerApi
 import no.nav.sokos.os.ekstern.api.api.tilbakekrevingApi
-import no.nav.sokos.os.ekstern.api.os.OsHttpClient
-import no.nav.sokos.os.ekstern.api.service.TilbakekrevingService
 
 fun Application.routingConfig(
     useAuthentication: Boolean,
     applicationState: ApplicationState,
-    osConfiguration: PropertiesConfig.OsConfiguration,
 ) {
-    val osHttpClient = OsHttpClient(osConfiguration)
-    val tilbakekrevingService = TilbakekrevingService(osHttpClient)
-
     routing {
         internalNaisRoutes(applicationState)
         swaggerApi()
         authenticate(useAuthentication, AUTHENTICATION_NAME) {
-            tilbakekrevingApi(tilbakekrevingService)
+            tilbakekrevingApi() // TODO: tilbakekrevingApi() relies on default-constructed services (VedtakService(), KravgrunnlagService(), etc.), and each service default-constructs its own HttpClient via osHttpClient(...).
+            // This creates multiple clients that are never closed, which can leak resources and waste connections. Prefer constructing a single shared OS HttpClient in routingConfig (or a DI module), passing it into
+            // the services, and closing it on ApplicationStopped.
         }
     }
 }

@@ -38,10 +38,11 @@ dependencies {
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-swagger:$ktorVersion")
+    implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
 
     // Ktor client
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-client-apache-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-client-apache5-jvm:$ktorVersion")
 
     // Security
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
@@ -134,11 +135,6 @@ tasks {
         globalProperties.set(
             mapOf(
                 "models" to "",
-            ),
-        )
-        typeMappings.set(
-            mapOf(
-                "number" to "kotlin.Double",
             ),
         )
     }

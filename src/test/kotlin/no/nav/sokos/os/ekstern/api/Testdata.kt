@@ -1,25 +1,27 @@
 package no.nav.sokos.os.ekstern.api
 
-import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerRequest
-import no.nav.sokos.os.ekstern.api.dto.annuler.KravgrunnlagAnnulerResponse
-import no.nav.sokos.os.ekstern.api.dto.detaljer.DetaljerPeriode
-import no.nav.sokos.os.ekstern.api.dto.detaljer.DetaljerPostering
-import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerRequest
-import no.nav.sokos.os.ekstern.api.dto.detaljer.HentKravgrunnlagDetaljerResponse
-import no.nav.sokos.os.ekstern.api.dto.detaljer.KravgrunnlagDetaljer
-import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagRequest
-import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.HentKravgrunnlagResponse
-import no.nav.sokos.os.ekstern.api.dto.kravgrunnlag.Kravgrunnlag
-import no.nav.sokos.os.ekstern.api.dto.vedtak.Periode
-import no.nav.sokos.os.ekstern.api.dto.vedtak.Postering
-import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakRequest
-import no.nav.sokos.os.ekstern.api.dto.vedtak.TilbakekrevingsvedtakResponse
+import java.math.BigDecimal
+
+import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerRequest
+import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerResponse
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.DetaljerPeriode
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.DetaljerPostering
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravdetaljerRequest
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravdetaljerResponse
+import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravgrunnlagDetaljer
+import no.nav.sokos.os.ekstern.api.api.models.liste.Kravgrunnlag
+import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagRequest
+import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagResponse
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.Periode
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.Postering
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakRequest
+import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakResponse
 
 object Testdata {
-    val tilbakekrevingsvedtakRequest =
-        TilbakekrevingsvedtakRequest(
+    val vedtakRequest =
+        VedtakRequest(
             kodeAksjon = "NY",
-            vedtakId = 123456789L,
+            vedtakId = 123456789,
             vedtaksDato = "2026-01-15",
             kodeHjemmel = "FVL-22",
             renterBeregnes = true,
@@ -33,16 +35,16 @@ object Testdata {
                         periodeFom = "2026-01-01",
                         periodeTom = "2026-01-31",
                         renterPeriodeBeregnes = true,
-                        belopRenter = 150.50,
+                        belopRenter = BigDecimal.valueOf(150.50),
                         posteringer =
                             listOf(
                                 Postering(
                                     kodeKlasse = "KL_KODE_CLASS1",
-                                    belopOpprinneligUtbetalt = 10000.00,
-                                    belopNy = 8000.00,
-                                    belopTilbakekreves = 2000.00,
-                                    belopUinnkrevd = 0.00,
-                                    belopSkatt = 500.00,
+                                    belopOpprinneligUtbetalt = BigDecimal.valueOf(10000.00),
+                                    belopNy = BigDecimal.valueOf(8000.00),
+                                    belopTilbakekreves = BigDecimal.valueOf(2000.00),
+                                    belopUinnkrevd = BigDecimal.valueOf(0.00),
+                                    belopSkatt = BigDecimal.valueOf(500.00),
                                     kodeResultat = "FULL_TILBAKEKREV",
                                     kodeAarsak = "FEIL_OPPLYSNINGER",
                                     kodeSkyld = "BRUKER",
@@ -52,16 +54,16 @@ object Testdata {
                 ),
         )
 
-    val tilbakekrevingsvedtakResponse =
-        TilbakekrevingsvedtakResponse(
+    val vedtakResponse =
+        VedtakResponse(
             status = 200,
             melding = "Vedtak sendt",
-            vedtakId = 123456789L,
+            vedtakId = 123456789,
             datoVedtakFagsystem = "2026-01-15",
         )
 
-    val hentKravgrunnlagRequest =
-        HentKravgrunnlagRequest(
+    val kravListeRequest =
+        KravgrunnlagRequest(
             kodeAksjon = "HENT",
             gjelderId = "12345678901",
             typeGjelder = "PERSON",
@@ -91,20 +93,20 @@ object Testdata {
             datoKravDannet = "2026-01-15",
             datoPeriodeFom = "2026-01-01",
             datoPeriodeTom = "2026-01-31",
-            belopSumFeilutbetalt = 10000.00,
+            belopSumFeilutbetalt = BigDecimal.valueOf(10000.00),
         )
 
-    val hentKravgrunnlagResponse =
-        HentKravgrunnlagResponse(
+    val kravgrunnlagResponse =
+        KravgrunnlagResponse(
             status = 200,
             melding = "Kravgrunnlag hentet",
             kravgrunnlagListe = listOf(kravgrunnlag),
         )
 
-    val hentKravgrunnlagDetaljerRequest =
-        HentKravgrunnlagDetaljerRequest(
+    val kravDetaljerRequest =
+        KravdetaljerRequest(
             kodeAksjon = "HENT_DETALJER",
-            kravgrunnlagId = 123456L,
+            kravgrunnlagId = 123456,
             enhetAnsvarlig = "8020",
             saksbehandlerId = "Z999999",
         )
@@ -136,17 +138,17 @@ object Testdata {
                     DetaljerPeriode(
                         periodeFom = "2026-01-01",
                         periodeTom = "2026-01-31",
-                        belopSkattMnd = 500.00,
+                        belopSkattMnd = BigDecimal.valueOf(500.00),
                         posteringer =
                             listOf(
                                 DetaljerPostering(
                                     kodeKlasse = "KL_KODE_CLASS1",
                                     typeKlasse = "YTEL",
-                                    belopOpprinneligUtbetalt = 10000.00,
-                                    belopNy = 8000.00,
-                                    belopTilbakekreves = 2000.00,
-                                    belopUinnkrevd = 0.00,
-                                    skattProsent = 25.0,
+                                    belopOpprinneligUtbetalt = BigDecimal.valueOf(10000.00),
+                                    belopNy = BigDecimal.valueOf(8000.00),
+                                    belopTilbakekreves = BigDecimal.valueOf(2000.00),
+                                    belopUinnkrevd = BigDecimal.valueOf(0.00),
+                                    skattProsent = BigDecimal.valueOf(25.0),
                                     kodeResultat = "FULL_TILBAKEKREV",
                                     kodeAarsak = "FEIL_OPPLYSNINGER",
                                     kodeSkyld = "BRUKER",
@@ -156,26 +158,26 @@ object Testdata {
                 ),
         )
 
-    val hentKravgrunnlagDetaljerResponse =
-        HentKravgrunnlagDetaljerResponse(
+    val kravDetaljerResponse =
+        KravdetaljerResponse(
             status = 200,
             melding = "Kravgrunnlag detaljer hentet",
             kravgrunnlag = kravgrunnlagDetaljer,
         )
 
-    val kravgrunnlagAnnulerRequest =
-        KravgrunnlagAnnulerRequest(
+    val annulerRequest =
+        AnnulerRequest(
             kodeAksjon = "ANNULER",
-            vedtakId = 123456789L,
+            vedtakId = 123456789,
             enhetAnsvarlig = "8020",
             saksbehandlerId = "Z999999",
         )
 
-    val kravgrunnlagAnnulerResponse =
-        KravgrunnlagAnnulerResponse(
+    val annulerResponse =
+        AnnulerResponse(
             status = 200,
             melding = "Kravgrunnlag annullert",
-            vedtakId = 123456789L,
+            vedtakId = 123456789,
             saksbehandlerId = "Z999999",
         )
 }
