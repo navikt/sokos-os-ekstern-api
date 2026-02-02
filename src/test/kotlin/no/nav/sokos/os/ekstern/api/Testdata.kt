@@ -21,7 +21,7 @@ object Testdata {
     val vedtakRequest =
         VedtakRequest(
             kodeAksjon = "NY",
-            vedtakId = 123456789L,
+            vedtakId = 123456789,
             vedtaksDato = "2026-01-15",
             kodeHjemmel = "FVL-22",
             renterBeregnes = true,
@@ -35,16 +35,16 @@ object Testdata {
                         periodeFom = "2026-01-01",
                         periodeTom = "2026-01-31",
                         renterPeriodeBeregnes = true,
-                        belopRenter = BigDecimal(150.50),
+                        belopRenter = BigDecimal.valueOf(150.50),
                         posteringer =
                             listOf(
                                 Postering(
                                     kodeKlasse = "KL_KODE_CLASS1",
-                                    belopOpprinneligUtbetalt = BigDecimal(10000.00),
-                                    belopNy = BigDecimal(8000.00),
-                                    belopTilbakekreves = BigDecimal(2000.00),
-                                    belopUinnkrevd = BigDecimal(0.00),
-                                    belopSkatt = BigDecimal(500.00),
+                                    belopOpprinneligUtbetalt = BigDecimal.valueOf(10000.00),
+                                    belopNy = BigDecimal.valueOf(8000.00),
+                                    belopTilbakekreves = BigDecimal.valueOf(2000.00),
+                                    belopUinnkrevd = BigDecimal.valueOf(0.00),
+                                    belopSkatt = BigDecimal.valueOf(500.00),
                                     kodeResultat = "FULL_TILBAKEKREV",
                                     kodeAarsak = "FEIL_OPPLYSNINGER",
                                     kodeSkyld = "BRUKER",
@@ -93,7 +93,7 @@ object Testdata {
             datoKravDannet = "2026-01-15",
             datoPeriodeFom = "2026-01-01",
             datoPeriodeTom = "2026-01-31",
-            belopSumFeilutbetalt = BigDecimal(10000.00),
+            belopSumFeilutbetalt = BigDecimal.valueOf(10000.00),
         )
 
     val kravgrunnlagResponse =
@@ -138,17 +138,17 @@ object Testdata {
                     DetaljerPeriode(
                         periodeFom = "2026-01-01",
                         periodeTom = "2026-01-31",
-                        belopSkattMnd = BigDecimal(500.00),
+                        belopSkattMnd = BigDecimal.valueOf(500.00),
                         posteringer =
                             listOf(
                                 DetaljerPostering(
                                     kodeKlasse = "KL_KODE_CLASS1",
                                     typeKlasse = "YTEL",
-                                    belopOpprinneligUtbetalt = BigDecimal(10000.00),
-                                    belopNy = BigDecimal(8000.00),
-                                    belopTilbakekreves = BigDecimal(2000.00),
-                                    belopUinnkrevd = BigDecimal(0.00),
-                                    skattProsent = BigDecimal(25.0),
+                                    belopOpprinneligUtbetalt = BigDecimal.valueOf(10000.00),
+                                    belopNy = BigDecimal.valueOf(8000.00),
+                                    belopTilbakekreves = BigDecimal.valueOf(2000.00),
+                                    belopUinnkrevd = BigDecimal.valueOf(0.00),
+                                    skattProsent = BigDecimal.valueOf(25.0),
                                     kodeResultat = "FULL_TILBAKEKREV",
                                     kodeAarsak = "FEIL_OPPLYSNINGER",
                                     kodeSkyld = "BRUKER",
@@ -168,7 +168,7 @@ object Testdata {
     val annulerRequest =
         AnnulerRequest(
             kodeAksjon = "ANNULER",
-            vedtakId = 123456789L,
+            vedtakId = 123456789,
             enhetAnsvarlig = "8020",
             saksbehandlerId = "Z999999",
         )

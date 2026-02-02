@@ -16,7 +16,9 @@ fun Application.routingConfig(
         internalNaisRoutes(applicationState)
         swaggerApi()
         authenticate(useAuthentication, AUTHENTICATION_NAME) {
-            tilbakekrevingApi()
+            tilbakekrevingApi() // TODO: tilbakekrevingApi() relies on default-constructed services (VedtakService(), KravgrunnlagService(), etc.), and each service default-constructs its own HttpClient via osHttpClient(...).
+            // This creates multiple clients that are never closed, which can leak resources and waste connections. Prefer constructing a single shared OS HttpClient in routingConfig (or a DI module), passing it into
+            // the services, and closing it on ApplicationStopped.
         }
     }
 }

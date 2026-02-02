@@ -7,7 +7,7 @@ import no.nav.sokos.os.ekstern.api.util.BigDecimal
 @Serializable
 data class VedtakRequest(
     val kodeAksjon: String,
-    val vedtakId: Long,
+    val vedtakId: Int,
     val vedtaksDato: String,
     val kodeHjemmel: String,
     val renterBeregnes: Boolean,

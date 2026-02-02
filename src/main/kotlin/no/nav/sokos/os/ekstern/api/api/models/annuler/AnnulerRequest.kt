@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AnnulerRequest(
     val kodeAksjon: String,
-    val vedtakId: Long,
+    val vedtakId: Int,
     val enhetAnsvarlig: String,
     val saksbehandlerId: String,
 )

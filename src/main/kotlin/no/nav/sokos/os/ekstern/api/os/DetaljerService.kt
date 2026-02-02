@@ -26,7 +26,7 @@ import no.nav.sokos.os.ekstern.api.util.BigDecimal
 class DetaljerService(
     private val osConfig: PropertiesConfig.OsConfiguration = PropertiesConfig.OsConfiguration(),
     private val httpClient: HttpClient = osHttpClient(osConfig),
-    endpointUrl: String = PropertiesConfig.OsConfiguration().endpointUrl,
+    endpointUrl: String = osConfig.endpointUrl,
 ) {
     private val url = "$endpointUrl/kravgrunnlagHentDetalj"
 
@@ -40,21 +40,21 @@ class DetaljerService(
         return when {
             response.status.isSuccess() -> {
                 val result = response.body<PostOsHentKravgrunnlagDetaljerResponse200>()
-                val responsDetaljer = result.osHentKravgrunnlagDetaljerOperationResponse?.kravgrunnlagsdetaljer?.responsDetaljer
+                val osResponse = result.osHentKravgrunnlagDetaljerOperationResponse?.kravgrunnlagsdetaljer?.responsDetaljer
                 val response =
                     KravdetaljerResponse(
-                        status = responsDetaljer?.status!!,
-                        melding = responsDetaljer.statusMelding!!,
-                        kravgrunnlag = responsDetaljer.toKravgrunnlagDetaljer(),
+                        status = osResponse?.status!!,
+                        melding = osResponse.statusMelding!!,
+                        kravgrunnlag = osResponse.toKravgrunnlagDetaljer(),
                     )
 
-                if (responsDetaljer.status != 0) {
+                if (osResponse.status != 0) {
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
-                            responsDetaljer.statusMelding,
+                            osResponse.statusMelding,
                             url,
                         ),
                     )

@@ -34,7 +34,7 @@ fun StatusPagesConfig.statusPageConfig() {
 
 @OptIn(ExperimentalTime::class)
 private fun createApiError(
-    status: HttpStatusCode,
+    status: HttpStatusCode, // TODO : Value of parameter 'status' is always 'HttpStatusCode.InternalServerError'
     message: String?,
     call: ApplicationCall,
 ): Pair<HttpStatusCode, ApiError> =

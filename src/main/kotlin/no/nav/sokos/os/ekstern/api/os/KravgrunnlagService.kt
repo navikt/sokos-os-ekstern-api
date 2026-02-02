@@ -24,7 +24,7 @@ import no.nav.sokos.os.ekstern.api.util.BigDecimal
 class KravgrunnlagService(
     private val osConfig: PropertiesConfig.OsConfiguration = PropertiesConfig.OsConfiguration(),
     private val httpClient: HttpClient = osHttpClient(osConfig),
-    endpointUrl: String = PropertiesConfig.OsConfiguration().endpointUrl,
+    endpointUrl: String = osConfig.endpointUrl,
 ) {
     private val url = "$endpointUrl/kravgrunnlagHentListe"
 
@@ -38,21 +38,21 @@ class KravgrunnlagService(
         return when {
             response.status.isSuccess() -> {
                 val result = response.body<PostOsHentKravgrunnlagResponse200>()
-                val responsKravgrunnlagListe = result.osHentKravgrunnlagOperationResponse?.kravgrunnlagListe?.responsKravgrunnlagListe
+                val osResponse = result.osHentKravgrunnlagOperationResponse?.kravgrunnlagListe?.responsKravgrunnlagListe
                 val response =
                     KravgrunnlagResponse(
-                        status = responsKravgrunnlagListe?.status!!,
-                        melding = responsKravgrunnlagListe.statusMelding!!,
-                        kravgrunnlagListe = responsKravgrunnlagListe.kravgrunnlag?.map { it.toKravgrunnlag() } ?: emptyList(),
+                        status = osResponse?.status!!,
+                        melding = osResponse.statusMelding!!,
+                        kravgrunnlagListe = osResponse.kravgrunnlag?.map { it.toKravgrunnlag() } ?: emptyList(),
                     )
 
-                if (responsKravgrunnlagListe.status != 0) {
+                if (osResponse.status != 0) {
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
-                            responsKravgrunnlagListe.statusMelding,
+                            osResponse.statusMelding,
                             url,
                         ),
                     )

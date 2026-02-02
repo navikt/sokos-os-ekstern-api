@@ -22,7 +22,7 @@ import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
 class AnnulerService(
     private val osConfig: PropertiesConfig.OsConfiguration = PropertiesConfig.OsConfiguration(),
     private val httpClient: HttpClient = osHttpClient(osConfig),
-    endpointUrl: String = PropertiesConfig.OsConfiguration().endpointUrl,
+    endpointUrl: String = osConfig.endpointUrl,
 ) {
     private val url = "$endpointUrl/kravgrunnlagAnnuler"
 
@@ -36,21 +36,21 @@ class AnnulerService(
         return when {
             response.status.isSuccess() -> {
                 val result = response.body<PostOsKravgrunnlagAnnulerResponse200>()
-                val responsKravgrunnlagAnnuler = result.osKravgrunnlagAnnulerOperationResponse?.kravgrunnlagAnnulert?.responsKravgrunnlagAnnuler
+                val osResponse = result.osKravgrunnlagAnnulerOperationResponse?.kravgrunnlagAnnulert?.responsKravgrunnlagAnnuler
                 val response =
                     AnnulerResponse(
-                        status = responsKravgrunnlagAnnuler?.status!!,
-                        melding = responsKravgrunnlagAnnuler.statusMelding!!,
-                        vedtakId = responsKravgrunnlagAnnuler.vedtakId!!,
-                        saksbehandlerId = responsKravgrunnlagAnnuler.saksbehandlerId!!,
+                        status = osResponse?.status!!,
+                        melding = osResponse.statusMelding!!,
+                        vedtakId = osResponse.vedtakId!!,
+                        saksbehandlerId = osResponse.saksbehandlerId!!,
                     )
-                if (responsKravgrunnlagAnnuler.status != 0) {
+                if (osResponse.status != 0) {
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
-                            responsKravgrunnlagAnnuler.statusMelding,
+                            osResponse.statusMelding,
                             url,
                         ),
                     )
@@ -79,7 +79,7 @@ class AnnulerService(
                             requestKravgrunnlagAnnuler =
                                 PostOsKravgrunnlagAnnulerRequestOsKravgrunnlagAnnulerOperationKravgrunnlagAnnulerRequestKravgrunnlagAnnuler(
                                     kodeAksjon = kodeAksjon,
-                                    vedtakId = vedtakId.toInt(),
+                                    vedtakId = vedtakId,
                                     enhetAnsvarlig = enhetAnsvarlig,
                                     saksbehandlerId = saksbehandlerId,
                                 ),

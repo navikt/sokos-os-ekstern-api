@@ -23,7 +23,7 @@ import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
 class VedtakService(
     private val osConfig: PropertiesConfig.OsConfiguration = PropertiesConfig.OsConfiguration(),
     private val httpClient: HttpClient = osHttpClient(osConfig),
-    endpointUrl: String = PropertiesConfig.OsConfiguration().endpointUrl,
+    endpointUrl: String = osConfig.endpointUrl,
 ) {
     private val url = "$endpointUrl/tilbakekrevingsvedtak"
 
@@ -37,21 +37,21 @@ class VedtakService(
         return when {
             response.status.isSuccess() -> {
                 val result = response.body<PostOsTilbakekrevingsvedtakResponse200>()
-                val responsTilbakekrevingsvedtak = result.osTilbakekrevingsvedtakOperationResponse?.zt1OCont?.responsTilbakekrevingsvedtak
+                val osResponse = result.osTilbakekrevingsvedtakOperationResponse?.zt1OCont?.responsTilbakekrevingsvedtak
                 val response =
                     VedtakResponse(
-                        status = responsTilbakekrevingsvedtak?.status!!,
-                        melding = responsTilbakekrevingsvedtak.statusMelding!!,
-                        vedtakId = responsTilbakekrevingsvedtak.vedtakId!!,
-                        datoVedtakFagsystem = responsTilbakekrevingsvedtak.datoVedtakFagsystem!!,
+                        status = osResponse?.status!!,
+                        melding = osResponse.statusMelding!!,
+                        vedtakId = osResponse.vedtakId!!,
+                        datoVedtakFagsystem = osResponse.datoVedtakFagsystem!!,
                     )
-                if (responsTilbakekrevingsvedtak.status != 0) {
+                if (osResponse.status != 0) {
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
-                            responsTilbakekrevingsvedtak.statusMelding,
+                            osResponse.statusMelding,
                             url,
                         ),
                     )
@@ -80,7 +80,7 @@ class VedtakService(
                             requestTilbakekrevingsvedtak =
                                 PostOsTilbakekrevingsvedtakRequestOsTilbakekrevingsvedtakOperationZT1IContRequestTilbakekrevingsvedtak(
                                     kodeAksjon = kodeAksjon,
-                                    vedtakId = vedtakId.toInt(),
+                                    vedtakId = vedtakId,
                                     datoVedtakFagsystem = vedtaksDato,
                                     kodeHjemmel = kodeHjemmel,
                                     renterBeregnes = renterBeregnes,
