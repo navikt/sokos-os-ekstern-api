@@ -1,5 +1,7 @@
 package no.nav.sokos.os.ekstern.api.config
 
+import kotlinx.serialization.json.Json
+
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -26,8 +28,15 @@ import org.slf4j.event.Level
 import no.nav.sokos.os.ekstern.api.metrics.Metrics
 
 val TEAM_LOGS_MARKER: Marker? = MarkerFactory.getMarker("TEAM_LOGS")
-
 private val logger = KotlinLogging.logger {}
+
+val jsonConfig =
+    Json {
+        prettyPrint = true
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+        explicitNulls = false
+    }
 
 fun Application.commonConfig() {
     install(CallLogging) {
