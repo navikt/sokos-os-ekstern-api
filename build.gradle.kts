@@ -138,10 +138,6 @@ tasks {
         )
     }
 
-    withType<Wrapper> {
-        gradleVersion = "9.2.1"
-    }
-
     ("build") {
         dependsOn("copyPreCommitHook")
     }
