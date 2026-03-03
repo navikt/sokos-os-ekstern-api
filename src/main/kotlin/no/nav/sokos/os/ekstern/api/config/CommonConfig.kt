@@ -1,6 +1,7 @@
 package no.nav.sokos.os.ekstern.api.config
 
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
@@ -26,6 +27,7 @@ import org.slf4j.MarkerFactory
 import org.slf4j.event.Level
 
 import no.nav.sokos.os.ekstern.api.metrics.Metrics
+import no.nav.sokos.os.ekstern.api.util.BigDecimalSerializer
 
 val TEAM_LOGS_MARKER: Marker? = MarkerFactory.getMarker("TEAM_LOGS")
 private val logger = KotlinLogging.logger {}
@@ -36,6 +38,10 @@ val jsonConfig =
         ignoreUnknownKeys = true
         encodeDefaults = true
         explicitNulls = false
+        serializersModule =
+            SerializersModule {
+                contextual(java.math.BigDecimal::class, BigDecimalSerializer)
+            }
     }
 
 fun Application.commonConfig() {
