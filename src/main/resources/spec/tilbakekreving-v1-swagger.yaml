@@ -360,19 +360,19 @@ components:
           description: Aksjonskode (maks 1 tegn)
         gjelderId:
           type: string
-          example: ""
+          example: "12345678900"
           description: Gjelder ID (fnr/orgnr)
         typeGjelder:
           type: string
-          example: ""
+          example: "PERSON"
           description: Type gjelder
         utbetalesTilId:
           type: string
-          example: ""
+          example: "12345678900"
           description: Utbetales til ID
         typeUtbetalesTil:
           type: string
-          example: ""
+          example: "PERSON"
           description: Type utbetales til
         enhetAnsvarlig:
           type: string
@@ -380,7 +380,7 @@ components:
           description: Ansvarlig enhet
         kodeFaggruppe:
           type: string
-          example: ""
+          example: "PEN"
           description: Faggruppekode
         kodeFagomraade:
           type: string
@@ -397,7 +397,7 @@ components:
           nullable: true
         saksbehandlerId:
           type: string
-          example: "Test"
+          example: "Z999999"
           description: Saksbehandlers ID
 
     HentKravgrunnlagResponse:
@@ -529,7 +529,7 @@ components:
           description: Ansvarlig enhet
         saksbehandlerId:
           type: string
-          example: "TEST"
+          example: "Z999999"
           description: Saksbehandlers ID
 
     HentKravgrunnlagDetaljerResponse:
