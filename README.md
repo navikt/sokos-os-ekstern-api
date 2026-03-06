@@ -1,6 +1,6 @@
 # sokos-os-ekstern-api
 
-API for vedtaksløsninger som skal sende tilbakekrevingsoppdrag til OS via zOS connect
+API for vedtaksløsninger som skal sende tilbakekrevingsoppdrag til OS via zOS connect. Applikasjonen er en proxy for et REST api inn til stormaskin.
 
 * [1. Dokumentasjon](dokumentasjon/dokumentasjon.md)
 * [2. Funksjonelle krav](#2-funksjonelle-krav)
@@ -16,9 +16,9 @@ API for vedtaksløsninger som skal sende tilbakekrevingsoppdrag til OS via zOS c
 
 # 2. Funksjonelle Krav
 
-API for å håndtere tilbakekrevingsvedtak og kravgrunnlag. Applikasjonen tilbyr følgende funksjonalitet:
+Håndterer innsending av tilbakekrevingsvedtak, annullering av vedtak og henting av informasjon om kravgrunnlag. Følgende endepunkt er tilgjengelige:
 
-- **Send tilbakekrevingsvedtak** - Sender vedtak om tilbakekreving til OS via zOS Connect
+- **Send tilbakekrevingsvedtak** - Sender vedtak om tilbakekreving til OS 
 - **Hent kravgrunnlag liste** - Henter liste over kravgrunnlag basert på søkekriterier
 - **Hent kravgrunnlag detaljer** - Henter detaljert informasjon om et spesifikt kravgrunnlag
 - **Annuler kravgrunnlag** - Annullerer et eksisterende kravgrunnlag
@@ -111,7 +111,8 @@ Grafana dashboards for overvåkning og metrikker blir opprettet etter deploy.
 
 # 8. Swagger
 
-- [dev-gcp](https://sokos-os-ekstern-api.intern.dev.nav.no/api/v1/tilbakekreving/docs)
+- [Tilbakekreving API (dev-gcp)](https://sokos-os-ekstern-api.intern.dev.nav.no/api/v1/tilbakekreving/docs)
+- [OS API](https://sokos-os-ekstern-api.intern.dev.nav.no/api/os/docs)
 
 # 9. Henvendelser og tilgang
 

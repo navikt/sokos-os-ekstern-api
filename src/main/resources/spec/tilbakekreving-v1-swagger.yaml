@@ -2,14 +2,17 @@ openapi: 3.0.1
 info:
   version: 1.0.0
   title: Tilbakekreving API (sokos-os-ekstern-api)
-  description: API-tjeneste for håndtering av tilbakekrevingsvedtak og kravgrunnlag
+  description: API-tjeneste for håndtering av tilbakekrevingsvedtak og kravgrunnlag. Applikasjonen er en proxy for et REST api inn til stormaskin.
   contact:
-    name: Team Motta og Beregne
-    email: okonomi@nav.no
+    name: Team Motta og Beregne - Slack
     url: https://nav-it.slack.com/archives/CKZADNFBP
 
+externalDocs:
+  description: Detaljer om de enkelte ID-koder for stormaskin på Confluence
+  url: https://confluence.adeo.no/spaces/OKSY/pages/178067795/Detaljer+om+de+enkelte+ID-koder
+
 tags:
-  - name: Tilbakekreving
+  - name: tilbakekreving
     description: Opplysninger om tilbakekrevingsvedtak og kravgrunnlag
 
 servers:
@@ -358,8 +361,13 @@ components:
         kodeAksjon:
           type: string
           maxLength: 1
-          example: "3"
-          description: Aksjonskode (maks 1 tegn)
+          example: "2"
+          description: |
+            Aksjonskode (maks 1 tegn):
+            2 = Finn kravgrunnlag for danning av nytt tilbakekrevingsvedtak
+            3 = Finn kravgrunnlag for omgjøring av tilbakekrevingsvedtak
+            4 = Hent kravgrunnlag for danning av nytt tilbakekrevingsvedtak (krever kravgrunnlagId, øvrige parametere ignoreres)
+            5 = Hent kravgrunnlag for omgjøring av tilbakekrevingsvedtak (krever kravgrunnlagId, øvrige parametere ignoreres)
         gjelderId:
           type: string
           example: "12345678900"
@@ -394,6 +402,7 @@ components:
           description: Fagsystem ID
         kravgrunnlagId:
           type: integer
+          format: int32
           maximum: 999999999
           example: 533049
           description: Kravgrunnlag ID
