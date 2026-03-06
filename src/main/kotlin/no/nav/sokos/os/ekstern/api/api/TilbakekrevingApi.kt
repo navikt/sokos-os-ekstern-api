@@ -1,5 +1,6 @@
 package no.nav.sokos.os.ekstern.api.api
 
+import io.ktor.server.request.path
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -29,26 +30,26 @@ fun Route.tilbakekrevingApi(
     route(API_BASE_PATH) {
         post("/vedtak") {
             val request = call.receive<VedtakRequest>()
-            val response = vedtakService.postVedtak(request)
+            val response = vedtakService.postVedtak(request, call.request.path())
             call.respond(response)
         }
 
         route("/kravgrunnlag") {
             post("/liste") {
                 val request = call.receive<KravgrunnlagRequest>()
-                val response = kravgrunnlagService.postListe(request)
+                val response = kravgrunnlagService.postListe(request, call.request.path())
                 call.respond(response)
             }
 
             post("/detaljer") {
                 val request = call.receive<KravdetaljerRequest>()
-                val response = detaljerService.postDetaljer(request)
+                val response = detaljerService.postDetaljer(request, call.request.path())
                 call.respond(response)
             }
 
             post("/annuler") {
                 val request = call.receive<AnnulerRequest>()
-                val response = annulerService.postAnnuler(request)
+                val response = annulerService.postAnnuler(request, call.request.path())
                 call.respond(response)
             }
         }

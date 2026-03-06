@@ -8,6 +8,8 @@ import kotlinx.serialization.Serializable
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.plugins.BadRequestException
+import io.ktor.server.plugins.ContentTransformationException
 import io.ktor.server.plugins.statuspages.StatusPagesConfig
 import io.ktor.server.request.path
 import io.ktor.server.response.respond
@@ -19,6 +21,14 @@ fun StatusPagesConfig.statusPageConfig() {
         val (responseStatus, apiError) =
             when (cause) {
                 is OsException -> Pair(HttpStatusCode.allStatusCodes.find { it.value == cause.apiError.status }!!, cause.apiError)
+                is ContentTransformationException -> {
+                    val rootCause = generateSequence(cause as Throwable) { it.cause }.last()
+                    createApiError(HttpStatusCode.BadRequest, rootCause.message ?: cause.message, call)
+                }
+                is BadRequestException -> {
+                    val rootCause = generateSequence(cause as Throwable) { it.cause }.last()
+                    createApiError(HttpStatusCode.BadRequest, rootCause.message ?: cause.message, call)
+                }
                 else -> createApiError(HttpStatusCode.InternalServerError, cause.message ?: "En teknisk feil har oppstått. Ta kontakt med utviklerne", call)
             }
         call.respond(responseStatus, apiError)

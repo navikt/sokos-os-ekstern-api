@@ -9,7 +9,7 @@ fun Routing.swaggerApi() {
         swaggerFile = "spec/tilbakekreving-v1-swagger.yaml",
     )
     swaggerUI(
-        path = "ostilbakekrevingapi/docs",
+        path = "api/os/docs",
         swaggerFile = "spec/os-tilbakekreving-swagger.json",
     )
 }

@@ -2,14 +2,17 @@ openapi: 3.0.1
 info:
   version: 1.0.0
   title: Tilbakekreving API (sokos-os-ekstern-api)
-  description: API-tjeneste for håndtering av tilbakekrevingsvedtak og kravgrunnlag
+  description: API-tjeneste for håndtering av tilbakekrevingsvedtak og kravgrunnlag. Applikasjonen er en proxy for et REST api inn til stormaskin.
   contact:
-    name: Team Motta og Beregne
-    email: okonomi@nav.no
+    name: Team Motta og Beregne - Slack
     url: https://nav-it.slack.com/archives/CKZADNFBP
 
+externalDocs:
+  description: Detaljer om de enkelte ID-koder for stormaskin på Confluence
+  url: https://confluence.adeo.no/spaces/OKSY/pages/178067795/Detaljer+om+de+enkelte+ID-koder
+
 tags:
-  - name: Tilbakekreving
+  - name: tilbakekreving
     description: Opplysninger om tilbakekrevingsvedtak og kravgrunnlag
 
 servers:
@@ -186,12 +189,14 @@ components:
       properties:
         kodeAksjon:
           type: string
-          example: "NY"
-          description: Aksjonskode for vedtaket
+          maxLength: 1
+          example: "8"
+          description: Aksjonskode (maks 1 tegn). 8 = fatte vedtak.
         vedtakId:
           type: integer
-          format: int64
-          example: 123456789
+          format: int32
+          maximum: 999999999
+          example: 892793
           description: Unik identifikator for vedtaket
         vedtaksDato:
           type: string
@@ -200,7 +205,7 @@ components:
           description: Dato for vedtaket
         kodeHjemmel:
           type: string
-          example: "FVL-22"
+          example: "22-15"
           description: Hjemmelskode
         renterBeregnes:
           type: boolean
@@ -254,7 +259,6 @@ components:
           description: Om renter beregnes for perioden
         belopRenter:
           type: number
-          format: double
           example: 150.50
           description: Beløp for renter
         posteringer:
@@ -277,31 +281,26 @@ components:
       properties:
         kodeKlasse:
           type: string
-          example: "KL_KODE_CLASS1"
+          example: "SPATORD"
           description: Klassekode
         belopOpprinneligUtbetalt:
           type: number
-          format: double
           example: 10000.00
           description: Opprinnelig utbetalt beløp
         belopNy:
           type: number
-          format: double
           example: 8000.00
           description: Nytt beløp
         belopTilbakekreves:
           type: number
-          format: double
           example: 2000.00
           description: Beløp som skal tilbakekreves
         belopUinnkrevd:
           type: number
-          format: double
-          example: 0.00
+          example: 0
           description: Uinnkrevd beløp
         belopSkatt:
           type: number
-          format: double
           example: 500.00
           description: Skattebeløp
         kodeResultat:
@@ -310,11 +309,11 @@ components:
           description: Resultatkode
         kodeAarsak:
           type: string
-          example: "FEIL_OPPLYSNINGER"
+          example: "ANNET"
           description: Årsakskode
         kodeSkyld:
           type: string
-          example: "BRUKER"
+          example: "NAV"
           description: Skyldkode
 
     TilbakekrevingsvedtakResponse:
@@ -327,15 +326,16 @@ components:
       properties:
         status:
           type: integer
-          example: 200
-          description: Statuskode for operasjonen
+          example: 0
+          description: "Status på resultat av forespørsel (Alvorlighetsgrad): 0 = OK, 4 = Varselmelding, 8 = Alvorlig feil som skal logges og stoppe behandling av aktuelt tilfelle, 12 = SQL-feil"
         melding:
           type: string
-          example: "Vedtak sendt"
+          example: "En melding"
           description: Statusmelding
         vedtakId:
           type: integer
-          format: int64
+          format: int32
+          maximum: 999999999
           example: 123456789
           description: Vedtak ID
         datoVedtakFagsystem:
@@ -360,48 +360,56 @@ components:
       properties:
         kodeAksjon:
           type: string
+          maxLength: 1
           example: "2"
-          description: Aksjonskode
+          description: |
+            Aksjonskode (maks 1 tegn):
+            2 = Finn kravgrunnlag for danning av nytt tilbakekrevingsvedtak
+            3 = Finn kravgrunnlag for omgjøring av tilbakekrevingsvedtak
+            4 = Hent kravgrunnlag for danning av nytt tilbakekrevingsvedtak (krever kravgrunnlagId, øvrige parametere ignoreres)
+            5 = Hent kravgrunnlag for omgjøring av tilbakekrevingsvedtak (krever kravgrunnlagId, øvrige parametere ignoreres)
         gjelderId:
           type: string
-          example: ""
+          example: "12345678900"
           description: Gjelder ID (fnr/orgnr)
         typeGjelder:
           type: string
-          example: ""
+          example: "PERSON"
           description: Type gjelder
         utbetalesTilId:
           type: string
-          example: ""
+          example: "12345678900"
           description: Utbetales til ID
         typeUtbetalesTil:
           type: string
-          example: ""
+          example: "PERSON"
           description: Type utbetales til
         enhetAnsvarlig:
           type: string
-          example: "8020"
+          example: "4819"
           description: Ansvarlig enhet
         kodeFaggruppe:
           type: string
-          example: ""
+          example: "PEN"
           description: Faggruppekode
         kodeFagomraade:
           type: string
-          example: ""
+          example: "UFOREUT"
           description: Fagområdekode
         fagsystemId:
           type: string
-          example: ""
+          example: "20153917"
           description: Fagsystem ID
         kravgrunnlagId:
           type: integer
+          format: int32
+          maximum: 999999999
           example: 533049
           description: Kravgrunnlag ID
           nullable: true
         saksbehandlerId:
           type: string
-          example: "Test"
+          example: "Z999999"
           description: Saksbehandlers ID
 
     HentKravgrunnlagResponse:
@@ -413,11 +421,11 @@ components:
       properties:
         status:
           type: integer
-          example: 200
-          description: Statuskode
+          example: 0
+          description: "Status på resultat av forespørsel (Alvorlighetsgrad): 0 = OK, 4 = Varselmelding, 8 = Alvorlig feil som skal logges og stoppe behandling av aktuelt tilfelle, 12 = SQL-feil"
         melding:
           type: string
-          example: "Kravgrunnlag hentet"
+          example: ""
           description: Statusmelding
         kravgrunnlagListe:
           type: array
@@ -506,7 +514,6 @@ components:
           description: Periode til dato
         belopSumFeilutbetalt:
           type: number
-          format: double
           example: 10000.00
           description: Sum feilutbetalt beløp
 
@@ -520,16 +527,18 @@ components:
       properties:
         kodeAksjon:
           type: string
-          example: "HENT_DETALJER"
-          description: Aksjonskode
+          maxLength: 1
+          example: "5"
+          description: Aksjonskode (maks 1 tegn)
         kravgrunnlagId:
           type: integer
-          format: int64
-          example: 123456
+          format: int32
+          maximum: 999999999
+          example: 570598
           description: Kravgrunnlag ID
         enhetAnsvarlig:
           type: string
-          example: "8020"
+          example: "4819"
           description: Ansvarlig enhet
         saksbehandlerId:
           type: string
@@ -545,11 +554,11 @@ components:
       properties:
         status:
           type: integer
-          example: 200
-          description: Statuskode
+          example: 0
+          description: "Status på resultat av forespørsel (Alvorlighetsgrad): 0 = OK, 4 = Varselmelding, 8 = Alvorlig feil som skal logges og stoppe behandling av aktuelt tilfelle, 12 = SQL-feil"
         melding:
           type: string
-          example: "Kravgrunnlag detaljer hentet"
+          example: "En melding"
           description: Statusmelding
         kravgrunnlag:
           $ref: '#/components/schemas/KravgrunnlagDetaljer'
@@ -689,7 +698,6 @@ components:
           description: Periode til dato
         belopSkattMnd:
           type: number
-          format: double
           example: 500.00
           description: Skattebeløp per måned
         posteringer:
@@ -721,27 +729,22 @@ components:
           description: Type klasse
         belopOpprinneligUtbetalt:
           type: number
-          format: double
           example: 10000.00
           description: Opprinnelig utbetalt beløp
         belopNy:
           type: number
-          format: double
           example: 8000.00
           description: Nytt beløp
         belopTilbakekreves:
           type: number
-          format: double
           example: 2000.00
           description: Beløp som skal tilbakekreves
         belopUinnkrevd:
           type: number
-          format: double
           example: 0.00
           description: Uinnkrevd beløp
         skattProsent:
           type: number
-          format: double
           example: 25.0
           description: Skatteprosent
         kodeResultat:
@@ -767,12 +770,14 @@ components:
       properties:
         kodeAksjon:
           type: string
-          example: "ANNULER"
-          description: Aksjonskode
+          maxLength: 1
+          example: "A"
+          description: Aksjonskode (A - annuller kravgrunnlag)
         vedtakId:
           type: integer
-          format: int64
-          example: 123456789
+          format: int32
+          maximum: 999999999
+          example: 892793
           description: Vedtak ID som skal annulleres
         enhetAnsvarlig:
           type: string
@@ -793,16 +798,17 @@ components:
       properties:
         status:
           type: integer
-          example: 200
-          description: Statuskode
+          example: 0
+          description: "Status på resultat av forespørsel (Alvorlighetsgrad): 0 = OK, 4 = Varselmelding, 8 = Alvorlig feil som skal logges og stoppe behandling av aktuelt tilfelle, 12 = SQL-feil"
         melding:
           type: string
-          example: "Kravgrunnlag annullert"
+          example: "En melding"
           description: Statusmelding
         vedtakId:
           type: integer
-          format: int64
-          example: 123456789
+          format: int32
+          maximum: 999999999
+          example: 892793
           description: Vedtak ID som ble annullert
         saksbehandlerId:
           type: string
