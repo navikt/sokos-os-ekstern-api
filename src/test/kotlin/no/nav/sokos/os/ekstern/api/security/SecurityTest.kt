@@ -51,10 +51,10 @@ class SecurityTest :
 
         test("alle endepunkter med token returnerer 200 OK") {
 
-            coEvery { vedtakService.postVedtak(any()) } returns Testdata.vedtakResponse
-            coEvery { kravgrunnlagService.postListe(any()) } returns Testdata.kravgrunnlagResponse
-            coEvery { detaljerService.postDetaljer(any()) } returns Testdata.kravDetaljerResponse
-            coEvery { annulerService.postAnnuler(any()) } returns Testdata.annulerResponse
+            coEvery { vedtakService.postVedtak(any(), any()) } returns Testdata.vedtakResponse
+            coEvery { kravgrunnlagService.postListe(any(), any()) } returns Testdata.kravgrunnlagResponse
+            coEvery { detaljerService.postDetaljer(any(), any()) } returns Testdata.kravDetaljerResponse
+            coEvery { annulerService.postAnnuler(any(), any()) } returns Testdata.annulerResponse
 
             withMockOAuth2Server {
                 val mockOAuth2Server = this

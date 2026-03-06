@@ -191,7 +191,7 @@ components:
           description: Aksjonskode (maks 1 tegn)
         vedtakId:
           type: integer
-          format: int64
+          format: int32
           example: 892793
           description: Unik identifikator for vedtaket
         vedtaksDato:
@@ -255,7 +255,6 @@ components:
           description: Om renter beregnes for perioden
         belopRenter:
           type: number
-          format: double
           example: 150.50
           description: Beløp for renter
         posteringer:
@@ -282,27 +281,22 @@ components:
           description: Klassekode
         belopOpprinneligUtbetalt:
           type: number
-          format: double
           example: 10000.00
           description: Opprinnelig utbetalt beløp
         belopNy:
           type: number
-          format: double
           example: 8000.00
           description: Nytt beløp
         belopTilbakekreves:
           type: number
-          format: double
           example: 2000.00
           description: Beløp som skal tilbakekreves
         belopUinnkrevd:
           type: number
-          format: double
           example: 0
           description: Uinnkrevd beløp
         belopSkatt:
           type: number
-          format: double
           example: 500.00
           description: Skattebeløp
         kodeResultat:
@@ -336,7 +330,7 @@ components:
           description: Statusmelding
         vedtakId:
           type: integer
-          format: int64
+          format: int32
           example: 123456789
           description: Vedtak ID
         datoVedtakFagsystem:
@@ -508,7 +502,6 @@ components:
           description: Periode til dato
         belopSumFeilutbetalt:
           type: number
-          format: double
           example: 10000.00
           description: Sum feilutbetalt beløp
 
@@ -527,7 +520,7 @@ components:
           description: Aksjonskode (maks 1 tegn)
         kravgrunnlagId:
           type: integer
-          format: int64
+          format: int32
           example: 570598
           description: Kravgrunnlag ID
         enhetAnsvarlig:
@@ -692,7 +685,6 @@ components:
           description: Periode til dato
         belopSkattMnd:
           type: number
-          format: double
           example: 500.00
           description: Skattebeløp per måned
         posteringer:
@@ -724,27 +716,22 @@ components:
           description: Type klasse
         belopOpprinneligUtbetalt:
           type: number
-          format: double
           example: 10000.00
           description: Opprinnelig utbetalt beløp
         belopNy:
           type: number
-          format: double
           example: 8000.00
           description: Nytt beløp
         belopTilbakekreves:
           type: number
-          format: double
           example: 2000.00
           description: Beløp som skal tilbakekreves
         belopUinnkrevd:
           type: number
-          format: double
           example: 0.00
           description: Uinnkrevd beløp
         skattProsent:
           type: number
-          format: double
           example: 25.0
           description: Skatteprosent
         kodeResultat:
@@ -775,7 +762,7 @@ components:
           description: Aksjonskode (maks 1 tegn)
         vedtakId:
           type: integer
-          format: int64
+          format: int32
           example: 123456789
           description: Vedtak ID som skal annulleres
         enhetAnsvarlig:
@@ -805,7 +792,7 @@ components:
           description: Statusmelding
         vedtakId:
           type: integer
-          format: int64
+          format: int32
           example: 123456789
           description: Vedtak ID som ble annullert
         saksbehandlerId:

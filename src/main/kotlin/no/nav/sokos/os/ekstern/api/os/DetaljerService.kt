@@ -30,7 +30,10 @@ class DetaljerService(
 ) {
     private val url = "$endpointUrl/kravgrunnlagHentDetalj"
 
-    suspend fun postDetaljer(request: KravdetaljerRequest): KravdetaljerResponse {
+    suspend fun postDetaljer(
+        request: KravdetaljerRequest,
+        proxyPath: String,
+    ): KravdetaljerResponse {
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -55,7 +58,7 @@ class DetaljerService(
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
                             osResponse.statusMelding,
-                            url,
+                            proxyPath,
                         ),
                     )
                 }
@@ -68,7 +71,7 @@ class DetaljerService(
                     response.status.value,
                     response.status.description,
                     "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
-                    url,
+                    proxyPath,
                 ),
             )
         }

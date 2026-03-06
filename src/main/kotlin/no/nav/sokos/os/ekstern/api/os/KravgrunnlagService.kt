@@ -28,7 +28,10 @@ class KravgrunnlagService(
 ) {
     private val url = "$endpointUrl/kravgrunnlagHentListe"
 
-    suspend fun postListe(request: KravgrunnlagRequest): KravgrunnlagResponse {
+    suspend fun postListe(
+        request: KravgrunnlagRequest,
+        proxyPath: String,
+    ): KravgrunnlagResponse {
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -53,7 +56,7 @@ class KravgrunnlagService(
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
                             osResponse.statusMelding,
-                            url,
+                            proxyPath,
                         ),
                     )
                 }
@@ -66,7 +69,7 @@ class KravgrunnlagService(
                     response.status.value,
                     response.status.description,
                     "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
-                    url,
+                    proxyPath,
                 ),
             )
         }
