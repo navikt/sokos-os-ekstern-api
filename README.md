@@ -23,6 +23,8 @@ API for å håndtere tilbakekrevingsvedtak og kravgrunnlag. Applikasjonen tilbyr
 - **Hent kravgrunnlag detaljer** - Henter detaljert informasjon om et spesifikt kravgrunnlag
 - **Annuler kravgrunnlag** - Annullerer et eksisterende kravgrunnlag
 
+[Confluence dokumentasjon om ID-koder og hva stormaskin-grensesnittet aksepterer](https://confluence.adeo.no/spaces/OKSY/pages/178067795/Detaljer+om+de+enkelte+ID-koder)
+
 # 3. Utviklingsmiljø
 
 ### Forutsetninger

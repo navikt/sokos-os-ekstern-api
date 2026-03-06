@@ -188,10 +188,11 @@ components:
           type: string
           maxLength: 1
           example: "8"
-          description: Aksjonskode (maks 1 tegn)
+          description: Aksjonskode (maks 1 tegn). 8 = fatte vedtak.
         vedtakId:
           type: integer
           format: int32
+          maximum: 999999999
           example: 892793
           description: Unik identifikator for vedtaket
         vedtaksDato:
@@ -331,6 +332,7 @@ components:
         vedtakId:
           type: integer
           format: int32
+          maximum: 999999999
           example: 123456789
           description: Vedtak ID
         datoVedtakFagsystem:
@@ -392,6 +394,7 @@ components:
           description: Fagsystem ID
         kravgrunnlagId:
           type: integer
+          maximum: 999999999
           example: 533049
           description: Kravgrunnlag ID
           nullable: true
@@ -521,6 +524,7 @@ components:
         kravgrunnlagId:
           type: integer
           format: int32
+          maximum: 999999999
           example: 570598
           description: Kravgrunnlag ID
         enhetAnsvarlig:
@@ -758,12 +762,13 @@ components:
         kodeAksjon:
           type: string
           maxLength: 1
-          example: "4"
-          description: Aksjonskode (maks 1 tegn)
+          example: "A"
+          description: Aksjonskode (A - annuller kravgrunnlag)
         vedtakId:
           type: integer
           format: int32
-          example: 123456789
+          maximum: 999999999
+          example: 892793
           description: Vedtak ID som skal annulleres
         enhetAnsvarlig:
           type: string
@@ -793,7 +798,8 @@ components:
         vedtakId:
           type: integer
           format: int32
-          example: 123456789
+          maximum: 999999999
+          example: 892793
           description: Vedtak ID som ble annullert
         saksbehandlerId:
           type: string
