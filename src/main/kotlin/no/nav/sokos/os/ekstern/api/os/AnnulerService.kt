@@ -26,7 +26,10 @@ class AnnulerService(
 ) {
     private val url = "$endpointUrl/kravgrunnlagAnnuler"
 
-    suspend fun postAnnuler(request: AnnulerRequest): AnnulerResponse {
+    suspend fun postAnnuler(
+        request: AnnulerRequest,
+        proxyPath: String,
+    ): AnnulerResponse {
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -51,7 +54,7 @@ class AnnulerService(
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
                             osResponse.statusMelding,
-                            url,
+                            proxyPath,
                         ),
                     )
                 }
@@ -64,7 +67,7 @@ class AnnulerService(
                     response.status.value,
                     response.status.description,
                     "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
-                    url,
+                    proxyPath,
                 ),
             )
         }

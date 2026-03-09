@@ -20,34 +20,34 @@ import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakResponse
 object Testdata {
     val vedtakRequest =
         VedtakRequest(
-            kodeAksjon = "NY",
-            vedtakId = 123456789,
-            vedtaksDato = "2026-01-15",
-            kodeHjemmel = "FVL-22",
-            renterBeregnes = true,
+            kodeAksjon = "8",
+            vedtakId = 892793,
+            vedtaksDato = "2026-02-11",
+            kodeHjemmel = "22-15",
+            renterBeregnes = false,
             enhetAnsvarlig = "8020",
-            kontrollfelt = "2026-01-15-01.12.34.123456",
+            kontrollfelt = "2025-11-27-00.19.14.863826",
             saksbehandlerId = "Z999999",
             datoTilleggsfrist = null,
             perioder =
                 listOf(
                     Periode(
-                        periodeFom = "2026-01-01",
-                        periodeTom = "2026-01-31",
-                        renterPeriodeBeregnes = true,
-                        belopRenter = BigDecimal.valueOf(150.50),
+                        periodeFom = "2025-04-01",
+                        periodeTom = "2025-04-25",
+                        renterPeriodeBeregnes = false,
+                        belopRenter = BigDecimal.ZERO,
                         posteringer =
                             listOf(
                                 Postering(
-                                    kodeKlasse = "KL_KODE_CLASS1",
-                                    belopOpprinneligUtbetalt = BigDecimal.valueOf(10000.00),
-                                    belopNy = BigDecimal.valueOf(8000.00),
-                                    belopTilbakekreves = BigDecimal.valueOf(2000.00),
-                                    belopUinnkrevd = BigDecimal.valueOf(0.00),
-                                    belopSkatt = BigDecimal.valueOf(500.00),
+                                    kodeKlasse = "SPATORD",
+                                    belopOpprinneligUtbetalt = BigDecimal.valueOf(551),
+                                    belopNy = BigDecimal.valueOf(532),
+                                    belopTilbakekreves = BigDecimal.valueOf(19),
+                                    belopUinnkrevd = BigDecimal.ZERO,
+                                    belopSkatt = BigDecimal.ZERO,
                                     kodeResultat = "FULL_TILBAKEKREV",
-                                    kodeAarsak = "FEIL_OPPLYSNINGER",
-                                    kodeSkyld = "BRUKER",
+                                    kodeAarsak = "ANNET",
+                                    kodeSkyld = "NAV",
                                 ),
                             ),
                     ),
@@ -56,25 +56,25 @@ object Testdata {
 
     val vedtakResponse =
         VedtakResponse(
-            status = 200,
-            melding = "Vedtak sendt",
-            vedtakId = 123456789,
-            datoVedtakFagsystem = "2026-01-15",
+            status = 0,
+            melding = "",
+            vedtakId = 892793,
+            datoVedtakFagsystem = "2026-02-11",
         )
 
     val kravListeRequest =
         KravgrunnlagRequest(
-            kodeAksjon = "HENT",
-            gjelderId = "12345678901",
-            typeGjelder = "PERSON",
-            utbetalesTilId = "12345678901",
-            typeUtbetalesTil = "PERSON",
-            enhetAnsvarlig = "8020",
-            kodeFaggruppe = "PEN",
-            kodeFagomraade = "PENALD",
-            fagsystemId = "FS123456",
+            kodeAksjon = "3",
+            gjelderId = "",
+            typeGjelder = "",
+            utbetalesTilId = "",
+            typeUtbetalesTil = "",
+            enhetAnsvarlig = "4819",
+            kodeFaggruppe = "",
+            kodeFagomraade = "UFOREUT",
+            fagsystemId = "20153917",
             kravgrunnlagId = null,
-            saksbehandlerId = "Z999999",
+            saksbehandlerId = "Test",
         )
 
     val kravgrunnlag =
@@ -98,60 +98,60 @@ object Testdata {
 
     val kravgrunnlagResponse =
         KravgrunnlagResponse(
-            status = 200,
-            melding = "Kravgrunnlag hentet",
+            status = 0,
+            melding = "",
             kravgrunnlagListe = listOf(kravgrunnlag),
         )
 
     val kravDetaljerRequest =
         KravdetaljerRequest(
-            kodeAksjon = "HENT_DETALJER",
-            kravgrunnlagId = 123456,
-            enhetAnsvarlig = "8020",
-            saksbehandlerId = "Z999999",
+            kodeAksjon = "5",
+            kravgrunnlagId = 570598,
+            enhetAnsvarlig = "4819",
+            saksbehandlerId = "TEST",
         )
 
     val kravgrunnlagDetaljer =
         KravgrunnlagDetaljer(
-            kravgrunnlagId = 123456L,
-            vedtakId = 123456789L,
-            kodeStatusKrav = "NY",
-            kodeFagomraade = "PENALD",
-            fagsystemId = "FS123456",
-            datoVedtakFagsystem = "2026-01-15",
-            vedtakIdImgjort = 123456788L,
-            gjelderId = "12345678901",
+            kravgrunnlagId = 570598L,
+            vedtakId = 851138L,
+            kodeStatusKrav = "BEHA",
+            kodeFagomraade = "FP",
+            fagsystemId = "152465243100",
+            datoVedtakFagsystem = "",
+            vedtakIdImgjort = 851138L,
+            gjelderId = "98765432111",
             typeGjelder = "PERSON",
-            utbetalesTilId = "12345678901",
+            utbetalesTilId = "98765432111",
             typeUtbetalesTilId = "PERSON",
-            kodeHjemmel = "FVL-22",
-            renterBeregnes = true,
+            kodeHjemmel = "",
+            renterBeregnes = false,
             enhetAnsvarlig = "8020",
-            enhetBosted = "0219",
+            enhetBosted = "8020",
             enhetBehandl = "8020",
-            kontrollfelt = "2026-01-15-01.12.34.123456",
+            kontrollfelt = "2025-10-28-22.57.21.466798",
             saksbehandlerId = "Z999999",
-            referanse = "REF123456",
+            referanse = "3650158",
             datoTilleggsfrist = null,
             perioder =
                 listOf(
                     DetaljerPeriode(
-                        periodeFom = "2026-01-01",
-                        periodeTom = "2026-01-31",
-                        belopSkattMnd = BigDecimal.valueOf(500.00),
+                        periodeFom = "2025-08-11",
+                        periodeTom = "2025-08-31",
+                        belopSkattMnd = BigDecimal.valueOf(6783),
                         posteringer =
                             listOf(
                                 DetaljerPostering(
-                                    kodeKlasse = "KL_KODE_CLASS1",
+                                    kodeKlasse = "FPATORD",
                                     typeKlasse = "YTEL",
-                                    belopOpprinneligUtbetalt = BigDecimal.valueOf(10000.00),
-                                    belopNy = BigDecimal.valueOf(8000.00),
-                                    belopTilbakekreves = BigDecimal.valueOf(2000.00),
-                                    belopUinnkrevd = BigDecimal.valueOf(0.00),
-                                    skattProsent = BigDecimal.valueOf(25.0),
-                                    kodeResultat = "FULL_TILBAKEKREV",
-                                    kodeAarsak = "FEIL_OPPLYSNINGER",
-                                    kodeSkyld = "BRUKER",
+                                    belopOpprinneligUtbetalt = BigDecimal.valueOf(31005),
+                                    belopNy = BigDecimal.ZERO,
+                                    belopTilbakekreves = BigDecimal.valueOf(31005),
+                                    belopUinnkrevd = BigDecimal.ZERO,
+                                    skattProsent = BigDecimal.valueOf(21.8771),
+                                    kodeResultat = "",
+                                    kodeAarsak = "",
+                                    kodeSkyld = "",
                                 ),
                             ),
                     ),
@@ -160,14 +160,14 @@ object Testdata {
 
     val kravDetaljerResponse =
         KravdetaljerResponse(
-            status = 200,
-            melding = "Kravgrunnlag detaljer hentet",
+            status = 0,
+            melding = "",
             kravgrunnlag = kravgrunnlagDetaljer,
         )
 
     val annulerRequest =
         AnnulerRequest(
-            kodeAksjon = "ANNULER",
+            kodeAksjon = "4",
             vedtakId = 123456789,
             enhetAnsvarlig = "8020",
             saksbehandlerId = "Z999999",
@@ -175,8 +175,8 @@ object Testdata {
 
     val annulerResponse =
         AnnulerResponse(
-            status = 200,
-            melding = "Kravgrunnlag annullert",
+            status = 0,
+            melding = "",
             vedtakId = 123456789,
             saksbehandlerId = "Z999999",
         )

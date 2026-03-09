@@ -27,7 +27,10 @@ class VedtakService(
 ) {
     private val url = "$endpointUrl/tilbakekrevingsvedtak"
 
-    suspend fun postVedtak(request: VedtakRequest): VedtakResponse {
+    suspend fun postVedtak(
+        request: VedtakRequest,
+        proxyPath: String,
+    ): VedtakResponse {
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -52,7 +55,7 @@ class VedtakService(
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
                             osResponse.statusMelding,
-                            url,
+                            proxyPath,
                         ),
                     )
                 }
@@ -65,7 +68,7 @@ class VedtakService(
                     response.status.value,
                     response.status.description,
                     "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
-                    url,
+                    proxyPath,
                 ),
             )
         }
