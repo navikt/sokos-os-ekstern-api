@@ -118,7 +118,7 @@ object Testdata {
             kodeStatusKrav = "BEHA",
             kodeFagomraade = "FP",
             fagsystemId = "152465243100",
-            datoVedtakFagsystem = "",
+            datoVedtakFagsystem = "2025-10-28",
             vedtakIdImgjort = 851138L,
             gjelderId = "98765432111",
             typeGjelder = "PERSON",
