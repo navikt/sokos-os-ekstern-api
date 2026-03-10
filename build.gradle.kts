@@ -32,6 +32,7 @@ val mockOAuth2ServerVersion = "3.0.1"
 val mockkVersion = "1.14.9"
 val restAssuredVersion = "5.5.5"
 val openApiValidatorVersion = "2.41.0"
+val wireMockVersion = "3.4.2"
 
 dependencies {
 
@@ -76,6 +77,7 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:kotlin-extensions:$restAssuredVersion")
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$openApiValidatorVersion")
+    testImplementation("org.wiremock:wiremock-standalone:$wireMockVersion")
 }
 
 application {

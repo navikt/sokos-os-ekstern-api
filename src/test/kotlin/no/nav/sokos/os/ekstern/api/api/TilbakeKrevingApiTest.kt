@@ -20,6 +20,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
 import io.ktor.server.routing.routing
+import io.mockk.clearMocks
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.restassured.RestAssured
@@ -39,6 +40,7 @@ import no.nav.sokos.os.ekstern.api.config.securityConfig
 import no.nav.sokos.os.ekstern.api.os.AnnulerService
 import no.nav.sokos.os.ekstern.api.os.DetaljerService
 import no.nav.sokos.os.ekstern.api.os.KravgrunnlagService
+import no.nav.sokos.os.ekstern.api.os.OsException
 import no.nav.sokos.os.ekstern.api.os.VedtakService
 
 private const val PORT = 9091
@@ -78,18 +80,16 @@ internal class TilbakekrevingApiTest :
         beforeSpec {
             mockOAuth2Server = MockOAuth2Server()
             mockOAuth2Server.start()
+            server = embeddedServer(Netty, PORT, module = Application::applicationTestModule).start()
         }
 
         afterSpec {
+            server.stop(5, 5)
             mockOAuth2Server.shutdown()
         }
 
         beforeTest {
-            server = embeddedServer(Netty, PORT, module = Application::applicationTestModule).start()
-        }
-
-        afterTest {
-            server.stop(5, 5)
+            clearMocks(vedtakService, kravgrunnlagService, detaljerService, annulerService)
         }
 
         test("POST /vedtak returnerer 200 OK") {
@@ -390,6 +390,122 @@ internal class TilbakekrevingApiTest :
                     message = "Feil mot OS",
                     path = "$API_BASE_PATH/kravgrunnlag/annuler",
                 )
+        }
+
+        test("POST /vedtak returnerer 400 Bad Request når service kaster OsException") {
+            val apiError =
+                ApiError(
+                    timestamp = Instant.parse("2026-01-01T00:00:00Z"),
+                    status = HttpStatusCode.BadRequest.value,
+                    error = HttpStatusCode.BadRequest.description,
+                    message = "Vedtak ikke funnet i OS",
+                    path = "$API_BASE_PATH/vedtak",
+                )
+            coEvery { vedtakService.postVedtak(any(), any()) } throws OsException(apiError)
+
+            val response =
+                RestAssured
+                    .given()
+                    .filter(validationFilter)
+                    .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
+                    .body(Json.encodeToString(Testdata.vedtakRequest))
+                    .port(PORT)
+                    .post("$API_BASE_PATH/vedtak")
+                    .then()
+                    .assertThat()
+                    .statusCode(HttpStatusCode.BadRequest.value)
+                    .extract()
+                    .response()
+
+            Json.decodeFromString<ApiError>(response.asString()) shouldBe apiError
+        }
+
+        test("POST /kravgrunnlag/liste returnerer 400 Bad Request når service kaster OsException") {
+            val apiError =
+                ApiError(
+                    timestamp = Instant.parse("2026-01-01T00:00:00Z"),
+                    status = HttpStatusCode.BadRequest.value,
+                    error = HttpStatusCode.BadRequest.description,
+                    message = "Kravgrunnlag ikke funnet i OS",
+                    path = "$API_BASE_PATH/kravgrunnlag/liste",
+                )
+            coEvery { kravgrunnlagService.postListe(any(), any()) } throws OsException(apiError)
+
+            val response =
+                RestAssured
+                    .given()
+                    .filter(validationFilter)
+                    .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
+                    .body(Json.encodeToString(Testdata.kravListeRequest))
+                    .port(PORT)
+                    .post("$API_BASE_PATH/kravgrunnlag/liste")
+                    .then()
+                    .assertThat()
+                    .statusCode(HttpStatusCode.BadRequest.value)
+                    .extract()
+                    .response()
+
+            Json.decodeFromString<ApiError>(response.asString()) shouldBe apiError
+        }
+
+        test("POST /kravgrunnlag/detaljer returnerer 400 Bad Request når service kaster OsException") {
+            val apiError =
+                ApiError(
+                    timestamp = Instant.parse("2026-01-01T00:00:00Z"),
+                    status = HttpStatusCode.BadRequest.value,
+                    error = HttpStatusCode.BadRequest.description,
+                    message = "Kravgrunnlag detaljer ikke funnet i OS",
+                    path = "$API_BASE_PATH/kravgrunnlag/detaljer",
+                )
+            coEvery { detaljerService.postDetaljer(any(), any()) } throws OsException(apiError)
+
+            val response =
+                RestAssured
+                    .given()
+                    .filter(validationFilter)
+                    .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
+                    .body(Json.encodeToString(Testdata.kravDetaljerRequest))
+                    .port(PORT)
+                    .post("$API_BASE_PATH/kravgrunnlag/detaljer")
+                    .then()
+                    .assertThat()
+                    .statusCode(HttpStatusCode.BadRequest.value)
+                    .extract()
+                    .response()
+
+            Json.decodeFromString<ApiError>(response.asString()) shouldBe apiError
+        }
+
+        test("POST /kravgrunnlag/annuler returnerer 400 Bad Request når service kaster OsException") {
+            val apiError =
+                ApiError(
+                    timestamp = Instant.parse("2026-01-01T00:00:00Z"),
+                    status = HttpStatusCode.BadRequest.value,
+                    error = HttpStatusCode.BadRequest.description,
+                    message = "Kravgrunnlag ikke funnet for annulering i OS",
+                    path = "$API_BASE_PATH/kravgrunnlag/annuler",
+                )
+            coEvery { annulerService.postAnnuler(any(), any()) } throws OsException(apiError)
+
+            val response =
+                RestAssured
+                    .given()
+                    .filter(validationFilter)
+                    .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
+                    .body(Json.encodeToString(Testdata.annulerRequest))
+                    .port(PORT)
+                    .post("$API_BASE_PATH/kravgrunnlag/annuler")
+                    .then()
+                    .assertThat()
+                    .statusCode(HttpStatusCode.BadRequest.value)
+                    .extract()
+                    .response()
+
+            Json.decodeFromString<ApiError>(response.asString()) shouldBe apiError
         }
     })
 
