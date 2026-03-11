@@ -75,7 +75,7 @@ internal class TilbakekrevingApiTest :
         }
 
         afterSpec {
-            server.stop(5, 5)
+            server.stop(5000, 5000)
             mockOAuth2Server.shutdown()
             RestAssured.reset()
         }
