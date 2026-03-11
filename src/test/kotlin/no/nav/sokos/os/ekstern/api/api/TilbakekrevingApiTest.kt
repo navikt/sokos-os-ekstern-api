@@ -2,7 +2,6 @@ package no.nav.sokos.os.ekstern.api.api
 
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
-import kotlinx.serialization.json.Json
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator
 import com.atlassian.oai.validator.restassured.OpenApiValidationFilter
@@ -34,6 +33,7 @@ import no.nav.sokos.os.ekstern.api.config.AUTHENTICATION_NAME
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
 import no.nav.sokos.os.ekstern.api.config.commonConfig
+import no.nav.sokos.os.ekstern.api.config.jsonConfig
 import no.nav.sokos.os.ekstern.api.config.securityConfig
 import no.nav.sokos.os.ekstern.api.os.AnnulerService
 import no.nav.sokos.os.ekstern.api.os.DetaljerService
@@ -86,7 +86,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.vedtakRequest))
+                    .body(jsonConfig.encodeToString(Testdata.vedtakRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/vedtak")
                     .then()
@@ -95,7 +95,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<VedtakResponse>(response.body.asString()) shouldBe Testdata.vedtakResponse
+            jsonConfig.decodeFromString<VedtakResponse>(response.body.asString()) shouldBe Testdata.vedtakResponse
         }
 
         test("POST /vedtak returnerer 500 Internal Server Error når service kaster exception") {
@@ -107,7 +107,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.vedtakRequest))
+                    .body(jsonConfig.encodeToString(Testdata.vedtakRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/vedtak")
                     .then()
@@ -116,7 +116,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe
+            jsonConfig.decodeFromString<ApiError>(response.asString()) shouldBe
                 ApiError(
                     timestamp = Instant.parse(response.jsonPath().getString("timestamp")),
                     status = HttpStatusCode.InternalServerError.value,
@@ -135,7 +135,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.kravListeRequest))
+                    .body(jsonConfig.encodeToString(Testdata.kravListeRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/liste")
                     .then()
@@ -144,7 +144,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<KravgrunnlagResponse>(response.body.asString()) shouldBe Testdata.kravgrunnlagResponse
+            jsonConfig.decodeFromString<KravgrunnlagResponse>(response.body.asString()) shouldBe Testdata.kravgrunnlagResponse
         }
 
         test("POST /kravgrunnlag/liste returnerer 500 Internal Server Error når service kaster exception") {
@@ -156,7 +156,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.kravListeRequest))
+                    .body(jsonConfig.encodeToString(Testdata.kravListeRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/liste")
                     .then()
@@ -165,7 +165,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe
+            jsonConfig.decodeFromString<ApiError>(response.asString()) shouldBe
                 ApiError(
                     timestamp = Instant.parse(response.jsonPath().getString("timestamp")),
                     status = HttpStatusCode.InternalServerError.value,
@@ -184,7 +184,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.kravDetaljerRequest))
+                    .body(jsonConfig.encodeToString(Testdata.kravDetaljerRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/detaljer")
                     .then()
@@ -193,7 +193,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<KravdetaljerResponse>(response.body.asString()) shouldBe Testdata.kravDetaljerResponse
+            jsonConfig.decodeFromString<KravdetaljerResponse>(response.body.asString()) shouldBe Testdata.kravDetaljerResponse
         }
 
         test("POST /kravgrunnlag/detaljer returnerer 500 Internal Server Error når service kaster exception") {
@@ -205,7 +205,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.kravDetaljerRequest))
+                    .body(jsonConfig.encodeToString(Testdata.kravDetaljerRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/detaljer")
                     .then()
@@ -214,7 +214,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe
+            jsonConfig.decodeFromString<ApiError>(response.asString()) shouldBe
                 ApiError(
                     timestamp = Instant.parse(response.jsonPath().getString("timestamp")),
                     status = HttpStatusCode.InternalServerError.value,
@@ -233,7 +233,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.annulerRequest))
+                    .body(jsonConfig.encodeToString(Testdata.annulerRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/annuler")
                     .then()
@@ -242,7 +242,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<AnnulerResponse>(response.body.asString()) shouldBe Testdata.annulerResponse
+            jsonConfig.decodeFromString<AnnulerResponse>(response.body.asString()) shouldBe Testdata.annulerResponse
         }
 
         test("POST /kravgrunnlag/annuler returnerer 500 Internal Server Error når service kaster exception") {
@@ -254,7 +254,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.annulerRequest))
+                    .body(jsonConfig.encodeToString(Testdata.annulerRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/annuler")
                     .then()
@@ -263,7 +263,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe
+            jsonConfig.decodeFromString<ApiError>(response.asString()) shouldBe
                 ApiError(
                     timestamp = Instant.parse(response.jsonPath().getString("timestamp")),
                     status = HttpStatusCode.InternalServerError.value,
@@ -290,7 +290,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.vedtakRequest))
+                    .body(jsonConfig.encodeToString(Testdata.vedtakRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/vedtak")
                     .then()
@@ -299,7 +299,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe apiError
+            jsonConfig.decodeFromString<ApiError>(response.asString()) shouldBe apiError
         }
 
         test("POST /kravgrunnlag/liste returnerer 400 Bad Request når service kaster OsException") {
@@ -319,7 +319,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.kravListeRequest))
+                    .body(jsonConfig.encodeToString(Testdata.kravListeRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/liste")
                     .then()
@@ -328,7 +328,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe apiError
+            jsonConfig.decodeFromString<ApiError>(response.asString()) shouldBe apiError
         }
 
         test("POST /kravgrunnlag/detaljer returnerer 400 Bad Request når service kaster OsException") {
@@ -348,7 +348,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.kravDetaljerRequest))
+                    .body(jsonConfig.encodeToString(Testdata.kravDetaljerRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/detaljer")
                     .then()
@@ -357,7 +357,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe apiError
+            jsonConfig.decodeFromString<ApiError>(response.asString()) shouldBe apiError
         }
 
         test("POST /kravgrunnlag/annuler returnerer 400 Bad Request når service kaster OsException") {
@@ -377,7 +377,7 @@ internal class TilbakekrevingApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body(Json.encodeToString(Testdata.annulerRequest))
+                    .body(jsonConfig.encodeToString(Testdata.annulerRequest))
                     .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/annuler")
                     .then()
@@ -386,7 +386,7 @@ internal class TilbakekrevingApiTest :
                     .extract()
                     .response()
 
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe apiError
+            jsonConfig.decodeFromString<ApiError>(response.asString()) shouldBe apiError
         }
     })
 
