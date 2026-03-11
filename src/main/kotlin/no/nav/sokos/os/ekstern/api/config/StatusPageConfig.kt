@@ -7,9 +7,9 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 import io.ktor.http.HttpStatusCode
+import io.ktor.serialization.JsonConvertException
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.plugins.BadRequestException
-import io.ktor.server.plugins.ContentTransformationException
 import io.ktor.server.plugins.statuspages.StatusPagesConfig
 import io.ktor.server.request.path
 import io.ktor.server.response.respond
@@ -21,13 +21,9 @@ fun StatusPagesConfig.statusPageConfig() {
         val (responseStatus, apiError) =
             when (cause) {
                 is OsException -> Pair(HttpStatusCode.allStatusCodes.find { it.value == cause.apiError.status }!!, cause.apiError)
-                is ContentTransformationException -> {
-                    val rootCause = generateSequence(cause as Throwable) { it.cause }.last()
-                    createApiError(HttpStatusCode.BadRequest, rootCause.message ?: cause.message, call)
-                }
                 is BadRequestException -> {
-                    val rootCause = generateSequence(cause as Throwable) { it.cause }.last()
-                    createApiError(HttpStatusCode.BadRequest, rootCause.message ?: cause.message, call)
+                    val jsonException = cause.findCauseOfType<JsonConvertException>()
+                    createApiError(HttpStatusCode.BadRequest, jsonException?.message ?: cause.message, call)
                 }
                 else -> createApiError(HttpStatusCode.InternalServerError, cause.message ?: "En teknisk feil har oppstått. Ta kontakt med utviklerne", call)
             }
@@ -37,7 +33,7 @@ fun StatusPagesConfig.statusPageConfig() {
 
 @OptIn(ExperimentalTime::class)
 private fun createApiError(
-    status: HttpStatusCode, // TODO : Value of parameter 'status' is always 'HttpStatusCode.InternalServerError'
+    status: HttpStatusCode,
     message: String?,
     call: ApplicationCall,
 ): Pair<HttpStatusCode, ApiError> =
@@ -61,3 +57,12 @@ data class ApiError(
     val message: String?,
     val path: String,
 )
+
+private inline fun <reified T : Throwable> Throwable.findCauseOfType(): T? {
+    var current: Throwable? = this
+    while (current != null) {
+        if (current is T) return current
+        current = current.cause
+    }
+    return null
+}

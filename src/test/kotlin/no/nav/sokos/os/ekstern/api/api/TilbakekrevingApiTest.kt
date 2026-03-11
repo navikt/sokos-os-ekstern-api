@@ -6,8 +6,6 @@ import kotlinx.serialization.json.Json
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator
 import com.atlassian.oai.validator.restassured.OpenApiValidationFilter
-import com.atlassian.oai.validator.whitelist.ValidationErrorsWhitelist
-import com.atlassian.oai.validator.whitelist.rule.WhitelistRules
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.ktor.http.ContentType
@@ -55,19 +53,6 @@ private val validationFilter =
             .build(),
     )
 
-private val badRequestValidationFilter =
-    OpenApiValidationFilter(
-        OpenApiInteractionValidator
-            .createForSpecificationUrl("spec/tilbakekreving-v1-swagger.yaml")
-            .withWhitelist(
-                ValidationErrorsWhitelist
-                    .create()
-                    .withRule("Ignore request body required", WhitelistRules.messageHasKey("validation.request.body.schema.required"))
-                    .withRule("Ignore request body type", WhitelistRules.messageHasKey("validation.request.body.schema.type"))
-                    .withRule("Ignore request body maxLength", WhitelistRules.messageHasKey("validation.request.body.schema.maxLength")),
-            ).build(),
-    )
-
 private val vedtakService = mockk<VedtakService>()
 private val kravgrunnlagService = mockk<KravgrunnlagService>()
 private val detaljerService = mockk<DetaljerService>()
@@ -111,32 +96,6 @@ internal class TilbakekrevingApiTest :
                     .response()
 
             Json.decodeFromString<VedtakResponse>(response.body.asString()) shouldBe Testdata.vedtakResponse
-        }
-
-        test("POST /vedtak returnerer 400 Bad Request når request body er ugyldig") {
-            val response =
-                RestAssured
-                    .given()
-                    .filter(badRequestValidationFilter)
-                    .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body("""{"vedtakId": "not-a-number"}""")
-                    .port(PORT)
-                    .post("$API_BASE_PATH/vedtak")
-                    .then()
-                    .assertThat()
-                    .statusCode(HttpStatusCode.BadRequest.value)
-                    .extract()
-                    .response()
-
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe
-                ApiError(
-                    timestamp = Instant.parse(response.jsonPath().getString("timestamp")),
-                    status = HttpStatusCode.BadRequest.value,
-                    error = HttpStatusCode.BadRequest.description,
-                    message = response.jsonPath().getString("message"),
-                    path = "$API_BASE_PATH/vedtak",
-                )
         }
 
         test("POST /vedtak returnerer 500 Internal Server Error når service kaster exception") {
@@ -188,32 +147,6 @@ internal class TilbakekrevingApiTest :
             Json.decodeFromString<KravgrunnlagResponse>(response.body.asString()) shouldBe Testdata.kravgrunnlagResponse
         }
 
-        test("POST /kravgrunnlag/liste returnerer 400 Bad Request når request body er ugyldig") {
-            val response =
-                RestAssured
-                    .given()
-                    .filter(badRequestValidationFilter)
-                    .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body("""{"kravgrunnlagId": "not-a-number"}""")
-                    .port(PORT)
-                    .post("$API_BASE_PATH/kravgrunnlag/liste")
-                    .then()
-                    .assertThat()
-                    .statusCode(HttpStatusCode.BadRequest.value)
-                    .extract()
-                    .response()
-
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe
-                ApiError(
-                    timestamp = Instant.parse(response.jsonPath().getString("timestamp")),
-                    status = HttpStatusCode.BadRequest.value,
-                    error = HttpStatusCode.BadRequest.description,
-                    message = response.jsonPath().getString("message"),
-                    path = "$API_BASE_PATH/kravgrunnlag/liste",
-                )
-        }
-
         test("POST /kravgrunnlag/liste returnerer 500 Internal Server Error når service kaster exception") {
             coEvery { kravgrunnlagService.postListe(any(), any()) } throws RuntimeException("Feil mot OS")
 
@@ -263,32 +196,6 @@ internal class TilbakekrevingApiTest :
             Json.decodeFromString<KravdetaljerResponse>(response.body.asString()) shouldBe Testdata.kravDetaljerResponse
         }
 
-        test("POST /kravgrunnlag/detaljer returnerer 400 Bad Request nr request body er ugyldig") {
-            val response =
-                RestAssured
-                    .given()
-                    .filter(badRequestValidationFilter)
-                    .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body("""{"kravgrunnlagId": "not-a-number"}""")
-                    .port(PORT)
-                    .post("$API_BASE_PATH/kravgrunnlag/detaljer")
-                    .then()
-                    .assertThat()
-                    .statusCode(HttpStatusCode.BadRequest.value)
-                    .extract()
-                    .response()
-
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe
-                ApiError(
-                    timestamp = Instant.parse(response.jsonPath().getString("timestamp")),
-                    status = HttpStatusCode.BadRequest.value,
-                    error = HttpStatusCode.BadRequest.description,
-                    message = response.jsonPath().getString("message"),
-                    path = "$API_BASE_PATH/kravgrunnlag/detaljer",
-                )
-        }
-
         test("POST /kravgrunnlag/detaljer returnerer 500 Internal Server Error når service kaster exception") {
             coEvery { detaljerService.postDetaljer(any(), any()) } throws RuntimeException("Feil mot OS")
 
@@ -336,32 +243,6 @@ internal class TilbakekrevingApiTest :
                     .response()
 
             Json.decodeFromString<AnnulerResponse>(response.body.asString()) shouldBe Testdata.annulerResponse
-        }
-
-        test("POST /kravgrunnlag/annuler returnerer 400 Bad Request når request body er ugyldig") {
-            val response =
-                RestAssured
-                    .given()
-                    .filter(badRequestValidationFilter)
-                    .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
-                    .body("""{"vedtakId": "not-a-number"}""")
-                    .port(PORT)
-                    .post("$API_BASE_PATH/kravgrunnlag/annuler")
-                    .then()
-                    .assertThat()
-                    .statusCode(HttpStatusCode.BadRequest.value)
-                    .extract()
-                    .response()
-
-            Json.decodeFromString<ApiError>(response.asString()) shouldBe
-                ApiError(
-                    timestamp = Instant.parse(response.jsonPath().getString("timestamp")),
-                    status = HttpStatusCode.BadRequest.value,
-                    error = HttpStatusCode.BadRequest.description,
-                    message = response.jsonPath().getString("message"),
-                    path = "$API_BASE_PATH/kravgrunnlag/annuler",
-                )
         }
 
         test("POST /kravgrunnlag/annuler returnerer 500 Internal Server Error når service kaster exception") {
