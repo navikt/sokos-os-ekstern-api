@@ -12,4 +12,10 @@ internal val testHttpClient =
         install(ContentNegotiation) {
             json(jsonConfig)
         }
+    }.also { client ->
+        Runtime.getRuntime().addShutdownHook(
+            Thread {
+                client.close()
+            },
+        )
     }

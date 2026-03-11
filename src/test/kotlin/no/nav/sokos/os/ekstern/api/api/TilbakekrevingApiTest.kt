@@ -41,7 +41,7 @@ import no.nav.sokos.os.ekstern.api.os.KravgrunnlagService
 import no.nav.sokos.os.ekstern.api.os.OsException
 import no.nav.sokos.os.ekstern.api.os.VedtakService
 
-private const val PORT = 9091
+private var port = 0
 
 private lateinit var server: EmbeddedServer<NettyApplicationEngine, NettyApplicationEngine.Configuration>
 private lateinit var mockOAuth2Server: MockOAuth2Server
@@ -65,12 +65,19 @@ internal class TilbakekrevingApiTest :
         beforeSpec {
             mockOAuth2Server = MockOAuth2Server()
             mockOAuth2Server.start()
-            server = embeddedServer(Netty, PORT, module = Application::applicationTestModule).start()
+            server = embeddedServer(Netty, port = 0, module = Application::applicationTestModule).start()
+            port =
+                server.engine
+                    .resolvedConnectors()
+                    .first()
+                    .port
+            RestAssured.port = port
         }
 
         afterSpec {
             server.stop(5, 5)
             mockOAuth2Server.shutdown()
+            RestAssured.reset()
         }
 
         beforeTest {
@@ -87,7 +94,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.vedtakRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/vedtak")
                     .then()
                     .assertThat()
@@ -108,7 +114,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.vedtakRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/vedtak")
                     .then()
                     .assertThat()
@@ -136,7 +141,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.kravListeRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/liste")
                     .then()
                     .assertThat()
@@ -157,7 +161,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.kravListeRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/liste")
                     .then()
                     .assertThat()
@@ -185,7 +188,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.kravDetaljerRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/detaljer")
                     .then()
                     .assertThat()
@@ -206,7 +208,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.kravDetaljerRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/detaljer")
                     .then()
                     .assertThat()
@@ -234,7 +235,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.annulerRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/annuler")
                     .then()
                     .assertThat()
@@ -255,7 +255,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.annulerRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/annuler")
                     .then()
                     .assertThat()
@@ -291,7 +290,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.vedtakRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/vedtak")
                     .then()
                     .assertThat()
@@ -320,7 +318,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.kravListeRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/liste")
                     .then()
                     .assertThat()
@@ -349,7 +346,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.kravDetaljerRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/detaljer")
                     .then()
                     .assertThat()
@@ -378,7 +374,6 @@ internal class TilbakekrevingApiTest :
                     .header(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.token()}")
                     .body(Json.encodeToString(Testdata.annulerRequest))
-                    .port(PORT)
                     .post("$API_BASE_PATH/kravgrunnlag/annuler")
                     .then()
                     .assertThat()
