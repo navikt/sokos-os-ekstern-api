@@ -88,7 +88,6 @@ class SecurityTest :
                     endpoints.zip(requestBodies).forEach { (endpoint, body) ->
                         val response =
                             client.post(endpoint) {
-                                println("Posting to $endpoint with body $body")
                                 header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
                                 contentType(ContentType.Application.Json)
                                 setBody(body)
