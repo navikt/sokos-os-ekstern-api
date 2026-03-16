@@ -19,7 +19,6 @@ import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagRequest
 import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagResponse
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
-import no.nav.sokos.os.ekstern.api.config.TEAM_LOGS_MARKER
 import no.nav.sokos.os.ekstern.api.util.BigDecimal
 
 private val logger = KotlinLogging.logger {}
@@ -36,8 +35,6 @@ class KravgrunnlagService(
         request: KravgrunnlagRequest,
         proxyPath: String,
     ): KravgrunnlagResponse {
-        logger.info(TEAM_LOGS_MARKER) { "Henter kravgrunnlag liste for gjelderId=${request.gjelderId}, fagomraade=${request.kodeFagomraade}, fagsystemId=${request.fagsystemId}" }
-
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -67,7 +64,6 @@ class KravgrunnlagService(
                         ),
                     )
                 }
-                logger.info { "Hent kravgrunnlag liste vellykket, antall=${response.kravgrunnlagListe.size}" }
                 response
             }
 

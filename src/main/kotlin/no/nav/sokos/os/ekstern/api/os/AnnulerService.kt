@@ -33,8 +33,6 @@ class AnnulerService(
         request: AnnulerRequest,
         proxyPath: String,
     ): AnnulerResponse {
-        logger.info { "Annulerer kravgrunnlag for vedtakId=${request.vedtakId}" }
-
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -64,7 +62,6 @@ class AnnulerService(
                         ),
                     )
                 }
-                logger.info { "Annulering vellykket for vedtakId=${response.vedtakId}" }
                 response
             }
 

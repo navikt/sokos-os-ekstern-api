@@ -34,8 +34,6 @@ class VedtakService(
         request: VedtakRequest,
         proxyPath: String,
     ): VedtakResponse {
-        logger.info { "Sender tilbakekrevingsvedtak for vedtakId=${request.vedtakId}, antallPerioder=${request.perioder.size}" }
-
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -65,7 +63,6 @@ class VedtakService(
                         ),
                     )
                 }
-                logger.info { "Tilbakekrevingsvedtak vellykket for vedtakId=${response.vedtakId}" }
                 response
             }
 
