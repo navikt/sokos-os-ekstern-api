@@ -22,14 +22,11 @@ import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import mu.KotlinLogging
-import org.slf4j.Marker
-import org.slf4j.MarkerFactory
 import org.slf4j.event.Level
 
 import no.nav.sokos.os.ekstern.api.metrics.Metrics
 import no.nav.sokos.os.ekstern.api.util.BigDecimalSerializer
 
-val TEAM_LOGS_MARKER: Marker? = MarkerFactory.getMarker("TEAM_LOGS")
 private val logger = KotlinLogging.logger {}
 
 val jsonConfig =

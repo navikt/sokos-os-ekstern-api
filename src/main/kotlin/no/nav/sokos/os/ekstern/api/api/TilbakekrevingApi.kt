@@ -6,7 +6,6 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import mu.KotlinLogging
 
 import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerRequest
 import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravdetaljerRequest
@@ -16,8 +15,6 @@ import no.nav.sokos.os.ekstern.api.os.AnnulerService
 import no.nav.sokos.os.ekstern.api.os.DetaljerService
 import no.nav.sokos.os.ekstern.api.os.KravgrunnlagService
 import no.nav.sokos.os.ekstern.api.os.VedtakService
-
-private val logger = KotlinLogging.logger {}
 
 const val API_BASE_PATH = "/api/v1/tilbakekreving"
 
