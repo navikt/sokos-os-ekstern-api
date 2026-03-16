@@ -13,19 +13,29 @@ import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.plugins.statuspages.StatusPagesConfig
 import io.ktor.server.request.path
 import io.ktor.server.response.respond
+import mu.KotlinLogging
 
 import no.nav.sokos.os.ekstern.api.os.OsException
+
+private val logger = KotlinLogging.logger {}
 
 fun StatusPagesConfig.statusPageConfig() {
     exception<Throwable> { call, cause ->
         val (responseStatus, apiError) =
             when (cause) {
-                is OsException -> Pair(HttpStatusCode.allStatusCodes.find { it.value == cause.apiError.status }!!, cause.apiError)
+                is OsException -> {
+                    logger.warn { "OS feil på ${call.request.path()}: status=${cause.apiError.status}, melding=${cause.apiError.message}" }
+                    Pair(HttpStatusCode.allStatusCodes.find { it.value == cause.apiError.status }!!, cause.apiError)
+                }
                 is BadRequestException -> {
                     val jsonException = cause.findCauseOfType<JsonConvertException>()
+                    logger.warn { "Ugyldig request på ${call.request.path()}: ${jsonException?.message ?: cause.message}" }
                     createApiError(HttpStatusCode.BadRequest, jsonException?.message ?: cause.message, call)
                 }
-                else -> createApiError(HttpStatusCode.InternalServerError, cause.message ?: "En teknisk feil har oppstått. Ta kontakt med utviklerne", call)
+                else -> {
+                    logger.error(cause) { "Uventet feil på ${call.request.path()}" }
+                    createApiError(HttpStatusCode.InternalServerError, cause.message ?: "En teknisk feil har oppstått. Ta kontakt med utviklerne", call)
+                }
             }
         call.respond(responseStatus, apiError)
     }

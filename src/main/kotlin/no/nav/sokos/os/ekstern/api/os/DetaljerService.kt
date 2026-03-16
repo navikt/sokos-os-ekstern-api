@@ -12,6 +12,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
+import mu.KotlinLogging
 
 import no.nav.sokos.os.ekstern.api.api.models.detaljer.DetaljerPeriode
 import no.nav.sokos.os.ekstern.api.api.models.detaljer.DetaljerPostering
@@ -20,7 +21,10 @@ import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravdetaljerResponse
 import no.nav.sokos.os.ekstern.api.api.models.detaljer.KravgrunnlagDetaljer
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+import no.nav.sokos.os.ekstern.api.config.TEAM_LOGS_MARKER
 import no.nav.sokos.os.ekstern.api.util.BigDecimal
+
+private val logger = KotlinLogging.logger {}
 
 @OptIn(ExperimentalTime::class)
 class DetaljerService(
@@ -34,6 +38,8 @@ class DetaljerService(
         request: KravdetaljerRequest,
         proxyPath: String,
     ): KravdetaljerResponse {
+        logger.info { "Henter kravgrunnlag detaljer for kravgrunnlagId=${request.kravgrunnlagId}" }
+
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -52,6 +58,7 @@ class DetaljerService(
                     )
 
                 if (osResponse.status != 0) {
+                    logger.warn { "Hent kravgrunnlag detaljer feilet med status=${osResponse.status}, melding=${osResponse.statusMelding}" }
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
@@ -62,18 +69,22 @@ class DetaljerService(
                         ),
                     )
                 }
+                logger.info(TEAM_LOGS_MARKER) { "Hent kravgrunnlag detaljer vellykket for kravgrunnlagId=${response.kravgrunnlag.kravgrunnlagId}, gjelderId=${response.kravgrunnlag.gjelderId}" }
                 response
             }
 
-            else -> throw OsException(
-                ApiError(
-                    Clock.System.now(),
-                    response.status.value,
-                    response.status.description,
-                    "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
-                    proxyPath,
-                ),
-            )
+            else -> {
+                logger.error { "Hent kravgrunnlag detaljer feilet med HTTP ${response.status.value}" }
+                throw OsException(
+                    ApiError(
+                        Clock.System.now(),
+                        response.status.value,
+                        response.status.description,
+                        "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
+                        proxyPath,
+                    ),
+                )
+            }
         }
     }
 

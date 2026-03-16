@@ -12,12 +12,15 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
+import mu.KotlinLogging
 
 import no.nav.sokos.os.ekstern.api.api.models.vedtak.Periode
 import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakRequest
 import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakResponse
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+
+private val logger = KotlinLogging.logger {}
 
 @OptIn(ExperimentalTime::class)
 class VedtakService(
@@ -31,6 +34,8 @@ class VedtakService(
         request: VedtakRequest,
         proxyPath: String,
     ): VedtakResponse {
+        logger.info { "Sender tilbakekrevingsvedtak for vedtakId=${request.vedtakId}, antallPerioder=${request.perioder.size}" }
+
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -49,6 +54,7 @@ class VedtakService(
                         datoVedtakFagsystem = osResponse.datoVedtakFagsystem!!,
                     )
                 if (osResponse.status != 0) {
+                    logger.warn { "Tilbakekrevingsvedtak feilet med status=${osResponse.status}, melding=${osResponse.statusMelding}" }
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
@@ -59,18 +65,22 @@ class VedtakService(
                         ),
                     )
                 }
+                logger.info { "Tilbakekrevingsvedtak vellykket for vedtakId=${response.vedtakId}" }
                 response
             }
 
-            else -> throw OsException(
-                ApiError(
-                    Clock.System.now(),
-                    response.status.value,
-                    response.status.description,
-                    "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
-                    proxyPath,
-                ),
-            )
+            else -> {
+                logger.error { "Tilbakekrevingsvedtak feilet med HTTP ${response.status.value}" }
+                throw OsException(
+                    ApiError(
+                        Clock.System.now(),
+                        response.status.value,
+                        response.status.description,
+                        "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
+                        proxyPath,
+                    ),
+                )
+            }
         }
     }
 

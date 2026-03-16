@@ -12,11 +12,14 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
+import mu.KotlinLogging
 
 import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerRequest
 import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerResponse
 import no.nav.sokos.os.ekstern.api.config.ApiError
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+
+private val logger = KotlinLogging.logger {}
 
 @OptIn(ExperimentalTime::class)
 class AnnulerService(
@@ -30,6 +33,8 @@ class AnnulerService(
         request: AnnulerRequest,
         proxyPath: String,
     ): AnnulerResponse {
+        logger.info { "Annulerer kravgrunnlag for vedtakId=${request.vedtakId}" }
+
         val response: HttpResponse =
             httpClient.post(url) {
                 contentType(ContentType.Application.Json)
@@ -48,6 +53,7 @@ class AnnulerService(
                         saksbehandlerId = osResponse.saksbehandlerId!!,
                     )
                 if (osResponse.status != 0) {
+                    logger.warn { "Annulering feilet med status=${osResponse.status}, melding=${osResponse.statusMelding}" }
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
@@ -58,18 +64,22 @@ class AnnulerService(
                         ),
                     )
                 }
+                logger.info { "Annulering vellykket for vedtakId=${response.vedtakId}" }
                 response
             }
 
-            else -> throw OsException(
-                ApiError(
-                    Clock.System.now(),
-                    response.status.value,
-                    response.status.description,
-                    "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
-                    proxyPath,
-                ),
-            )
+            else -> {
+                logger.error { "Annulering feilet med HTTP ${response.status.value}" }
+                throw OsException(
+                    ApiError(
+                        Clock.System.now(),
+                        response.status.value,
+                        response.status.description,
+                        "Message: ${response.errorMessage()}, Details: ${response.errorDetails()}",
+                        proxyPath,
+                    ),
+                )
+            }
         }
     }
 
