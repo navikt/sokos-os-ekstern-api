@@ -19,7 +19,7 @@ data class KravgrunnlagDetaljer(
     val kodeFagomraade: String,
     val fagsystemId: String,
     val datoVedtakFagsystem: String,
-    val vedtakIdImgjort: Long,
+    val vedtakIdOmgjort: Long,
     val gjelderId: String,
     val typeGjelder: String,
     val utbetalesTilId: String,

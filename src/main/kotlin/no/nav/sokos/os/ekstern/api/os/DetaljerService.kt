@@ -109,7 +109,7 @@ class DetaljerService(
             kodeFagomraade = kodeFagomraade.orEmpty(),
             fagsystemId = fagsystemId.orEmpty(),
             datoVedtakFagsystem = datoVedtakFagsystem.orEmpty(),
-            vedtakIdImgjort = vedtakIdImgjort?.toLong() ?: 0L,
+            vedtakIdOmgjort = vedtakIdImgjort?.toLong() ?: 0L,
             gjelderId = gjelderId.orEmpty(),
             typeGjelder = typeGjelder.orEmpty(),
             utbetalesTilId = utbetalesTilId.orEmpty(),
