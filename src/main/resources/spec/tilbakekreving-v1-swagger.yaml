@@ -572,7 +572,7 @@ components:
         - kodeFagomraade
         - fagsystemId
         - datoVedtakFagsystem
-        - vedtakIdImgjort
+        - vedtakIdOmgjort
         - gjelderId
         - typeGjelder
         - utbetalesTilId
@@ -614,7 +614,7 @@ components:
           format: date
           example: "2026-01-15"
           description: Vedtaksdato i fagsystem
-        vedtakIdImgjort:
+        vedtakIdOmgjort:
           type: integer
           format: int64
           example: 123456788

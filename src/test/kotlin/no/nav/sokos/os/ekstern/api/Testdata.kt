@@ -119,7 +119,7 @@ object Testdata {
             kodeFagomraade = "FP",
             fagsystemId = "152465243100",
             datoVedtakFagsystem = "2025-10-28",
-            vedtakIdImgjort = 851138L,
+            vedtakIdOmgjort = 851138L,
             gjelderId = "98765432111",
             typeGjelder = "PERSON",
             utbetalesTilId = "98765432111",
