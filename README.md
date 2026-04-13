@@ -1,6 +1,7 @@
 # sokos-os-ekstern-api
 
 API for vedtaksløsninger som skal sende tilbakekrevingsoppdrag til OS via zOS connect. Applikasjonen er en proxy for et REST api inn til stormaskin.
+Tiltenkte konsumenter er alle som bruker den gamle SOAP integrasjonen for tilbakekreving. Ta kontakt i #utbetaling for tilgang.
 
 * [1. Dokumentasjon](dokumentasjon/dokumentasjon.md)
 * [2. Funksjonelle krav](#2-funksjonelle-krav)
