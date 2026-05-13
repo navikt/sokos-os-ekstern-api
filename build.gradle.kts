@@ -103,6 +103,10 @@ configurations.all {
                     "CVE-2026-42587: Netty HttpContentDecompressor maxAllocation bypass with br/zstd/snappy leads to decompression bomb DoS. Affected version = 4.2.11.Final, patched in >= 4.2.13.Final",
                 )
             }
+            if (requested.group == "io.netty" && requested.name == "netty-transport-native-epoll") {
+                useVersion("4.2.13.Final")
+                because("CVE-2026-42577 >= 4.2.0.Alpha1, <= 4.2.12.Final")
+            }
             if (requested.group == "org.bouncycastle" && requested.name == "bcpkix-jdk18on") {
                 useVersion("1.84")
                 because("CVE-2026-5588: Use of a Broken or Risky Cryptographic Algorithm vulnerability in Legion of the Bouncy Castle Inc. BC-JAVA bcpkix on all (pkix modules). >= 1.49, < 1.84")
