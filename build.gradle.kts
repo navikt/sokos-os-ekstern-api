@@ -107,14 +107,6 @@ configurations.all {
                 useVersion("4.2.13.Final")
                 because("CVE-2026-42577 >= 4.2.0.Alpha1, <= 4.2.12.Final")
             }
-            if (requested.group == "org.bouncycastle" && requested.name == "bcpkix-jdk18on") {
-                useVersion("1.84")
-                because("CVE-2026-5588: Use of a Broken or Risky Cryptographic Algorithm vulnerability in Legion of the Bouncy Castle Inc. BC-JAVA bcpkix on all (pkix modules). >= 1.49, < 1.84")
-            }
-            if (requested.group == "org.bouncycastle" && requested.name == "bcprov-jdk18on") {
-                useVersion("1.84")
-                because("Bouncy Castle Has Covert Timing Channel Vulnerability. Affected version >= 1.71, < 1.84")
-            }
         }
     }
 }
