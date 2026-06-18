@@ -31,7 +31,7 @@ val kotlinxSerializationVersion = "1.11.0"
 val mockOAuth2ServerVersion = "4.0.0"
 val mockkVersion = "1.14.11"
 val restAssuredVersion = "6.0.0"
-val openApiValidatorVersion = "2.46.1"
+val openApiValidatorVersion = "3.0.0"
 val wireMockVersion = "3.13.2"
 
 dependencies {
