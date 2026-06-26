@@ -46,6 +46,8 @@ spec:
       rules:
         - application: azure-token-generator
           namespace: nais
+        - application: tilbakekreving-backend
+          namespace: tilbake
     outbound:
       rules:
         - application: logging
