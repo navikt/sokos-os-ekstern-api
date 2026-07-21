@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
-    kotlin("jvm") version "2.3.21"
-    kotlin("plugin.serialization") version "2.3.21"
+    kotlin("jvm") version "2.4.0"
+    kotlin("plugin.serialization") version "2.4.0"
     id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
     id("org.jetbrains.kotlinx.kover") version "0.9.8"
     id("org.openapi.generator") version "7.23.0"
@@ -20,17 +20,17 @@ repositories {
 }
 
 val ktorVersion = "3.5.1"
-val logbackVersion = "1.5.34"
+val logbackVersion = "1.5.38"
 val logstashVersion = "9.0"
 val micrometerVersion = "1.17.0"
 val kotlinLoggingVersion = "3.0.5"
 val natpryceVersion = "1.6.10.0"
-val kotestVersion = "6.1.11"
+val kotestVersion = "6.2.2"
 val kotlinxSerializationVersion = "1.11.0"
 val mockOAuth2ServerVersion = "4.0.0"
 val mockkVersion = "1.14.11"
-val restAssuredVersion = "6.0.0"
-val openApiValidatorVersion = "2.46.1"
+val restAssuredVersion = "6.0.1"
+val openApiValidatorVersion = "3.0.0"
 val wireMockVersion = "3.13.2"
 
 dependencies {
@@ -82,11 +82,11 @@ configurations.all {
     resolutionStrategy {
         eachDependency {
             if (requested.group == "tools.jackson.core" && requested.name == "jackson-core") {
-                useVersion("3.1.1")
+                useVersion("3.2.1")
                 because("Jackson Core: Document length constraint bypass in blocking, async, and DataInput parsers. Affected version >= 3.0.0, <= 3.1.0")
             }
             if (requested.group == "com.fasterxml.jackson.core" && requested.name == "jackson-core") {
-                useVersion("2.21.1")
+                useVersion("2.22.1")
                 because("jackson-core: Number Length Constraint Bypass in Async Parser Leads to Potential DoS Condition. Affected version >= 2.19.0, < 2.21.1")
             }
             if (requested.group == "io.netty" && requested.name == "netty-codec-http2") {
@@ -95,13 +95,9 @@ configurations.all {
                     "CVE-2026-42587: Netty HttpContentDecompressor maxAllocation bypass with br/zstd/snappy leads to decompression bomb DoS. Affected version = 4.2.11.Final, patched in >= 4.2.13.Final",
                 )
             }
-            if (requested.group == "io.netty" && requested.name == "netty-transport-native-epoll") {
+            if (requested.group == "io.netty") {
                 useVersion("4.2.15.Final")
-                because("CVE-2026-42577 >= 4.2.0.Alpha1, <= 4.2.12.Final")
-            }
-            if (requested.group == "io.netty" && requested.name == "netty-handler") {
-                useVersion("4.2.15.Final")
-                because("Netty has an IPv6 Subnet Filter Bypass via Incorrect Comparator Masking. Affected version >= 4.2.0.Alpha1, <= 4.2.12.Final")
+                because("CVE-2026-45536, CVE-2026-42577 >= 4.2.0.Alpha1, <= 4.2.12.Final")
             }
         }
     }
