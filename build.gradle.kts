@@ -30,7 +30,7 @@ val kotlinxSerializationVersion = "1.11.0"
 val mockOAuth2ServerVersion = "4.0.0"
 val mockkVersion = "1.14.11"
 val restAssuredVersion = "6.0.1"
-val openApiValidatorVersion = "2.46.1"
+val openApiValidatorVersion = "3.0.0"
 val wireMockVersion = "3.13.2"
 
 dependencies {
@@ -82,11 +82,11 @@ configurations.all {
     resolutionStrategy {
         eachDependency {
             if (requested.group == "tools.jackson.core" && requested.name == "jackson-core") {
-                useVersion("3.1.1")
+                useVersion("3.2.1")
                 because("Jackson Core: Document length constraint bypass in blocking, async, and DataInput parsers. Affected version >= 3.0.0, <= 3.1.0")
             }
             if (requested.group == "com.fasterxml.jackson.core" && requested.name == "jackson-core") {
-                useVersion("2.21.1")
+                useVersion("2.22.1")
                 because("jackson-core: Number Length Constraint Bypass in Async Parser Leads to Potential DoS Condition. Affected version >= 2.19.0, < 2.21.1")
             }
             if (requested.group == "io.netty" && requested.name == "netty-codec-http2") {
