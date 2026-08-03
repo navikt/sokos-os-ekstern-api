@@ -81,6 +81,10 @@ dependencies {
 configurations.all {
     resolutionStrategy {
         eachDependency {
+            if (requested.group == "io.netty") {
+                useVersion("4.2.16.Final")
+                because("Multiple versions of netty has vulnerable dependencies. Affected version < 4.2.15.Final")
+            }
             if (requested.group == "tools.jackson.core" && requested.name == "jackson-core") {
                 useVersion("3.2.1")
                 because("Jackson Core: Document length constraint bypass in blocking, async, and DataInput parsers. Affected version >= 3.0.0, <= 3.1.0")
@@ -88,10 +92,6 @@ configurations.all {
             if (requested.group == "com.fasterxml.jackson.core" && requested.name == "jackson-core") {
                 useVersion("2.22.1")
                 because("jackson-core: Number Length Constraint Bypass in Async Parser Leads to Potential DoS Condition. Affected version >= 2.19.0, < 2.21.1")
-            }
-            if (requested.group == "io.netty") {
-                useVersion("4.2.15.Final")
-                because("CVE-2026-42587, CVE-2026-45536, CVE-2026-42577 >= 4.2.0.Alpha1, <= 4.2.12.Final")
             }
         }
     }
