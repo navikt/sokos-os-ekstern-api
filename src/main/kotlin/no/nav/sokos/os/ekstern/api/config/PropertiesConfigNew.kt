@@ -25,7 +25,7 @@ object PropertiesConfigNew {
     }
 
     fun load(applicationConfig: ApplicationConfig) {
-        if (::config.isInitialized) {
+        if (!::config.isInitialized) {
             config = applicationConfig
         }
     }
