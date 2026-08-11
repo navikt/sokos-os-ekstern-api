@@ -18,14 +18,15 @@ import no.nav.sokos.os.ekstern.api.api.models.liste.Kravgrunnlag
 import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagRequest
 import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagResponse
 import no.nav.sokos.os.ekstern.api.config.ApiError
-import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+import no.nav.sokos.os.ekstern.api.config.OsConfiguration
+import no.nav.sokos.os.ekstern.api.config.PropertiesConfigNew
 import no.nav.sokos.os.ekstern.api.util.BigDecimal
 
 private val logger = KotlinLogging.logger {}
 
 @OptIn(ExperimentalTime::class)
 class KravgrunnlagService(
-    private val osConfig: PropertiesConfig.OsConfiguration = PropertiesConfig.OsConfiguration(),
+    private val osConfig: OsConfiguration = PropertiesConfigNew.osConfiguration,
     private val httpClient: HttpClient = osHttpClient(osConfig),
     endpointUrl: String = osConfig.endpointUrl,
 ) {

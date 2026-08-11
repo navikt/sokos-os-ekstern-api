@@ -5,7 +5,6 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
 import no.nav.sokos.os.ekstern.api.config.ApplicationState
-import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfigNew
 import no.nav.sokos.os.ekstern.api.config.applicationLifecycleConfig
 import no.nav.sokos.os.ekstern.api.config.commonConfig
@@ -20,12 +19,10 @@ fun main() {
 fun Application.module() {
     PropertiesConfigNew.load(environment.config.mergeWithEnv())
 
-    val propertiesConfig = PropertiesConfig.Configuration()
-    val useAuthentication = propertiesConfig.useAuthentication
     val applicationState = ApplicationState()
 
     applicationLifecycleConfig(applicationState)
     commonConfig()
-    securityConfig(useAuthentication)
-    routingConfig(useAuthentication, applicationState)
+    securityConfig()
+    routingConfig(applicationState)
 }

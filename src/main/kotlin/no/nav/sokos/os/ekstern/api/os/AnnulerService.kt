@@ -17,13 +17,14 @@ import mu.KotlinLogging
 import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerRequest
 import no.nav.sokos.os.ekstern.api.api.models.annuler.AnnulerResponse
 import no.nav.sokos.os.ekstern.api.config.ApiError
-import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+import no.nav.sokos.os.ekstern.api.config.OsConfiguration
+import no.nav.sokos.os.ekstern.api.config.PropertiesConfigNew
 
 private val logger = KotlinLogging.logger {}
 
 @OptIn(ExperimentalTime::class)
 class AnnulerService(
-    private val osConfig: PropertiesConfig.OsConfiguration = PropertiesConfig.OsConfiguration(),
+    private val osConfig: OsConfiguration = PropertiesConfigNew.osConfiguration,
     private val httpClient: HttpClient = osHttpClient(osConfig),
     endpointUrl: String = osConfig.endpointUrl,
 ) {

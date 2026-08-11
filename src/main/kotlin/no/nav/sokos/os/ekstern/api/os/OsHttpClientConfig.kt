@@ -20,12 +20,12 @@ import io.ktor.serialization.kotlinx.json.json
 import mu.KotlinLogging
 import org.apache.hc.client5.http.impl.routing.SystemDefaultRoutePlanner
 
-import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+import no.nav.sokos.os.ekstern.api.config.OsConfiguration
 import no.nav.sokos.os.ekstern.api.config.jsonConfig
 
 private val logger = KotlinLogging.logger {}
 
-fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
+fun osHttpClient(osConfig: OsConfiguration) =
     HttpClient(Apache5) {
         engine {
             sslContext = sslContext(osConfig)
@@ -43,7 +43,7 @@ fun osHttpClient(osConfig: PropertiesConfig.OsConfiguration) =
         }
     }
 
-private fun sslContext(osConfig: PropertiesConfig.OsConfiguration): SSLContext {
+private fun sslContext(osConfig: OsConfiguration): SSLContext {
     val keyStore =
         KeyStore
             .getInstance(KeyStore.getDefaultType())

@@ -8,8 +8,6 @@ import io.ktor.server.config.HoconApplicationConfig
 import io.ktor.server.config.getAs
 import io.ktor.server.config.withFallback
 
-import no.nav.sokos.os.ekstern.api.config.PropertiesConfig.Profile
-
 object PropertiesConfigNew {
     lateinit var config: ApplicationConfig
         private set
@@ -50,7 +48,6 @@ infix fun ApplicationConfig.overriding(other: ApplicationConfig): ApplicationCon
 @Serializable
 data class Configuration(
     val naisAppName: String,
-    val profile: Profile,
     val useAuthentication: Boolean,
 )
 
