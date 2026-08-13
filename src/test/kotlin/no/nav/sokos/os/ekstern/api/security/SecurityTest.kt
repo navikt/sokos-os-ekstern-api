@@ -24,7 +24,7 @@ import no.nav.sokos.os.ekstern.api.Testdata
 import no.nav.sokos.os.ekstern.api.api.API_BASE_PATH
 import no.nav.sokos.os.ekstern.api.api.tilbakekrevingApi
 import no.nav.sokos.os.ekstern.api.config.AUTHENTICATION_NAME
-import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+import no.nav.sokos.os.ekstern.api.config.AzureAdProperties
 import no.nav.sokos.os.ekstern.api.config.commonConfig
 import no.nav.sokos.os.ekstern.api.config.jsonConfig
 import no.nav.sokos.os.ekstern.api.config.securityConfig
@@ -136,7 +136,7 @@ class SecurityTest :
     })
 
 private fun MockOAuth2Server.authConfig() =
-    PropertiesConfig.AzureAdProperties(
+    AzureAdProperties(
         wellKnownUrl = wellKnownUrl("default").toString(),
         clientId = "default",
     )
@@ -156,7 +156,7 @@ private fun Application.configureTestApplication(
     annulerService: AnnulerService,
 ) {
     commonConfig()
-    securityConfig(true, mockOAuth2Server.authConfig())
+    securityConfig(mockOAuth2Server.authConfig())
     routing {
         authenticate(AUTHENTICATION_NAME) {
             tilbakekrevingApi(
