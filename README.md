@@ -45,8 +45,12 @@ Håndterer innsending av tilbakekrevingsvedtak, annullering av vedtak og henting
 3. API er tilgjengelig på `http://localhost:8080/api/v1/tilbakekreving`
 
 For testing:
-- Generer AzureAD token via [azure-token-generator](https://azure-token-generator.intern.dev.nav.no/)
-- Send requests med `Authorization: Bearer <token>` header
+- Generer AzureAD token via [azure-token-generator](https://azure-token-generator.intern.dev.nav.no/) (Trenger en [trygdeetaten-bruker](https://navikt.github.io/teammob-docs/#/kom-i-gang/tilgang?id=trygdeetaten-bruker-trygdeetatenno))
+- [Encode token](http://jwt.io/)
+- I IntelliJ, åpne `Endpoints` vindu for å få en liste av alle endepunkter man kan bruke
+- Legge til `Authorization: Bearer <encoded token>`
+- Bruk test verdier i request body
+- Husk å kjøre appen lokalt før du klikker `Submit request`
 
 # 4. Programvarearkitektur
 
@@ -119,4 +123,3 @@ Grafana dashboards for overvåkning og metrikker blir opprettet etter deploy.
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på Github.
 Interne henvendelser kan sendes via Slack i kanalen [#utbetaling](https://nav-it.slack.com/archives/CKZADNFBP)
-
