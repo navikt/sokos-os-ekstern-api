@@ -46,7 +46,7 @@ Håndterer innsending av tilbakekrevingsvedtak, annullering av vedtak og henting
 
 For testing:
 - Generer AzureAD token via [azure-token-generator](https://azure-token-generator.intern.dev.nav.no/) (Trenger en [trygdeetaten-bruker](https://navikt.github.io/teammob-docs/#/kom-i-gang/tilgang?id=trygdeetaten-bruker-trygdeetatenno))
-- Encode token
+- [Encode token](http://jwt.io/)
 - I IntelliJ, åpne `Endpoints` vindu for å få en liste av alle endepunkter man kan bruke
 - Legge til `Authorization: Bearer <encoded token>`
 - Bruk test verdier i request body
