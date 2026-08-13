@@ -5,7 +5,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
 import no.nav.sokos.os.ekstern.api.config.ApplicationState
-import no.nav.sokos.os.ekstern.api.config.PropertiesConfigNew
+import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
 import no.nav.sokos.os.ekstern.api.config.applicationLifecycleConfig
 import no.nav.sokos.os.ekstern.api.config.commonConfig
 import no.nav.sokos.os.ekstern.api.config.mergeWithEnv
@@ -17,7 +17,7 @@ fun main() {
 }
 
 fun Application.module() {
-    PropertiesConfigNew.load(environment.config.mergeWithEnv())
+    PropertiesConfig.load(environment.config.mergeWithEnv())
 
     val applicationState = ApplicationState()
 

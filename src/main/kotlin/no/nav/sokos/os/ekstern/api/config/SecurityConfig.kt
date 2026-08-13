@@ -21,8 +21,8 @@ private val logger = KotlinLogging.logger {}
 const val AUTHENTICATION_NAME = "azureAd"
 
 fun Application.securityConfig(
-    azureAdProperties: AzureAdProperties = PropertiesConfigNew.azureAdProperties,
-    useAuthentication: Boolean = PropertiesConfigNew.configuration.useAuthentication,
+    azureAdProperties: AzureAdProperties = PropertiesConfig.azureAdProperties,
+    useAuthentication: Boolean = PropertiesConfig.configuration.useAuthentication,
 ) {
     logger.info("Use authentication: $useAuthentication")
     if (useAuthentication) {
@@ -31,7 +31,7 @@ fun Application.securityConfig(
 
         authentication {
             jwt(AUTHENTICATION_NAME) {
-                realm = PropertiesConfigNew.configuration.naisAppName
+                realm = PropertiesConfig.configuration.naisAppName
                 verifier(
                     jwkProvider = jwkProvider,
                     issuer = openIdMetadata.issuer,
