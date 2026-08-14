@@ -8,6 +8,7 @@ import no.nav.sokos.os.ekstern.api.config.ApplicationState
 import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
 import no.nav.sokos.os.ekstern.api.config.applicationLifecycleConfig
 import no.nav.sokos.os.ekstern.api.config.commonConfig
+import no.nav.sokos.os.ekstern.api.config.mergeWithEnv
 import no.nav.sokos.os.ekstern.api.config.routingConfig
 import no.nav.sokos.os.ekstern.api.config.securityConfig
 
@@ -16,12 +17,12 @@ fun main() {
 }
 
 fun Application.module() {
-    val propertiesConfig = PropertiesConfig.Configuration()
-    val useAuthentication = propertiesConfig.useAuthentication
+    PropertiesConfig.load(environment.config.mergeWithEnv())
+
     val applicationState = ApplicationState()
 
     applicationLifecycleConfig(applicationState)
     commonConfig()
-    securityConfig(useAuthentication)
-    routingConfig(useAuthentication, applicationState)
+    securityConfig()
+    routingConfig(applicationState)
 }

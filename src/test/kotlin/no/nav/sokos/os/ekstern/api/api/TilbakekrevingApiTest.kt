@@ -1,6 +1,5 @@
 package no.nav.sokos.os.ekstern.api.api
 
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator
@@ -31,7 +30,7 @@ import no.nav.sokos.os.ekstern.api.api.models.liste.KravgrunnlagResponse
 import no.nav.sokos.os.ekstern.api.api.models.vedtak.VedtakResponse
 import no.nav.sokos.os.ekstern.api.config.AUTHENTICATION_NAME
 import no.nav.sokos.os.ekstern.api.config.ApiError
-import no.nav.sokos.os.ekstern.api.config.PropertiesConfig
+import no.nav.sokos.os.ekstern.api.config.AzureAdProperties
 import no.nav.sokos.os.ekstern.api.config.commonConfig
 import no.nav.sokos.os.ekstern.api.config.jsonConfig
 import no.nav.sokos.os.ekstern.api.config.securityConfig
@@ -58,7 +57,6 @@ private val kravgrunnlagService = mockk<KravgrunnlagService>()
 private val detaljerService = mockk<DetaljerService>()
 private val annulerService = mockk<AnnulerService>()
 
-@OptIn(ExperimentalTime::class)
 internal class TilbakekrevingApiTest :
     FunSpec({
 
@@ -386,7 +384,7 @@ internal class TilbakekrevingApiTest :
     })
 
 private fun MockOAuth2Server.authConfig() =
-    PropertiesConfig.AzureAdProperties(
+    AzureAdProperties(
         wellKnownUrl = wellKnownUrl("default").toString(),
         clientId = "default",
     )
@@ -400,7 +398,7 @@ private fun MockOAuth2Server.token() =
 
 private fun Application.applicationTestModule() {
     commonConfig()
-    securityConfig(true, mockOAuth2Server.authConfig())
+    securityConfig(mockOAuth2Server.authConfig())
     routing {
         authenticate(AUTHENTICATION_NAME) {
             tilbakekrevingApi(

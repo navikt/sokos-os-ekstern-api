@@ -9,8 +9,8 @@ import no.nav.sokos.os.ekstern.api.api.swaggerApi
 import no.nav.sokos.os.ekstern.api.api.tilbakekrevingApi
 
 fun Application.routingConfig(
-    useAuthentication: Boolean,
     applicationState: ApplicationState,
+    useAuthentication: Boolean = PropertiesConfig.configuration.useAuthentication,
 ) {
     routing {
         internalNaisRoutes(applicationState)

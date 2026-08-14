@@ -1,72 +1,65 @@
 package no.nav.sokos.os.ekstern.api.config
 
-import java.io.File
+import kotlinx.serialization.Serializable
 
-import com.natpryce.konfig.ConfigurationMap
-import com.natpryce.konfig.ConfigurationProperties
-import com.natpryce.konfig.EnvironmentVariables
-import com.natpryce.konfig.Key
-import com.natpryce.konfig.overriding
-import com.natpryce.konfig.stringType
+import com.typesafe.config.ConfigFactory
+import io.ktor.server.config.ApplicationConfig
+import io.ktor.server.config.HoconApplicationConfig
+import io.ktor.server.config.getAs
+import io.ktor.server.config.withFallback
 
 object PropertiesConfig {
-    private val defaultProperties =
-        ConfigurationMap(
-            mapOf(
-                "NAIS_APP_NAME" to "sokos-os-ekstern-api",
-                "NAIS_NAMESPACE" to "okonomi",
-            ),
-        )
+    lateinit var config: ApplicationConfig
+        private set
 
-    private val localDevProperties =
-        ConfigurationMap(
-            mapOf(
-                "APPLICATION_PROFILE" to Profile.LOCAL.toString(),
-                "USE_AUTHENTICATION" to "false",
-                "OS_ENDPOINT_URL" to "https://155.55.1.82:9080/ostilbakekrevingapi",
-            ),
-        )
+    val configuration by lazy {
+        config.property("configuration").getAs<Configuration>()
+    }
 
-    private val devProperties = ConfigurationMap(mapOf("APPLICATION_PROFILE" to Profile.DEV.toString()))
-    private val prodProperties = ConfigurationMap(mapOf("APPLICATION_PROFILE" to Profile.PROD.toString()))
+    val azureAdProperties by lazy {
+        config.property("azureAdProperties").getAs<AzureAdProperties>()
+    }
 
-    private val config =
-        when (System.getenv("NAIS_CLUSTER_NAME") ?: System.getProperty("NAIS_CLUSTER_NAME")) {
-            "dev-gcp" -> ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding devProperties overriding defaultProperties
-            "prod-gcp" -> ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding prodProperties overriding defaultProperties
-            else ->
-                ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding
-                    ConfigurationProperties.fromOptionalFile(
-                        File("defaults.properties"),
-                    ) overriding localDevProperties overriding defaultProperties
+    val osConfiguration by lazy {
+        config.property("osConfiguration").getAs<OsConfiguration>()
+    }
+
+    fun load(applicationConfig: ApplicationConfig) {
+        if (!::config.isInitialized) {
+            config = applicationConfig
         }
-
-    operator fun get(key: String): String = config[Key(key, stringType)]
-
-    fun getOrEmpty(key: String): String = config.getOrElse(Key(key, stringType), "")
-
-    data class Configuration(
-        val naisAppName: String = get("NAIS_APP_NAME"),
-        val profile: Profile = Profile.valueOf(get("APPLICATION_PROFILE")),
-        val useAuthentication: Boolean = get("USE_AUTHENTICATION").toBoolean(),
-        val azureAdProperties: AzureAdProperties = AzureAdProperties(),
-        val osConfiguration: OsConfiguration = OsConfiguration(),
-    )
-
-    class AzureAdProperties(
-        val clientId: String = getOrEmpty("AZURE_APP_CLIENT_ID"),
-        val wellKnownUrl: String = getOrEmpty("AZURE_APP_WELL_KNOWN_URL"),
-    )
-
-    class OsConfiguration(
-        val endpointUrl: String = getOrEmpty("OS_ENDPOINT_URL"),
-        val trustStore: String = getOrEmpty("NAV_TRUSTSTORE_PATH"),
-        val trustStorePassword: String = getOrEmpty("NAV_TRUSTSTORE_PASSWORD"),
-    )
-
-    enum class Profile {
-        LOCAL,
-        DEV,
-        PROD,
     }
 }
+
+fun ApplicationConfig.mergeWithEnv(): ApplicationConfig {
+    val hoconConfig = HoconApplicationConfig(ConfigFactory.load())
+    val environment =
+        (System.getenv("NAIS_CLUSTER_NAME") ?: System.getProperty("NAIS_CLUSTER_NAME"))
+            ?.lowercase()
+            ?.substringBefore("-")
+            ?: propertyOrNull("ktor.environment")?.getString()
+            ?: "local"
+    val environmentConfig = ApplicationConfig("application-$environment.conf")
+    return this overriding environmentConfig overriding hoconConfig
+}
+
+infix fun ApplicationConfig.overriding(other: ApplicationConfig): ApplicationConfig = this.withFallback(other)
+
+@Serializable
+data class Configuration(
+    val naisAppName: String,
+    val useAuthentication: Boolean,
+)
+
+@Serializable
+data class AzureAdProperties(
+    val clientId: String,
+    val wellKnownUrl: String,
+)
+
+@Serializable
+data class OsConfiguration(
+    val endpointUrl: String,
+    val trustStore: String,
+    val trustStorePassword: String,
+)
