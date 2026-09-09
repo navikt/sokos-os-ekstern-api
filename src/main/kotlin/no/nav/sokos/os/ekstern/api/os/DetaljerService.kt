@@ -56,7 +56,6 @@ class DetaljerService(
                     )
 
                 if (osResponse.status != 0) {
-                    logger.warn { "Hent kravgrunnlag detaljer feilet med status=${osResponse.status}, melding=${osResponse.statusMelding}" }
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
@@ -71,7 +70,6 @@ class DetaljerService(
             }
 
             else -> {
-                logger.error { "Hent kravgrunnlag detaljer feilet med HTTP ${response.status.value}" }
                 throw OsException(
                     ApiError(
                         Clock.System.now(),

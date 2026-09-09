@@ -53,7 +53,6 @@ class VedtakService(
                         datoVedtakFagsystem = osResponse.datoVedtakFagsystem!!,
                     )
                 if (osResponse.status != 0) {
-                    logger.warn { "Tilbakekrevingsvedtak feilet med status=${osResponse.status}, melding=${osResponse.statusMelding}" }
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
@@ -68,7 +67,6 @@ class VedtakService(
             }
 
             else -> {
-                logger.error { "Tilbakekrevingsvedtak feilet med HTTP ${response.status.value}" }
                 throw OsException(
                     ApiError(
                         Clock.System.now(),
