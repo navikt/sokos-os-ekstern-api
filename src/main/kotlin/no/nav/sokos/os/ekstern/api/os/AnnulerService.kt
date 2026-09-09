@@ -52,7 +52,6 @@ class AnnulerService(
                         saksbehandlerId = osResponse.saksbehandlerId!!,
                     )
                 if (osResponse.status != 0) {
-                    logger.warn { "Annulering feilet med status=${osResponse.status}, melding=${osResponse.statusMelding}" }
                     throw OsException(
                         ApiError(
                             Clock.System.now(),
@@ -67,7 +66,6 @@ class AnnulerService(
             }
 
             else -> {
-                logger.error { "Annulering feilet med HTTP ${response.status.value}" }
                 throw OsException(
                     ApiError(
                         Clock.System.now(),
