@@ -46,6 +46,10 @@ spec:
       rules:
         - application: tilbakekreving-backend
           namespace: tilbake
+        - application: fptilbake
+          namespace: teamforeldrepenger
+        - application: k9-tilbake
+          namespace: k9saksbehandling
     outbound:
       rules:
         - application: logging
