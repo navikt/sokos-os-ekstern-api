@@ -42,3 +42,5 @@ out/
 defaults.properties
 .kotlin
 cacerts
+.gradle-home
+
