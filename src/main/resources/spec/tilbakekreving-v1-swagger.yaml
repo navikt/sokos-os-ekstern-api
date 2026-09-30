@@ -181,7 +181,6 @@ components:
         - vedtakId
         - vedtaksDato
         - kodeHjemmel
-        - renterBeregnes
         - enhetAnsvarlig
         - kontrollfelt
         - saksbehandlerId
@@ -239,7 +238,6 @@ components:
       required:
         - periodeFom
         - periodeTom
-        - renterPeriodeBeregnes
         - belopRenter
         - posteringer
       properties:

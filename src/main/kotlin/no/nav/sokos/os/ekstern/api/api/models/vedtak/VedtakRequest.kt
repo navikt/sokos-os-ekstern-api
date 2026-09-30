@@ -10,7 +10,7 @@ data class VedtakRequest(
     val vedtakId: Int,
     val vedtaksDato: String,
     val kodeHjemmel: String,
-    val renterBeregnes: Boolean,
+    val renterBeregnes: Boolean?,
     val enhetAnsvarlig: String,
     val kontrollfelt: String,
     val saksbehandlerId: String,
@@ -22,7 +22,7 @@ data class VedtakRequest(
 data class Periode(
     val periodeFom: String,
     val periodeTom: String,
-    val renterPeriodeBeregnes: Boolean,
+    val renterPeriodeBeregnes: Boolean?,
     val belopRenter: BigDecimal,
     val posteringer: List<Postering>,
 )
