@@ -50,8 +50,10 @@ spec:
           namespace: tilbake
         - application: fptilbake
           namespace: teamforeldrepenger
+          cluster: dev-fss
         - application: k9-tilbake
           namespace: k9saksbehandling
+          cluster: dev-fss
     outbound:
       rules:
         - application: logging

@@ -48,8 +48,10 @@ spec:
           namespace: tilbake
         - application: fptilbake
           namespace: teamforeldrepenger
+          cluster: prod-fss
         - application: k9-tilbake
           namespace: k9saksbehandling
+          cluster: prod-fss
     outbound:
       rules:
         - application: logging
