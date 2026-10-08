@@ -54,6 +54,18 @@ spec:
         - application: k9-tilbake
           namespace: k9saksbehandling
           cluster: dev-fss
+        - application: pensjon-pen-q0
+          namespace: pensjon-q0
+          cluster: dev-fss
+        - application: pensjon-pen-q1
+          namespace: pensjon-q1
+          cluster: dev-fss
+        - application: pensjon-pen-q2
+          namespace: pensjon-q2
+          cluster: dev-fss
+        - application: pensjon-pen-q5
+          namespace: pensjon-q5
+          cluster: dev-fss
     outbound:
       rules:
         - application: logging
