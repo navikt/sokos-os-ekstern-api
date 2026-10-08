@@ -52,6 +52,9 @@ spec:
         - application: k9-tilbake
           namespace: k9saksbehandling
           cluster: prod-fss
+        - application: pensjon-pen
+          namespace: pensjondeployer
+          cluster: prod-fss
     outbound:
       rules:
         - application: logging
