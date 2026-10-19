@@ -13,8 +13,13 @@ import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.plugins.statuspages.StatusPagesConfig
 import io.ktor.server.request.path
 import io.ktor.server.response.respond
+import mu.KotlinLogging
+import org.slf4j.MarkerFactory
 
 import no.nav.sokos.os.ekstern.api.os.OsException
+
+private val logger = KotlinLogging.logger {}
+private val marker = MarkerFactory.getMarker("TEAM_LOGS")
 
 fun StatusPagesConfig.statusPageConfig() {
     exception<Throwable> { call, cause ->
@@ -22,6 +27,7 @@ fun StatusPagesConfig.statusPageConfig() {
             when (cause) {
                 is OsException -> Pair(HttpStatusCode.allStatusCodes.find { it.value == cause.apiError.status }!!, cause.apiError)
                 is BadRequestException -> {
+                    logger.warn(marker = marker) { cause }
                     val jsonException = cause.findCauseOfType<JsonConvertException>()
                     createApiError(HttpStatusCode.BadRequest, jsonException?.message ?: cause.message, call)
                 }
