@@ -27,7 +27,7 @@ fun StatusPagesConfig.statusPageConfig() {
             when (cause) {
                 is OsException -> Pair(HttpStatusCode.allStatusCodes.find { it.value == cause.apiError.status }!!, cause.apiError)
                 is BadRequestException -> {
-                    logger.warn(marker = marker) { cause }
+                    logger.warn(marker = marker, t = cause) { cause }
                     val jsonException = cause.findCauseOfType<JsonConvertException>()
                     createApiError(HttpStatusCode.BadRequest, jsonException?.message ?: cause.message, call)
                 }
