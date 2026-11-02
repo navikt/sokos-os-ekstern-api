@@ -81,6 +81,12 @@ dependencies {
         implementation("com.fasterxml.jackson.core:jackson-core:2.22.4") {
             because("jackson-core security fixes")
         }
+        implementation("tools.jackson.core:jackson-core:3.2.3") {
+            because("jackson-core security fixes")
+        }
+        implementation("tools.jackson.core:jackson-databind:3.2.3") {
+            because("jackson-databind security fixes")
+        }
     }
 }
 
@@ -90,10 +96,6 @@ configurations.all {
             if (requested.group == "io.netty") {
                 useVersion("4.2.16.Final")
                 because("Multiple versions of netty has vulnerable dependencies. Affected version < 4.2.15.Final")
-            }
-            if (requested.group == "tools.jackson.core" && requested.name == "jackson-core") {
-                useVersion("3.2.1")
-                because("Jackson Core: Document length constraint bypass in blocking, async, and DataInput parsers. Affected version >= 3.0.0, <= 3.1.0")
             }
         }
     }
