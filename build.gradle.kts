@@ -76,6 +76,12 @@ dependencies {
     testImplementation("io.rest-assured:kotlin-extensions:$restAssuredVersion")
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$openApiValidatorVersion")
     testImplementation("org.wiremock:wiremock-standalone:$wireMockVersion")
+
+    constraints {
+        implementation("com.fasterxml.jackson.core:jackson-core:2.22.4") {
+            because("jackson-core security fixes")
+        }
+    }
 }
 
 configurations.all {
@@ -88,10 +94,6 @@ configurations.all {
             if (requested.group == "tools.jackson.core" && requested.name == "jackson-core") {
                 useVersion("3.2.1")
                 because("Jackson Core: Document length constraint bypass in blocking, async, and DataInput parsers. Affected version >= 3.0.0, <= 3.1.0")
-            }
-            if (requested.group == "com.fasterxml.jackson.core" && requested.name == "jackson-core") {
-                useVersion("2.22.1")
-                because("jackson-core: Number Length Constraint Bypass in Async Parser Leads to Potential DoS Condition. Affected version >= 2.19.0, < 2.21.1")
             }
         }
     }
