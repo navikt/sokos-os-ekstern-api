@@ -89,7 +89,7 @@ configurations.all {
                 )
             }
             if (requested.group == "com.fasterxml.jackson.core" && requested.name == "jackson-core") {
-                useVersion("2.23.0")
+                useVersion("2.22.2")
                 because("jackson-core: Number Length Constraint Bypass in Async Parser Leads to Potential DoS Condition. Affected version >= 2.19.0, < 2.22.1")
             }
         }
