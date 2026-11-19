@@ -76,26 +76,21 @@ dependencies {
     testImplementation("io.rest-assured:kotlin-extensions:$restAssuredVersion")
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$openApiValidatorVersion")
     testImplementation("org.wiremock:wiremock-standalone:$wireMockVersion")
-
-    constraints {
-        implementation("com.fasterxml.jackson.core:jackson-core:2.22.4") {
-            because("jackson-core security fixes")
-        }
-        implementation("tools.jackson.core:jackson-core:3.2.3") {
-            because("jackson-core security fixes")
-        }
-        implementation("tools.jackson.core:jackson-databind:3.2.3") {
-            because("jackson-databind security fixes")
-        }
-    }
 }
 
 configurations.all {
     resolutionStrategy {
         eachDependency {
             if (requested.group == "io.netty") {
-                useVersion("4.2.16.Final")
-                because("Multiple versions of netty has vulnerable dependencies. Affected version < 4.2.15.Final")
+                useVersion("4.2.17.Final")
+                because(
+                    "Resolves the CRITICAL-severity production Dependabot alerts for io.netty modules. " +
+                        "All Netty modules aligned to 4.2.17.Final (first patched version).",
+                )
+            }
+            if (requested.group == "com.fasterxml.jackson.core" && requested.name == "jackson-core") {
+                useVersion("2.23.0")
+                because("jackson-core: Number Length Constraint Bypass in Async Parser Leads to Potential DoS Condition. Affected version >= 2.19.0, < 2.22.1")
             }
         }
     }
